@@ -1,691 +1,133 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Asistente y Noticias Biomédicas IA</title>
-    <!-- Fuentes y Font Awesome -->
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <!-- Tailwind CSS -->
-    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
-
-    <style>
-        /* --- Estilos CSS (Con modificaciones para altura de chat y botón noticias) --- */
-        :root {
-            --primary-color: #007bff; --primary-hover-color: #0056b3; --secondary-color: #eef2f7;
-            --text-color-dark: #212529; --text-color-light: #f8f9fa; --text-muted: #6c757d;
-            --border-color: #dee2e6; --container-bg-light: #ffffff; --container-bg-dark: #2a2a2e;
-            --response-bg-light: #f8f9fa; --response-bg-dark: #343a40; --input-bg-light: #ffffff;
-            --input-bg-dark: #3a3f44; --success-color: #28a745; --danger-color: #dc3545;
-            --warning-color: #ffc107; --news-bg-light: #f8f9fa; --news-bg-dark: #343a40;
-            --news-border-light: #e9ecef; --news-border-dark: #495057;
-            --button-secondary-bg: #6c757d; --button-secondary-hover-bg: #5a6268;
-        }
-        body { background-color: var(--secondary-color); color: var(--text-color-dark); font-family: 'Roboto', sans-serif; transition: background-color 0.3s ease, color 0.3s ease; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; display: flex; flex-direction: column; min-height: 100vh; margin: 0; font-size: 16px; }
-        body.dark-mode { background-color: #1e1e20; color: var(--text-color-light); }
-        .main-container { display: flex; flex-direction: column; flex-grow: 1; padding: 1rem; gap: 1.5rem; width: 100%; max-width: 1400px; margin: 0 auto; }
-        @media (min-width: 1024px) { .main-container { flex-direction: row; align-items: flex-start; /* Alinea columnas arriba */ } }
-        .chat-column { flex: 2; display: flex; flex-direction: column; min-width: 0; /* Evitar que se encoja demasiado */ }
-        .news-column { flex: 1; margin-top: 1rem; min-width: 0; /* Evitar que se encoja demasiado */ }
-        @media (min-width: 1024px) { .news-column { margin-top: 0; } }
-
-        /* --- MODIFICACIÓN: Altura de chat dinámica --- */
-        .chat-container {
-            width: 100%; margin: 1rem 0; padding: 1.5rem; background-color: var(--container-bg-light); border-radius: 12px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-            transition: background-color 0.3s ease, box-shadow 0.3s ease; position: relative; border: 1px solid var(--border-color);
-            display: flex; flex-direction: column;
-            /* height: calc(100vh - 4rem); <-- ELIMINADO: Altura fija removida */
-            /* Se añadirá max-height a chat-messages si es necesario, pero flexbox debería manejarlo */
-        }
-        body.dark-mode .chat-container { background-color: var(--container-bg-dark); box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4); border: 1px solid #444; }
-
-        #chat-header { color: var(--primary-color); text-align: center; margin-bottom: 0.5rem; font-family: 'Lato', sans-serif; font-weight: 700; font-size: 1.5rem; display: flex; align-items: center; justify-content: center; gap: 0.5rem; }
-        #chat-header i { font-size: 1.3rem; }
-        body.dark-mode #chat-header { color: #6cb2eb; }
-        .header-subtitle { color: var(--text-muted); text-align: center; margin-bottom: 1rem; font-size: 0.9rem; }
-        body.dark-mode .header-subtitle { color: #adb5bd; }
-        #chat-messages {
-            flex-grow: 1; /* Permite que crezca para llenar espacio */
-            overflow-y: auto; /* Scroll si el contenido excede max-height */
-            margin-bottom: 1rem; padding-right: 10px; scroll-behavior: smooth;
-            min-height: 150px; /* Altura mínima para que no colapse */
-            /* max-height: calc(100vh - 280px); /* EJEMPLO: Limitar altura máxima si se prefiere scroll interno fijo */
-        }
-        .message { margin-bottom: 1rem; display: flex; flex-direction: column; width: 100%; font-size: 0.95rem; line-height: 1.6; }
-        .sender { font-weight: 700; margin-bottom: 0.3rem; color: var(--primary-color); font-family: 'Roboto', sans-serif; display: flex; align-items: center; gap: 0.4rem; font-size: 0.9rem; }
-        .sender i { font-size: 0.9rem; }
-        body.dark-mode .sender { color: #6cb2eb; }
-        .response { background-color: var(--response-bg-light); padding: 0.7rem 1rem; border-radius: 8px; max-width: 95%; color: var(--text-color-dark); font-family: 'Roboto', sans-serif; word-wrap: break-word; border: 1px solid #e9ecef; align-self: flex-start; font-size: 0.95rem; }
-        .response.user-message { background-color: #d1e7fd; border-color: #bcdffc; align-self: flex-end; }
-        .response p:last-child { margin-bottom: 0; } /* Ajuste para último párrafo */
-        .response p { margin-bottom: 0.5em; } /* Espacio predeterminado entre párrafos */
-        /* Quitar margen inferior del último párrafo dentro de .response para evitar doble espacio */
-        .response > p:last-of-type { margin-bottom: 0; }
-
-        body.dark-mode .response { background-color: var(--response-bg-dark); color: var(--text-color-light); border: 1px solid #495057; }
-        body.dark-mode .response.user-message { background-color: #0b4f8f; border-color: #0a3d6e; }
-        .input-area { margin-top: auto; /* Empuja hacia abajo */ padding-top: 0.5rem; }
-        #loading { display: none; margin-bottom: 0.5rem; text-align: center; font-size: 0.85rem; color: var(--text-muted); }
-        body.dark-mode #loading { color: #adb5bd; }
-        .error-message { color: var(--danger-color); margin-bottom: 0.5rem; padding: 0.6rem 1rem; background-color: #f8d7da; border: 1px solid #f5c6cb; border-radius: 8px; font-family: 'Roboto', sans-serif; font-size: 0.85rem; }
-        body.dark-mode .error-message { background-color: #4e2125; color: #f8d7da; border-color: #dc3545; }
-        #file-upload-container { margin-bottom: 0.5rem; display: flex; flex-direction: column; align-items: stretch; width: 100%; gap: 0.5rem; }
-        #fileInput { display: none; }
-        #uploadButton { padding: 0.6rem 1rem; background-color: var(--success-color); color: white; border: none; border-radius: 8px; cursor: pointer; transition: background-color 0.3s ease; font-size: 0.9rem; font-family: 'Roboto', sans-serif; display: flex; align-items: center; justify-content: center; gap: 0.5rem; }
-        #uploadButton i { font-size: 0.9rem; }
-        #uploadButton:hover { background-color: #218838; }
-        #file-list { list-style: none; padding: 0; margin: 0; max-height: 70px; overflow-y: auto; border: 1px solid var(--border-color); border-radius: 8px; padding: 0.6rem; background-color: var(--input-bg-light); color: var(--text-color-dark); width: 100%; font-size: 0.85rem; }
-        body.dark-mode #file-list { border-color: #495057; background-color: var(--input-bg-dark); color: var(--text-color-light); }
-        #file-list li { margin-bottom: 0.3rem; background-color: #e9ecef; padding: 0.3rem 0.6rem; border-radius: 6px; font-family: 'Roboto', sans-serif; display: flex; justify-content: space-between; align-items: center; }
-        body.dark-mode #file-list li { background-color: #495057; }
-        #file-list li:last-child { margin-bottom: 0; }
-        #file-list li .file-icon { margin-right: 0.4rem; color: var(--text-muted); font-size: 0.8rem; }
-        body.dark-mode #file-list li .file-icon { color: #adb5bd; }
-        .input-container { display: flex; width: 100%; border: 1px solid var(--border-color); border-radius: 8px; overflow: hidden; align-items: flex-end; background-color: var(--input-bg-light); }
-        body.dark-mode .input-container { border-color: #495057; background-color: var(--input-bg-dark); }
-        textarea#questionInput { flex: 1; padding: 0.7rem 1rem; border: none; font-size: 1rem; background-color: transparent; color: var(--text-color-dark); transition: none; font-family: 'Roboto', sans-serif; resize: none; overflow-y: hidden; min-height: 42px; max-height: 150px; line-height: 1.4; box-sizing: border-box; display: block; }
-        textarea#questionInput:focus { outline: none; box-shadow: none; }
-        body.dark-mode textarea#questionInput { color: var(--text-color-light); }
-        textarea#questionInput::placeholder { color: var(--text-muted); }
-        body.dark-mode textarea#questionInput::placeholder { color: #adb5bd; }
-        #sendButton { padding: 0 1.2rem; background-color: var(--primary-color); color: white; border: none; cursor: pointer; transition: background-color 0.3s ease; font-size: 1rem; font-family: 'Roboto', sans-serif; align-self: stretch; display: flex; align-items: center; justify-content: center; min-height: 42px; }
-        body.dark-mode #sendButton { border-left: 1px solid #495057; }
-        #sendButton:hover { background-color: var(--primary-hover-color); }
-        #sendButton:disabled { background-color: #a0cfff; cursor: not-allowed; }
-        body.dark-mode #sendButton:disabled { background-color: #4a6b8c; }
-        #sendButton i { font-size: 1.1rem; }
-        #dark-mode-toggle { position: absolute; top: 0.8rem; right: 0.8rem; padding: 0.4rem; background-color: transparent; color: var(--text-muted); border: none; border-radius: 50%; cursor: pointer; transition: color 0.3s ease, background-color 0.3s ease; font-size: 1.1rem; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; z-index: 10; }
-        body.dark-mode #dark-mode-toggle { color: #adb5bd; }
-        #dark-mode-toggle:hover { color: var(--primary-color); background-color: rgba(0, 123, 255, 0.1); }
-        body.dark-mode #dark-mode-toggle:hover { color: #6cb2eb; background-color: rgba(108, 178, 235, 0.15); }
-
-        /* --- MODIFICACIÓN: Altura de noticias dinámica --- */
-        #news-section {
-            background-color: var(--container-bg-light); padding: 1.5rem; border-radius: 12px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-            border: 1px solid var(--border-color);
-            /* height: calc(100vh - 4rem); <-- ELIMINADO: Altura fija removida */
-            display: flex; flex-direction: column;
-        }
-        body.dark-mode #news-section { background-color: var(--container-bg-dark); box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4); border: 1px solid #444; }
-        #news-section h2 { color: var(--primary-color); font-family: 'Lato', sans-serif; font-weight: 700; font-size: 1.3rem; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--primary-color); display: flex; align-items: center; gap: 0.5rem; }
-        #news-section h2 i { font-size: 1.2rem; }
-        body.dark-mode #news-section h2 { color: #6cb2eb; border-bottom-color: #6cb2eb; }
-        #news-content {
-            overflow-y: auto; /* Scroll si hay muchas noticias */
-            flex-grow: 1; /* Ocupa espacio disponible */
-            font-size: 0.9rem; line-height: 1.6; padding-right: 10px;
-            min-height: 100px; /* Altura mínima */
-        }
-        #news-loading { text-align: center; color: var(--text-muted); padding: 2rem; font-size: 0.9rem;}
-        body.dark-mode #news-loading { color: #adb5bd; }
-        #news-error { color: var(--danger-color); font-weight: bold; }
-        #news-content .news-item { display: flex; gap: 1rem; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--news-border-light); }
-        body.dark-mode #news-content .news-item { border-bottom: 1px solid var(--news-border-dark); }
-        #news-content .news-item:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
-        .news-item-image { flex-shrink: 0; width: 90px; height: 75px; border-radius: 8px; overflow: hidden; background-color: #eee; /* Placeholder color */ display: flex; align-items: center; justify-content: center;}
-        body.dark-mode .news-item-image { background-color: #444; }
-        .news-item-image img { width: 100%; height: 100%; object-fit: cover; display: block; }
-        .news-item-image .placeholder-icon { font-size: 30px; color: var(--text-muted); } /* Icono si falla imagen */
-        body.dark-mode .news-item-image .placeholder-icon { color: #adb5bd;}
-        .news-item-text { display: flex; flex-direction: column; flex-grow: 1; min-width: 0; /* Fix para flexbox text overflow */ }
-        .news-item-text h3 { margin-bottom: 0.3rem; font-size: 1rem; line-height: 1.3; }
-        .news-item-text h3 a { font-weight: 600; /* Ligeramente menos bold */ color: var(--text-color-dark); text-decoration: none; transition: color 0.3s ease; }
-        .news-item-text h3 a:hover { color: var(--primary-color); text-decoration: underline; }
-        body.dark-mode .news-item-text h3 a { color: var(--text-color-light); }
-        body.dark-mode .news-item-text h3 a:hover { color: #6cb2eb; }
-        .news-item-text p { color: var(--text-muted); margin-bottom: 0.4rem; font-size: 0.88rem; line-height: 1.5; }
-        body.dark-mode .news-item-text p { color: #adb5bd; }
-        .news-item .news-source { color: var(--text-muted); font-size: 0.8rem; font-style: italic; margin-top: auto; }
-        .news-item .news-source i { margin-right: 0.3rem; }
-        body.dark-mode .news-item .news-source { color: #adb5bd; }
-
-        /* --- NUEVO: Estilo para el botón "Ver más noticias" --- */
-        #load-more-news-button {
-            margin-top: 1rem;
-            padding: 0.6rem 1.2rem;
-            background-color: var(--button-secondary-bg);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-            font-size: 0.9rem;
-            font-family: 'Roboto', sans-serif;
-            display: none; /* Oculto por defecto */
-            align-self: center; /* Centrar el botón */
-        }
-        #load-more-news-button:hover {
-            background-color: var(--button-secondary-hover-bg);
-        }
-        #load-more-news-button:disabled {
-            background-color: #a9adb1;
-            cursor: not-allowed;
-        }
-        body.dark-mode #load-more-news-button {
-             background-color: #5a6268;
-        }
-         body.dark-mode #load-more-news-button:hover {
-             background-color: #495057;
-         }
-         body.dark-mode #load-more-news-button:disabled {
-            background-color: #3a3f44;
-         }
-
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Plataforma Biomédica IA Moderna</title>
+  <!-- Fuentes y Font Awesome -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Roboto+Mono:wght@400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <!-- Enlace a style.css -->
+  <link rel="stylesheet" href="style.css">
 </head>
 <body class="">
-    <div class="main-container">
+  <div class="main-container"> <!-- Siempre columna -->
 
-        <!-- Columna del Chat -->
-        <div class="chat-column">
-            <div class="chat-container">
-                <button id="dark-mode-toggle" aria-label="Cambiar modo de color"><i class="fas fa-moon"></i></button>
-                <h1 id="chat-header"><i class="fas fa-stethoscope"></i> Asistente Biomédico IA</h1>
-                <p class="header-subtitle">Preguntas sobre Mantenimiento de Equipos Biomédicos</p>
-                <div id="chat-messages">
-                    <!-- Mensaje inicial se añade con JS -->
-                </div>
-                <div class="input-area">
-                     <div id="loading"><i class="fas fa-spinner fa-spin"></i> Procesando...</div>
-                     <div id="error-message" class="error-message" style="display: none;"></div>
-                     <div id="file-upload-container">
-                         <button id="uploadButton" aria-label="Subir documentos"><i class="fas fa-upload"></i> Subir Documentos (.txt)</button>
-                         <input type="file" id="fileInput" accept=".txt" multiple />
-                         <ul id="file-list"></ul>
-                     </div>
-                     <div class="input-container">
-                         <textarea id="questionInput" rows="1" placeholder="Escribe tu pregunta aquí..."></textarea>
-                         <button id="sendButton" aria-label="Enviar pregunta"><i class="fas fa-paper-plane"></i></button>
-                     </div>
-                 </div>
+    <!-- Wrapper para Chat y Mantenimiento Específico (Fila en pantallas grandes) -->
+    <div class="main-content-wrapper">
+
+      <!-- Columna del Chat -->
+      <div class="chat-column">
+        <div class="chat-container card-base">
+          <button id="dark-mode-toggle" aria-label="Cambiar modo de color"><i class="fas fa-moon"></i></button>
+          <h1 id="chat-header"><i class="fas fa-stethoscope"></i> Asistente Biomédico IA</h1>
+          <p class="header-subtitle">Ingeniería Biomédica, Mantenimiento Predictivo, Preventivo y Correctivo, Tips y Más.</p>
+          <div id="chat-messages">
+            <!-- Mensajes del chat se añadirán aquí -->
+          </div>
+           <div id="ai-controls">
+            <div class="control-group">
+              <label>Tono:</label>
+              <button class="control-button active" data-tone="neutral" id="tone-neutral"><i class="fas fa-comment-dots"></i> Neutro</button>
+              <button class="control-button" data-tone="formal" id="tone-formal"><i class="fas fa-user-tie"></i> Formal</button>
+              <button class="control-button" data-tone="conciso" id="tone-conciso"><i class="fas fa-compress-arrows-alt"></i> Conciso</button>
             </div>
-        </div>
-
-        <!-- Columna de Noticias -->
-        <div class="news-column">
-            <div id="news-section">
-                <h2><i class="fas fa-newspaper"></i> Noticias Biomédicas</h2>
-                <div id="news-content">
-                    <div id="news-loading"><i class="fas fa-spinner fa-spin"></i> Cargando noticias...</div>
-                    <!-- Contenido dinámico -->
-                </div>
-                <!-- NUEVO: Botón para cargar más noticias -->
-                <button id="load-more-news-button"><i class="fas fa-sync-alt"></i> Ver más noticias</button>
+             <div class="control-group">
+              <label >Longitud:</label>
+              <button class="control-button" data-length="corta" id="length-corta"><i class="fas fa-align-left"></i> Corta</button>
+              <button class="control-button active" data-length="media" id="length-media"><i class="fas fa-align-justify"></i> Media</button>
+              <button class="control-button" data-length="larga" id="length-larga"><i class="fas fa-align-right"></i> Larga</button>
             </div>
+             <div class="control-group">
+              <button class="control-button" id="toggle-web-search-button" title="Simular búsqueda web (modifica el prompt)"><i class="fas fa-globe"></i> Búsqueda Web</button>
+            </div>
+             <div class="control-group">
+              <button class="control-button" id="regenerate-button" title="Regenerar última respuesta" disabled><i class="fas fa-sync-alt"></i> Regenerar</button>
+            </div>
+          </div>
+          <div class="input-area">
+            <div id="loading"><i class="fas fa-spinner"></i> Procesando...</div>
+            <div id="error-message" class="error-message"></div> <!-- Error General Chat -->
+            <div id="file-upload-container">
+              <button id="uploadButton" aria-label="Subir documentos"><i class="fas fa-upload"></i> Subir Documentos (.txt)</button>
+              <input type="file" id="fileInput" accept=".txt" multiple />
+              <ul id="file-list"></ul>
+            </div>
+            <div class="input-container">
+              <textarea id="questionInput" rows="1" placeholder="Haz una pregunta general o sube un documento..."></textarea>
+              <button id="sendButton" aria-label="Enviar pregunta"><i class="fas fa-paper-plane"></i></button>
+            </div>
+          </div>
         </div>
-
-    </div>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-
-            // --- Elementos del DOM ---
-            const chatMessages = document.getElementById('chat-messages');
-            const questionInput = document.getElementById('questionInput');
-            const sendButton = document.getElementById('sendButton');
-            const loadingIndicator = document.getElementById('loading');
-            const errorMessageDisplay = document.getElementById('error-message');
-            const fileInput = document.getElementById('fileInput');
-            const uploadButton = document.getElementById('uploadButton');
-            const fileList = document.getElementById('file-list');
-            const darkModeToggle = document.getElementById('dark-mode-toggle');
-            const body = document.body;
-            const newsContent = document.getElementById('news-content');
-            const newsLoading = document.getElementById('news-loading');
-            const loadMoreNewsButton = document.getElementById('load-more-news-button');
-
-            // --- Configuración API ---
-            const API_KEY = 'AIzaSyD9FyPqqUhh53xy9CQTnQPZuHDkF-trWTI'; // ¡¡¡ OBLIGATORIO REEMPLAZAR !!!
-            const API_URL_GENERATE = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${API_KEY}`;
-            const API_KEY_WARNING = "TU_API_KEY_DE_GOOGLE_GEMINI"; // Para comparar
-
-            // --- Estado ---
-            let isDarkMode = false;
-            let uploadedFilesData = [];
-            let initialNewsLoaded = false;
-
-             // --- Funciones Esenciales (Inicio) ---
-
-             function showGeneralError(message) {
-                 errorMessageDisplay.textContent = message;
-                 errorMessageDisplay.style.display = 'block';
-                 console.error("Error mostrado:", message);
-             }
-
-             function checkApiKey() {
-                 if (!API_KEY || API_KEY === API_KEY_WARNING) {
-                    const errorMsg = "Error: Falta configurar la API Key de Google Gemini en el código JavaScript.";
-                    showGeneralError(errorMsg);
-                    if(sendButton) sendButton.disabled = true;
-                    if(loadMoreNewsButton) loadMoreNewsButton.style.display = 'none';
-                    return false;
-                 }
-                 return true;
-             }
-
-
-            // --- Funciones Principales ---
-
-            function toggleDarkMode() {
-                try {
-                    isDarkMode = !isDarkMode;
-                    body.classList.toggle('dark-mode', isDarkMode);
-                    darkModeToggle.innerHTML = isDarkMode ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
-                    // Actualizar color de íconos de lista si el modo cambia
-                    const listIcons = chatMessages.querySelectorAll('.response .fa-caret-right');
-                    listIcons.forEach(icon => {
-                        icon.style.color = isDarkMode ? '#6cb2eb' : 'var(--primary-color)';
-                    });
-
-                } catch (error) { console.error("Error en toggleDarkMode:", error); }
-            }
-
-
-            function autoResizeTextarea() {
-                setTimeout(() => {
-                    try {
-                        const textarea = questionInput;
-                        if (!textarea) return;
-                        const maxHeight = 150;
-                        textarea.style.height = 'auto';
-                        textarea.style.overflowY = 'hidden';
-                        let newHeight = textarea.scrollHeight;
-                        if (newHeight > maxHeight) {
-                            textarea.style.height = maxHeight + 'px';
-                            textarea.style.overflowY = 'auto';
-                        } else {
-                            textarea.style.height = newHeight + 'px';
-                        }
-                    } catch (error) { console.error("Error en autoResizeTextarea:", error); }
-                }, 0);
-            }
-
-            // --- MODIFICADO: displayMessage para formatear listas con íconos ---
-            function displayMessage(sender, message, isUser = false) {
-                try {
-                    if (!chatMessages) return;
-                    const messageDiv = document.createElement('div');
-                    messageDiv.classList.add('message');
-                    const senderSpan = document.createElement('span');
-                    senderSpan.classList.add('sender');
-                    senderSpan.innerHTML = `<i class="fas ${isUser ? 'fa-user' : 'fa-robot'}"></i> ${sender}:`;
-                    const responseSpan = document.createElement('div');
-                    responseSpan.classList.add('response');
-                    if (isUser) responseSpan.classList.add('user-message');
-
-                    // Formateo avanzado: Maneja párrafos, negrita y listas con '*'
-                    let formattedMessage = message
-                        .split(/(\r\n|\n|\r)+/) // 1. Dividir por saltos de línea
-                        .filter(part => part && part.trim().length > 0 && !/^\s*$/.test(part)) // 2. Filtrar líneas vacías o solo espacios
-                        .map(line => { // 3. Procesar cada línea
-                            let trimmedLine = line.trim();
-                            let processedLine;
-                            const listIconColor = isDarkMode ? '#6cb2eb' : 'var(--primary-color)'; // Color del ícono según modo
-
-                            // Detectar si la línea empieza con '* ' (indicador de lista)
-                            if (trimmedLine.startsWith('* ')) {
-                                // Extraer el contenido después de '* '
-                                let content = trimmedLine.substring(2);
-                                // Aplicar formato de negrita (**texto**) al contenido
-                                content = content.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-                                // Crear el HTML para el elemento de lista con ícono
-                                // Usamos <p> con margen para simular lista, más simple que <ul><li>
-                                processedLine = `<p style="margin-left: 1em; margin-bottom: 0.3em;">` +
-                                                `<i class="fas fa-caret-right" style="margin-right: 0.5em; font-size: 0.9em; color: ${listIconColor}; opacity: 0.8;"></i>` +
-                                                `${content}` +
-                                                `</p>`;
-                            } else {
-                                // Si no es un elemento de lista, tratar como párrafo normal
-                                // Aplicar formato de negrita (**texto**)
-                                let content = trimmedLine.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-                                processedLine = `<p>${content}</p>`; // Párrafo normal
-                            }
-                            return processedLine;
-                        })
-                        .join(''); // 4. Unir todas las líneas procesadas en un solo string HTML
-
-                    // Si después del procesamiento el mensaje está vacío, mostrar un placeholder
-                    responseSpan.innerHTML = formattedMessage.trim() || "<p>(Respuesta vacía)</p>";
-
-                    messageDiv.appendChild(senderSpan);
-                    messageDiv.appendChild(responseSpan);
-                    chatMessages.appendChild(messageDiv);
-                    // Scroll suave al final
-                     chatMessages.scrollTo({ top: chatMessages.scrollHeight, behavior: 'smooth' });
-                } catch (error) { console.error("Error en displayMessage:", error); }
-            }
-
-
-            async function sendMessage() {
-                if (!checkApiKey()) return;
-
-                const question = questionInput.value.trim();
-                if (question === "") return;
-
-                // Mostrar pregunta del usuario (sin formateo especial de listas)
-                 try {
-                    if (!chatMessages) return;
-                    const messageDiv = document.createElement('div');
-                    messageDiv.classList.add('message');
-                    const senderSpan = document.createElement('span');
-                    senderSpan.classList.add('sender');
-                    senderSpan.innerHTML = `<i class="fas fa-user"></i> Usuario:`;
-                    const responseSpan = document.createElement('div');
-                    responseSpan.classList.add('response', 'user-message');
-                    // Formateo simple para el usuario (solo párrafos)
-                    responseSpan.innerHTML = question.split(/(\r\n|\n|\r)+/)
-                                                .filter(part => part && part.trim().length > 0 && !/^\s*$/.test(part))
-                                                .map(p => `<p>${p.trim()}</p>`)
-                                                .join('') || '<p>(Mensaje vacío)</p>';
-                    messageDiv.appendChild(senderSpan);
-                    messageDiv.appendChild(responseSpan);
-                    chatMessages.appendChild(messageDiv);
-                    chatMessages.scrollTo({ top: chatMessages.scrollHeight, behavior: 'smooth' });
-                } catch (error) { console.error("Error displaying user message:", error); }
-
-
-                questionInput.value = '';
-                autoResizeTextarea();
-                loadingIndicator.style.display = 'block';
-                errorMessageDisplay.style.display = 'none';
-                sendButton.disabled = true;
-
-                let promptParts = [];
-                // Usar la pregunta original sin formato HTML para la API
-                promptParts.push({ text: `Eres un asistente experto en biomedicina en Panamá. Responde de forma clara y concisa:\n"${question}"` });
-                if (uploadedFilesData.length > 0) {
-                     promptParts.push({ text: "\n--- Contexto de Archivos ---" });
-                     uploadedFilesData.forEach(fileData => {
-                        const MAX_CONTENT = 4000;
-                        const content = fileData.content.length > MAX_CONTENT ? fileData.content.substring(0, MAX_CONTENT) + "..." : fileData.content;
-                        promptParts.push({ text: `\nDoc: ${fileData.name}\n${content}` });
-                     });
-                    promptParts.push({ text: "--- Fin Contexto ---\nConsiderando todo, responde:" });
-                }
-
-                try {
-                    console.log("Enviando a API:", JSON.stringify({ contents: [{ role: "user", parts: promptParts }] }));
-                    const response = await fetch(API_URL_GENERATE, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            contents: [{ role: "user", parts: promptParts }],
-                            generationConfig: { temperature: 0.65, maxOutputTokens: 8192, topP: 0.9, topK: 40 },
-                             safetySettings: [
-                                { category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_MEDIUM_AND_ABOVE" },
-                                { category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_MEDIUM_AND_ABOVE" },
-                                { category: "HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold: "BLOCK_MEDIUM_AND_ABOVE" },
-                                { category: "HARM_CATEGORY_DANGEROUS_CONTENT", threshold: "BLOCK_MEDIUM_AND_ABOVE" }
-                            ]
-                        }),
-                        signal: AbortSignal.timeout(30000)
-                    });
-
-                    const responseBody = await response.text();
-                    console.log("Respuesta API (raw):", responseBody);
-
-                    if (!response.ok) {
-                         let errorDetail = `HTTP ${response.status} - ${response.statusText}`;
-                         try { const errData = JSON.parse(responseBody); errorDetail = errData.error?.message || errorDetail; } catch(e) {}
-                         throw new Error(`Error de API: ${errorDetail}`);
-                    }
-
-                    const data = JSON.parse(responseBody);
-
-                    if (data.promptFeedback && data.promptFeedback.blockReason) {
-                        console.warn("Prompt bloqueado:", data.promptFeedback.blockReason, data.promptFeedback.safetyRatings);
-                        // Usar displayMessage para mostrar el error del asistente
-                        displayMessage('Asistente', `No puedo responder a eso. Razón: ${data.promptFeedback.blockReason}.`);
-                    } else if (data.candidates && data.candidates.length > 0) {
-                        const candidate = data.candidates[0];
-                        if (candidate.finishReason === "SAFETY") {
-                             console.warn("Respuesta bloqueada por seguridad:", candidate.safetyRatings);
-                             displayMessage('Asistente', "La respuesta fue bloqueada por motivos de seguridad.");
-                        } else if (candidate.content?.parts?.[0]?.text) {
-                            const apiResponse = candidate.content.parts[0].text;
-                            // Usar displayMessage para mostrar la respuesta formateada
-                            displayMessage('Asistente', apiResponse);
-                        } else {
-                             console.warn("Respuesta inesperada (sin texto):", JSON.stringify(candidate, null, 2));
-                            displayMessage('Asistente', "(Respuesta recibida pero sin contenido de texto).");
-                        }
-                    } else {
-                         console.warn("Respuesta inesperada (sin candidatos):", JSON.stringify(data, null, 2));
-                        displayMessage('Asistente', "(Formato de respuesta inesperado de la API).");
-                    }
-
-                } catch (error) {
-                    console.error("Error en sendMessage fetch:", error);
-                    let errorMsg = `Error al contactar al asistente: ${error.message}`;
-                    if (error.name === 'TimeoutError') errorMsg = "Error: La solicitud a la IA tardó demasiado tiempo en responder.";
-                    showGeneralError(errorMsg);
-                     // Opcional: Mostrar error también en el chat como mensaje del sistema/asistente
-                     // displayMessage('Sistema', errorMsg);
-                } finally {
-                    loadingIndicator.style.display = 'none';
-                    if (sendButton) sendButton.disabled = false;
-                }
-            }
-
-
-            function handleFiles(event) {
-                 try {
-                    const files = event.target.files;
-                    if (!files || files.length === 0) return;
-                    fileList.innerHTML = '';
-                    uploadedFilesData = [];
-                    const readPromises = [];
-                    const maxFiles = 5;
-                    const maxSizeMB = 5;
-
-                    for (let i = 0; i < Math.min(files.length, maxFiles); i++) {
-                        const file = files[i];
-                        const fileSizeMB = file.size / 1024 / 1024;
-                         const li = document.createElement('li');
-                         li.innerHTML = `<i class="fas fa-file-alt file-icon"></i> ${file.name}`;
-
-                         if (!file.type.startsWith('text/plain')) {
-                             li.innerHTML = `<i class="fas fa-exclamation-triangle file-icon" style="color: var(--warning-color);"></i> ${file.name} (omitido: no es .txt)`;
-                             console.warn(`Omitido: ${file.name} (no es .txt)`);
-                         } else if (fileSizeMB > maxSizeMB) {
-                              li.innerHTML = `<i class="fas fa-exclamation-triangle file-icon" style="color: var(--warning-color);"></i> ${file.name} (omitido: > ${maxSizeMB}MB)`;
-                              console.warn(`Omitido: ${file.name} (tamaño ${fileSizeMB.toFixed(2)}MB excede límite)`);
-                         } else {
-                            const reader = new FileReader();
-                            const promise = new Promise((resolve, reject) => {
-                                reader.onload = (e) => { uploadedFilesData.push({ name: file.name, content: e.target.result }); resolve(); };
-                                reader.onerror = (e) => { console.error("Error leyendo:", file.name, e); li.innerHTML += ` <span style="color:var(--danger-color);">(Error)</span>`; reject(e); };
-                                reader.readAsText(file);
-                            });
-                            readPromises.push(promise);
-                         }
-                        fileList.appendChild(li);
-                    }
-                     if (files.length > maxFiles) {
-                         const li = document.createElement('li');
-                         li.innerHTML = `<i class="fas fa-exclamation-circle" style="color: var(--warning-color);"></i> ... ${files.length - maxFiles} archivos más omitidos (límite ${maxFiles}).`;
-                         fileList.appendChild(li);
-                     }
-
-                     Promise.all(readPromises)
-                        .then(() => console.log("Archivos TXT válidos leídos:", uploadedFilesData.length))
-                        .catch((err) => { showGeneralError("Error al leer algunos archivos."); });
-                } catch (error) {
-                     console.error("Error en handleFiles:", error);
-                     showGeneralError("Ocurrió un error al procesar los archivos.");
-                } finally {
-                    if (event?.target) event.target.value = null;
-                }
-            }
-
-            async function fetchBiomedicalNews() {
-                if (!checkApiKey()) {
-                     if(newsLoading) newsLoading.style.display = 'none';
-                     if(newsContent) newsContent.innerHTML = '<p id="news-error">Error: Falta API Key para noticias.</p>';
-                     if(loadMoreNewsButton) loadMoreNewsButton.style.display = 'none';
-                    return;
-                }
-                if (!newsLoading || !newsContent || !loadMoreNewsButton) return;
-
-                newsLoading.style.display = 'block';
-                loadMoreNewsButton.disabled = true;
-                // No limpiar inmediatamente, esperar a tener datos o error
-                // newsContent.innerHTML = '';
-                // newsContent.appendChild(newsLoading);
-
-                const newsPrompt = `Resume 4-5 noticias globales MUY recientes (última semana) sobre ingeniería biomédica/tecnología médica. Formato: "**Título**\\nResumen corto.\\nFuente: NombreFuente (si se conoce)\\n---"`;
-
-                try {
-                    const response = await fetch(API_URL_GENERATE, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            contents: [{ role: "user", parts: [{ text: newsPrompt }] }],
-                            generationConfig: { temperature: 0.5, maxOutputTokens: 1024 }
-                        }),
-                         signal: AbortSignal.timeout(20000)
-                    });
-
-                    if (newsLoading) newsLoading.style.display = 'none'; // Ocultar loading aquí
-
-                    if (!response.ok) { throw new Error(`Error API Noticias: HTTP ${response.status}`); }
-                    const data = await response.json();
-
-                    if (data.candidates && data.candidates[0]?.content?.parts?.[0]?.text) {
-                        displayNews(data.candidates[0].content.parts[0].text); // displayNews limpia el contenido antes de añadir
-                        initialNewsLoaded = true;
-                    } else if (data.promptFeedback?.blockReason) {
-                         throw new Error(`Noticias bloqueadas: ${data.promptFeedback.blockReason}`);
-                    }
-                     else { throw new Error("Respuesta de noticias inválida."); }
-                } catch (error) {
-                    console.error("Error fetching news:", error);
-                    if (newsLoading) newsLoading.style.display = 'none';
-                    newsContent.innerHTML = `<p id="news-error" class="error-message">No se pudieron cargar las noticias: ${error.message}</p>`;
-                    if (loadMoreNewsButton) loadMoreNewsButton.style.display = 'none';
-                } finally {
-                    if (loadMoreNewsButton) loadMoreNewsButton.disabled = false;
-                }
-            }
-
-            function displayNews(rawText) {
-                if (!newsContent || !loadMoreNewsButton) return;
-                newsContent.innerHTML = ''; // Limpia loading, error o noticias anteriores
-
-                const newsItems = rawText.split('---');
-
-                if (!newsItems || newsItems.length === 0 || newsItems.filter(item => item.trim()).length === 0) {
-                    newsContent.innerHTML = '<p>No se encontraron noticias recientes.</p>';
-                     loadMoreNewsButton.style.display = 'none';
-                    return;
-                }
-
-                newsItems.forEach((itemText, index) => {
-                    try {
-                        itemText = itemText.trim();
-                        if (!itemText) return;
-
-                        const titleMatch = itemText.match(/\*\*(.*?)\*\*/);
-                        const title = titleMatch ? titleMatch[1].trim() : `Noticia ${index + 1}`;
-                        // Remover negrita del título para el resto del procesamiento
-                        let restOfText = titleMatch ? itemText.replace(titleMatch[0], '').trim() : itemText;
-
-                        const sourceMatch = restOfText.match(/Fuente:\s*(.*)/i);
-                        const source = sourceMatch ? sourceMatch[1].trim() : null;
-                        let summary = restOfText;
-                        if (sourceMatch) summary = summary.substring(0, sourceMatch.index).trim();
-                        // Limpiar saltos de línea iniciales/finales del resumen
-                        summary = summary.replace(/^(\r\n|\n|\r)+|(\r\n|\n|\r)+$/g, '').trim();
-                         // Aplicar negrita dentro del resumen si existe (aunque el prompt no lo pide explícitamente)
-                         summary = summary.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-
-
-                        const newsItemDiv = document.createElement('div');
-                        newsItemDiv.classList.add('news-item');
-
-                        const imageContainer = document.createElement('div');
-                        imageContainer.classList.add('news-item-image');
-                        const iconTypes = ['fa-microscope', 'fa-stethoscope', 'fa-heartbeat', 'fa-brain', 'fa-dna'];
-                        const randomIcon = iconTypes[Math.floor(Math.random() * iconTypes.length)];
-                        imageContainer.innerHTML = `<i class="fas ${randomIcon} placeholder-icon" style="font-size: 36px;"></i>`;
-
-                        const textContainer = document.createElement('div');
-                        textContainer.classList.add('news-item-text');
-                        const titleElement = document.createElement('h3');
-                        const linkElement = document.createElement('a');
-                        linkElement.href = `https://www.google.com/search?q=${encodeURIComponent(title + (source ? ' ' + source : ''))}`;
-                        // El título ya no tiene los **
-                        linkElement.innerHTML = title; // Usar innerHTML por si acaso, aunque textContent debería bastar
-                        linkElement.target = '_blank';
-                        linkElement.rel = 'noopener noreferrer';
-                        titleElement.appendChild(linkElement);
-
-                        const summaryElement = document.createElement('p');
-                         // Usar innerHTML para renderizar el posible <strong> del resumen
-                        summaryElement.innerHTML = summary || 'Detalles no disponibles.';
-
-                        textContainer.appendChild(titleElement);
-                        textContainer.appendChild(summaryElement);
-                        if (source) {
-                            const sourceElement = document.createElement('div');
-                            sourceElement.classList.add('news-source');
-                            sourceElement.innerHTML = `<i class="fas fa-link"></i> Fuente mencionada: ${source}`;
-                            textContainer.appendChild(sourceElement);
-                        }
-
-                        newsItemDiv.appendChild(imageContainer);
-                        newsItemDiv.appendChild(textContainer);
-                        newsContent.appendChild(newsItemDiv);
-                    } catch(e) {
-                        console.error("Error procesando item de noticia:", itemText, e);
-                    }
-                });
-
-                 loadMoreNewsButton.style.display = 'block';
-            }
-
-            // --- Inicialización y Event Listeners ---
-            function initializeApp() {
-                 console.log("DOM Cargado. Inicializando app...");
-
-                 if (!chatMessages || !questionInput || !sendButton || !darkModeToggle || !newsContent || !newsLoading || !uploadButton || !fileInput || !loadMoreNewsButton ) {
-                    console.error("Error Crítico: Faltan elementos esenciales del DOM. Verifica los IDs en el HTML.");
-                    showGeneralError("Error: La página no cargó correctamente. Faltan componentes.");
-                    return;
-                 }
-
-                 darkModeToggle.addEventListener('click', toggleDarkMode);
-                 sendButton.addEventListener('click', sendMessage);
-                 questionInput.addEventListener('keydown', (event) => {
-                    if (event.key === 'Enter' && !event.shiftKey) { event.preventDefault(); sendMessage(); }
-                 });
-                 questionInput.addEventListener('input', autoResizeTextarea);
-                 uploadButton.addEventListener('click', () => fileInput.click());
-                 fileInput.addEventListener('change', handleFiles);
-                 loadMoreNewsButton.addEventListener('click', fetchBiomedicalNews);
-
-                 const apiKeyOk = checkApiKey();
-
-                 // Mostrar mensaje inicial del asistente usando la función modificada
-                 displayMessage('Asistente', 'Hola. Soy tu asistente experto en Ingeniería Biomédica. Puedes preguntarme sobre mantenimiento de equipos o subir documentos (.txt) para analizarlos. También puedes ver noticias recientes.');
-
-                 if (apiKeyOk) {
-                     fetchBiomedicalNews();
-                 } else {
-                     if(newsLoading) newsLoading.style.display = 'none';
-                     if(newsContent) newsContent.innerHTML = '<p id="news-error">Error: Falta configurar la API Key para cargar noticias.</p>';
-                      if(loadMoreNewsButton) loadMoreNewsButton.style.display = 'none';
-                 }
-
-                 autoResizeTextarea();
-
-                 console.log("Inicialización completada.");
-            }
-
-            initializeApp();
-
-        }); // Fin de DOMContentLoaded
-    </script>
+      </div> <!-- Fin Columna Chat -->
+
+      <!-- Columna MANTENIMIENTO ESPECÍFICO -->
+      <div class="equipment-column">
+        <div id="equipment-section" class="card-base">
+          <h2><i class="fas fa-tools"></i> Mantenimiento Específico</h2>
+
+          <div class="equipment-input-group">
+            <label for="equipmentName"><i class="fas fa-tag"></i> Nombre del Equipo</label>
+            <input type="text" id="equipmentName" placeholder="Ej: Monitor de Signos Vitales">
+          </div>
+          <div class="equipment-input-group">
+            <label for="equipmentBrand"><i class="fas fa-copyright"></i> Marca</label>
+            <input type="text" id="equipmentBrand" placeholder="Ej: Philips">
+          </div>
+          <div class="equipment-input-group">
+            <label for="equipmentModel"><i class="fas fa-barcode"></i> Modelo</label>
+            <input type="text" id="equipmentModel" placeholder="Ej: IntelliVue MX700">
+          </div>
+
+          <div id="maintenance-type-selector">
+            <p><i class="fas fa-tasks"></i> Selecciona el Tipo de Mantenimiento:</p>
+            <div class="maintenance-buttons">
+              <button class="maintenance-button" data-type="predictivo">
+                <i class="fas fa-bolt"></i> Predictivo
+              </button>
+              <button class="maintenance-button" data-type="preventivo">
+                <i class="fas fa-calendar-check"></i> Preventivo
+              </button>
+              <button class="maintenance-button" data-type="correctivo">
+                <i class="fas fa-wrench"></i> Correctivo
+              </button>
+            </div>
+          </div>
+
+          <div id="equipment-question-area">
+            <textarea id="equipmentQuestionInput" rows="3" placeholder="Completa los datos del equipo y selecciona un tipo..." disabled></textarea>
+            <button id="sendEquipmentQuestionButton" disabled>
+              <i class="fas fa-paper-plane"></i> Obtener Info Específica
+            </button>
+          </div>
+
+          <div id="equipmentLoading"><i class="fas fa-spinner"></i> Buscando información...</div>
+          <div id="equipmentError" class="error-message"></div> <!-- Error Específico Equipo -->
+          <div id="equipmentResponseDisplay">
+            <!-- Respuesta específica se mostrará aquí -->
+          </div>
+        </div>
+      </div> <!-- Fin Columna Mantenimiento Específico -->
+
+    </div> <!-- Fin del main-content-wrapper (Chat + Equipo) -->
+
+    <!-- Columna de Tips (Ahora fuera del wrapper, aparecerá debajo) -->
+    <div class="tips-column">
+      <div id="maintenance-tips-section" class="card-base">
+        <h2><i class="fas fa-lightbulb"></i> Tips de Mantenimiento</h2>
+        <div id="maintenance-tips-content">
+          <div id="maintenance-tips-loading" style="display: none;"><i class="fas fa-spinner"></i> Cargando tip...</div>
+          <div id="maintenance-tips-error" class="error-message"></div> <!-- Error Específico Tips -->
+          <!-- Tip se mostrará aquí -->
+        </div>
+        <button id="regenerate-tip-button" disabled>
+          <i class="fas fa-sync-alt"></i> Regenerar Tip
+        </button>
+      </div>
+    </div> <!-- Fin Columna Tips -->
+
+  </div> <!-- Fin del main-container -->
+  <!-- Enlace a script.js -->
+  <script src="script.js"></script>
 </body>
 </html>
