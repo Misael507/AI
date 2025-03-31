@@ -20,53 +20,50 @@
       <div class="chat-column">
         <div class="chat-container card-base">
           <button id="dark-mode-toggle" aria-label="Cambiar modo de color"><i class="fas fa-moon"></i></button>
-          <h1 id="chat-header"><i class="fas fa-stethoscope"></i> Asistente Biomédico IA</h1>
-          <p class="header-subtitle">Ingeniería Biomédica, Mantenimiento Predictivo, Preventivo y Correctivo, Tips y Más.</p>
+          <h1 id="chat-header"><i class="fas fa-stethoscope"></i>BIAmedical Assistant</h1>
+          <p class="header-subtitle">Ingeniería Biomédica en Panamá, Mantenimiento Predictivo, Preventivo y Correctivo, Tips y Más.</p>
+          <button id="clear-chat-button" class="control-button clear-button" title="Limpiar chat e iniciar nuevo"><i class="fas fa-eraser"></i> Nuevo Chat</button>
           <div id="chat-messages">
             <!-- Mensajes del chat se añadirán aquí -->
-          </div>
-           <div id="ai-controls">
-            <div class="control-group" role="group" aria-labelledby="tono-label">
-              <label id="tono-label">Tono:</label>
-              <button class="control-button active" data-tone="neutral" id="tone-neutral"><i class="fas fa-comment-dots"></i> Neutro</button>
-              <button class="control-button" data-tone="formal" id="tone-formal"><i class="fas fa-user-tie"></i> Formal</button>
-              <button class="control-button" data-tone="conciso" id="tone-conciso"><i class="fas fa-compress-arrows-alt"></i> Conciso</button>
-            </div>
-             <div class="control-group" role="group" aria-labelledby="longitud-label">
-              <label id="longitud-label">Longitud:</label>
-              <button class="control-button" data-length="corta" id="length-corta"><i class="fas fa-align-left"></i> Corta</button>
-              <button class="control-button active" data-length="media" id="length-media"><i class="fas fa-align-justify"></i> Media</button>
-              <button class="control-button" data-length="larga" id="length-larga"><i class="fas fa-align-right"></i> Larga</button>
-            </div>
-             <div class="control-group">
-              <button class="control-button" id="toggle-web-search-button" title="Simular búsqueda web (modifica el prompt)"><i class="fas fa-globe"></i> Búsqueda Web</button>
-            </div>
-             <div class="control-group">
-              <button class="control-button" id="regenerate-button" title="Regenerar última respuesta" disabled><i class="fas fa-sync-alt"></i> Regenerar</button>
-            </div>
           </div>
           <div class="input-area">
             <div id="loading"><i class="fas fa-spinner"></i> Procesando...</div>
             <div id="error-message" class="error-message"></div> <!-- Error General Chat -->
             <div id="file-upload-container">
-              <button id="uploadButton" aria-label="Subir documentos"><i class="fas fa-upload"></i> Subir Documentos (.txt)</button>
-              <input type="file" id="fileInput" accept=".txt" multiple />
+              <button id="uploadButton" aria-label="Subir documentos" title="Sube hasta 5 archivos (máx. 10MB cada uno). Tipos soportados: .txt, .pdf, .docx, .csv, .json, .xml">
+                <i class="fas fa-upload"></i> Subir Documentos
+              </button>
+              <input type="file" id="fileInput" accept=".txt,.pdf,.docx,.csv,.json,.xml" multiple />
               <ul id="file-list"></ul>
             </div>
             <div class="input-container">
-              <textarea id="questionInput" rows="1" placeholder="Haz una pregunta general o sube un documento..."></textarea>
+              <div class="chat-controls-wrapper">
+                <div class="chat-controls">
+                  <button class="control-button" data-tone="neutral" id="tone-neutral" title="Tono Neutro"><i class="fas fa-comment-dots"></i></button>
+                  <button class="control-button" data-tone="formal" id="tone-formal" title="Tono Formal"><i class="fas fa-user-tie"></i></button>
+                  <button class="control-button" data-tone="conciso" id="tone-conciso" title="Tono Conciso"><i class="fas fa-compress-arrows-alt"></i></button>
+                  <button class="control-button" data-length="corta" id="length-corta" title="Respuesta Corta"><i class="fas fa-align-left"></i></button>
+                  <button class="control-button" data-length="media" id="length-media" title="Respuesta Media"><i class="fas fa-align-justify"></i></button>
+                  <button class="control-button" data-length="larga" id="length-larga" title="Respuesta Larga"><i class="fas fa-align-right"></i></button>
+                  <button class="control-button" id="toggle-web-search-button" title="Simular búsqueda web"><i class="fas fa-globe"></i></button>
+                  <button class="control-button" id="regenerate-button" title="Regenerar última respuesta" disabled><i class="fas fa-sync-alt"></i></button>
+                </div>
+              </div>
+              <textarea id="questionInput" rows="1" placeholder="Haz una pregunta o sube un documento..."></textarea>
               <button id="sendButton" aria-label="Enviar pregunta"><i class="fas fa-paper-plane"></i></button>
             </div>
           </div>
         </div>
       </div> <!-- Fin Columna Chat -->
 
-      <!-- Columna MANTENIMIENTO ESPECÍFICO -->
-      <div class="equipment-column">
-        <div id="equipment-section" class="card-base">
-          <h2><i class="fas fa-tools"></i> Mantenimiento Específico</h2>
+    </div> <!-- Fin del main-content-wrapper (Ahora solo Chat) -->
 
-          <div class="equipment-input-group">
+    <!-- Columna MANTENIMIENTO ESPECÍFICO (Ahora fuera del wrapper, aparecerá debajo) -->
+    <div class="equipment-column">
+      <div id="equipment-section" class="card-base">
+        <h2><i class="fas fa-tools"></i> Mantenimiento Específico</h2>
+
+        <div class="equipment-input-group">
             <label for="equipmentName"><i class="fas fa-tag"></i> Nombre del Equipo</label>
             <input type="text" id="equipmentName" placeholder="Ej: Monitor de Signos Vitales">
           </div>
@@ -94,11 +91,38 @@
             </div>
           </div>
 
-          <div id="equipment-question-area">
-            <textarea id="equipmentQuestionInput" rows="3" placeholder="Completa los datos del equipo y selecciona un tipo..." disabled></textarea>
-            <button id="sendEquipmentQuestionButton" disabled>
-              <i class="fas fa-paper-plane"></i> Obtener Info Específica
+          <!-- NUEVO: File Upload para Mantenimiento Específico -->
+          <div id="eq-file-upload-container" class="file-upload-container"> <!-- Reutilizar clase -->
+            <button id="eq-uploadButton" aria-label="Subir documentos (Equipo)" title="Sube archivos relevantes para la consulta del equipo (mismos límites y tipos)">
+              <i class="fas fa-upload"></i> Subir Documentos (Equipo)
             </button>
+            <input type="file" id="eq-fileInput" accept=".txt,.pdf,.docx,.csv,.json,.xml" multiple style="display: none;" /> <!-- Hide the default input -->
+            <ul id="eq-file-list"></ul> <!-- Lista específica para equipo -->
+          </div>
+          <!-- MOVED File Upload inside equipment-question-area -->
+
+          <div id="equipment-question-area">
+            <!-- MOVED Controls inside equipment-question-area -->
+            <div class="equipment-controls-wrapper">
+               <div class="chat-controls equipment-controls"> <!-- Reutilizar clase chat-controls para estilo base -->
+                 <button class="control-button" data-tone="neutral" id="eq-tone-neutral" title="Tono Neutro"><i class="fas fa-comment-dots"></i></button>
+                 <button class="control-button" data-tone="formal" id="eq-tone-formal" title="Tono Formal"><i class="fas fa-user-tie"></i></button>
+               <button class="control-button" data-tone="conciso" id="eq-tone-conciso" title="Tono Conciso"><i class="fas fa-compress-arrows-alt"></i></button>
+               <button class="control-button" data-length="corta" id="eq-length-corta" title="Respuesta Corta"><i class="fas fa-align-left"></i></button>
+               <button class="control-button" data-length="media" id="eq-length-media" title="Respuesta Media"><i class="fas fa-align-justify"></i></button>
+               <button class="control-button" data-length="larga" id="eq-length-larga" title="Respuesta Larga"><i class="fas fa-align-right"></i></button>
+               <!-- Web search y Regenerate específicos para esta sección -->
+               <button class="control-button" id="eq-toggle-web-search-button" title="Simular búsqueda web (Equipo)"><i class="fas fa-globe"></i></button>
+                 <button class="control-button" id="eq-regenerate-button" title="Regenerar Info Específica" disabled><i class="fas fa-sync-alt"></i></button>
+               </div>
+            </div>
+            <!-- Wrap textarea and button -->
+            <div class="equipment-input-container"> <!-- NEW: Similar to .input-container -->
+              <textarea id="equipmentQuestionInput" rows="3" placeholder="Completa los datos del equipo y selecciona un tipo..." disabled></textarea>
+              <button id="sendEquipmentQuestionButton" disabled>
+                <i class="fas fa-paper-plane"></i> Obtener Info Específica
+              </button>
+            </div>
           </div>
 
           <div id="equipmentLoading"><i class="fas fa-spinner"></i> Buscando información...</div>
@@ -109,9 +133,7 @@
         </div>
       </div> <!-- Fin Columna Mantenimiento Específico -->
 
-    </div> <!-- Fin del main-content-wrapper (Chat + Equipo) -->
-
-    <!-- Columna de Tips (Ahora fuera del wrapper, aparecerá debajo) -->
+    <!-- Columna de Tips (Ya estaba fuera del wrapper) -->
     <div class="tips-column">
       <div id="maintenance-tips-section" class="card-base">
         <h2><i class="fas fa-lightbulb"></i> Tips de Mantenimiento</h2>
