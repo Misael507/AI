@@ -57,8 +57,8 @@ Este proyecto es una plataforma web que integra un asistente de inteligencia art
 2.  **Configurar la API Key:**
     *   Obtén una API Key de Google Gemini.
     *   Abre el archivo `script.js`.
-    *   Reemplaza `AIzaSyD9FyPqqUhh53xy9CQTnQPZuHDkF-trWTI` en la línea `const API_KEY = 'AIzaSyD9FyPqqUhh53xy9CQTnQPZuHDkF-trWTI';` con tu API Key real.
-    *   **IMPORTANTE:** No compartas tu API Key en repositorios públicos. Considera usar variables de entorno para mayor seguridad.
+    *   Reemplaza en la línea `const API_KEY = '*';` con tu API Key real.
+    *   **IMPORTANTE:** No compartas tu API Key.
 3.  **Abrir `index.html`:** Abre el archivo `index.html` en tu navegador web.
 
 ## Estructura de Archivos
