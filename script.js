@@ -1,8 +1,8 @@
 // --- Constantes Globales ---
 const API_KEY = 'AIzaSyD9FyPqqUhh53xy9CQTnQPZuHDkF-trWTI'; // ¡¡¡ IMPORTANTE: REEMPLAZAR CON TU API KEY REAL !!!
 const API_KEY_WARNING = "TU_API_KEY_DE_GOOGLE_GEMINI"; // Referencia para la advertencia
-const CHAT_MODEL_NAME = 'gemini-1.5-pro-latest'; // ACTUALIZADO: Usar el modelo más reciente
-const FLASH_MODEL_NAME = 'gemini-1.5-flash-latest'; // Modelo más rápido para tips y equipo específico
+const CHAT_MODEL_NAME = 'gemini-2.5-pro-exp-03-25'; // ACTUALIZADO: Usar el modelo más reciente
+const FLASH_MODEL_NAME = 'gemini-2.0-flash'; // Modelo más rápido para tips y equipo específico
 
 // URLs base (se completarán con modelo y key)
 const API_BASE_URL = 'https://generativelanguage.googleapis.com/v1beta/models/';
