@@ -123,9 +123,9 @@ body.dark-mode {
 * { scrollbar-width: thin; scrollbar-color: var(--text-muted-light) var(--secondary-color-light); }
 body.dark-mode * { scrollbar-color: var(--text-muted-dark) var(--secondary-color-dark); }
 /* Chrome, Edge, Safari */
-::-webkit-scrollbar { width: 8px; height: 8px; }
-::-webkit-scrollbar-track { background: transparent; /* O usar var(--secondary-color-light/dark) */ }
-::-webkit-scrollbar-thumb { background-color: var(--text-muted-light); border-radius: var(--border-radius-full); border: 2px solid transparent; background-clip: content-box; }
+::-webkit-scrollbar { width: 10px; height: 10px; } /* Ligeramente más grueso */
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background-color: var(--text-muted-light); border-radius: var(--border-radius-full); border: 3px solid transparent; background-clip: content-box; transition: background-color var(--transition-speed-fast); }
 ::-webkit-scrollbar-thumb:hover { background-color: var(--primary-color); }
 body.dark-mode ::-webkit-scrollbar-thumb { background-color: var(--text-muted-dark); }
 body.dark-mode ::-webkit-scrollbar-thumb:hover { background-color: var(--info-color); }
@@ -138,40 +138,29 @@ body.dark-mode ::-webkit-scrollbar-thumb:hover { background-color: var(--info-co
   flex-direction: column; /* Siempre columna */
   flex-grow: 1;
   padding: 1.5rem;
-  gap: 2rem;
+  gap: 2rem; /* Espacio entre Chat, Equipo y Tips */
   width: 100%;
-  max-width: 1800px;
+  max-width: 1800px; /* Ancho máximo general */
   margin: 0 auto;
 }
 
-/* .main-content-wrapper contiene Chat y Equipo */
+/* .main-content-wrapper AHORA SOLO CONTIENE EL CHAT */
 .main-content-wrapper {
-  display: flex;
-  flex-direction: column; /* Columna por defecto (móvil) */
-  gap: 2rem;
+  display: flex; /* Mantiene flex para alinear el chat-column */
   width: 100%;
   min-width: 0;
 }
 
+/* Las columnas ahora son hijos directos de .main-container */
 .chat-column, .equipment-column, .tips-column {
   display: flex;
   flex-direction: column;
   min-width: 0;
-  width: 100%; /* Ocupan todo el ancho disponible en su contenedor */
+  width: 100%; /* Ocupan todo el ancho por defecto */
 }
 
-/* Media Query para pantallas medianas/grandes: Chat y Equipo en fila */
-@media (min-width: 1024px) {
-  .main-content-wrapper {
-    flex-direction: row; /* Cambia a fila */
-    align-items: stretch; /* Para que las columnas tengan la misma altura */
-  }
-  /* Ajustar pesos relativos DENTRO del wrapper */
-  .chat-column { flex: 3; }
-  .equipment-column { flex: 2; }
-}
-
-/* Ya no se necesita la media query de 1280px para .main-container */
+/* REMOVED: Grid layout for large screens. All columns will be full width. */
+/* @media (min-width: 1200px) { ... } */
 
 /* --- Contenedor Base Card --- */
 .card-base {
@@ -193,9 +182,7 @@ body.dark-mode .card-base {
 }
 
 /* --- Contenedor del Chat --- */
-.chat-container {
-  /* Hereda .card-base */
-}
+
 #chat-header {
   color: var(--primary-color);
   text-align: center;
@@ -221,13 +208,42 @@ body.dark-mode #chat-header { color: #6ee7b7; }
 }
 body.dark-mode .header-subtitle { color: var(--text-muted-dark); }
 
+/* Botón Limpiar Chat */
+#clear-chat-button {
+  position: absolute;
+  top: 4.5rem; /* Debajo del toggle dark mode */
+  right: 1rem;
+  padding: 0.4rem 0.8rem;
+  font-size: 0.85rem;
+  background-color: rgba(255, 193, 7, 0.1); /* Amarillo suave */
+  color: #b8860b; /* Amarillo oscuro */
+  border: 1px solid rgba(255, 193, 7, 0.3);
+  z-index: 5; /* Debajo del dark mode toggle */
+}
+body.dark-mode #clear-chat-button {
+  background-color: rgba(251, 191, 36, 0.15);
+  color: #fcd34d;
+  border-color: rgba(251, 191, 36, 0.4);
+}
+#clear-chat-button:hover {
+  background-color: rgba(255, 193, 7, 0.2);
+  border-color: rgba(255, 193, 7, 0.5);
+  transform: scale(1.05);
+}
+body.dark-mode #clear-chat-button:hover {
+  background-color: rgba(251, 191, 36, 0.25);
+  border-color: rgba(251, 191, 36, 0.6);
+}
+
+
 /* --- Mensajes del Chat --- */
 #chat-messages {
   flex-grow: 1;
   overflow-y: auto;
   margin-bottom: 1.5rem;
-  padding-right: 12px;
-  min-height: 280px;
+  padding: 0 10px 0 5px; /* Ajustar padding */
+  min-height: 300px; /* Aumentar altura mínima */
+  scroll-behavior: smooth; /* Habilitar scroll suave nativo */
 }
 .message {
   margin-bottom: 1.25rem;
@@ -265,20 +281,26 @@ body.dark-mode .sender { color: #6ee7b7; }
   border-radius: var(--border-radius-lg);
   /* AJUSTE: Reducir max-width para burbujas más ajustadas */
   max-width: 75%;
-  width: auto; /* Asegura que pueda encoger */
+  width: auto; /* Asegura que possa encoger */
   color: var(--text-color-dark);
   font-family: 'Inter', sans-serif;
   word-wrap: break-word; /* Importante para que el texto rompa línea */
   border: 1px solid var(--response-border-light);
-  align-self: flex-start;
+  align-self: flex-start; /* Mensajes del asistente a la izquierda */
   font-size: 0.98rem;
   box-shadow: var(--shadow-sm);
 }
+.message.user-turn {
+  align-items: flex-end; /* Alinear contenedor del mensaje de usuario a la derecha */
+}
+.message.user-turn .response {
+  align-self: flex-end; /* Alinear la burbuja del mensaje de usuario a la derecha */
+}
+
 .response.user-message {
-  background-color: var(--response-user-bg-light);
-  border-color: #bae6fd;
-  align-self: flex-end;
-  color: #0c4a6e;
+  background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%); /* Gradiente suave azul */
+  border-color: #7dd3fc;
+  color: #0369a1; /* Azul más oscuro para texto */
 }
 body.dark-mode .response {
   background-color: var(--response-bg-dark);
@@ -287,50 +309,175 @@ body.dark-mode .response {
   box-shadow: none;
 }
 body.dark-mode .response.user-message {
-  background: linear-gradient(135deg, #1e40af 0%, #1d4ed8 100%);
-  border-color: #2563eb;
-  color: white;
+  background: linear-gradient(135deg, #1e40af 0%, #2563eb 100%); /* Azul oscuro intenso */
+  border-color: #3b82f6;
+  color: #e0f2fe; /* Texto casi blanco */
 }
 
-/* Estilo de párrafos dentro de mensajes */
-.response p { margin-bottom: 0.75em; }
+/* --- Estilos Mejorados para Contenido de Respuesta --- */
+.response p { margin-bottom: 0.8em; line-height: 1.7; } /* Mayor interlineado */
 .response p:last-child { margin-bottom: 0; }
-.response strong { color: var(--primary-hover-color); }
-body.dark-mode .response strong { color: #a5f3fc; }
-.response code {
-  font-family: 'Roboto Mono', monospace;
-  background-color: rgba(0,0,0,0.05);
-  padding: 0.15em 0.4em;
-  border-radius: var(--border-radius-sm);
-  font-size: 0.9em;
-}
-body.dark-mode .response code { background-color: rgba(255,255,255,0.1); }
-.response pre {
-  background-color: rgba(0,0,0,0.07);
-  padding: 0.8em;
-  border-radius: var(--border-radius-md);
-  overflow-x: auto;
-  margin: 0.8em 0;
-}
-body.dark-mode .response pre { background-color: rgba(0,0,0,0.3); }
-.response pre code { background-color: transparent; padding: 0; font-size: 0.85em; }
 
-/* --- Controles de IA --- */
-#ai-controls {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem;
-  align-items: center;
-  margin-bottom: 1rem;
-  padding: 0.75rem;
-  background-color: rgba(0,0,0,0.03);
-  border-radius: var(--border-radius-lg);
+/* Títulos - Refined Styling */
+.response h3, .response h4, .response h5, .response h6 {
+  font-family: 'Inter', sans-serif;
+  font-weight: 600; /* Semi-bold */
+  margin-top: 1.6em; /* More space before */
+  margin-bottom: 0.7em; /* More space after */
+  color: var(--heading-color-light);
+  line-height: 1.4; /* Slightly more line height */
+}
+body.dark-mode .response h3, body.dark-mode .response h4, body.dark-mode .response h5, body.dark-mode .response h6 {
+  color: var(--heading-color-dark);
+}
+.response h3 { /* Más prominente */
+  font-size: 1.3rem;
+  border-bottom: 1px solid var(--primary-color); /* Borde más sutil */
+  padding-bottom: 0.4em;
+  letter-spacing: -0.01em;
+}
+.response h4 { /* Ligeramente más pequeño */
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+.response h5 { /* Más sutil */
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--text-muted-light);
+}
+.response h6 { /* Muy sutil, casi como texto normal pero bold */
+  font-size: 0.95rem;
+  font-weight: 600; /* Hacerlo bold para diferenciarlo */
+  color: var(--text-muted-light);
+  text-transform: uppercase; /* Opcional: hacerlo mayúsculas */
+  letter-spacing: 0.03em;
+}
+body.dark-mode .response h3 { border-bottom-color: #6ee7b7; }
+body.dark-mode .response h5 { color: var(--text-muted-dark); }
+body.dark-mode .response h6 { color: var(--text-muted-dark); }
+
+/* Negrita - Refined Styling */
+.response strong {
+  color: var(--primary-hover-color); /* Usar color primario más oscuro */
+  font-weight: 600; /* Asegurar peso */
+}
+body.dark-mode .response strong { color: #a5f3fc; } /* Mantener cian claro en oscuro */
+
+/* Listas - Refined Styling */
+.response ul, .response ol {
+  margin-top: 0.6em;
+  margin-bottom: 1.2em; /* Más espacio vertical */
+  padding-left: 1.8em; /* Mayor indentación general */
+}
+.response li {
+  margin-bottom: 0.6em; /* Más espacio entre items */
+  position: relative;
+  padding-left: 1.5em; /* Más espacio para el marcador */
+  line-height: 1.7; /* Mejorar legibilidad */
+}
+/* Marcadores UL */
+.response ul li::before {
+  content: "•"; /* Usar un bullet más estándar */
+  /* content: "\f111"; /* Icono FA: círculo pequeño */
+  /* font-family: "Font Awesome 6 Free"; */
+  /* font-weight: 900; */
+  position: absolute;
+  left: 0;
+  top: 0; /* Alinear con la línea de texto */
+  color: var(--primary-color);
+  font-size: 1.2em; /* Tamaño del bullet */
+  line-height: inherit; /* Heredar altura de línea */
+}
+/* Marcadores OL */
+.response ol {
+  list-style: none;
+  counter-reset: list-counter;
+}
+.response ol li::before {
+  content: counter(list-counter) ".";
+  counter-increment: list-counter;
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: var(--primary-color);
+  font-weight: 600;
+  font-size: 0.95em; /* Tamaño del número */
+  width: 1.2em; /* Ancho para alineación */
+  text-align: right;
+  margin-right: 0.3em; /* Espacio después del número */
+  line-height: inherit;
+}
+body.dark-mode .response ul li::before, body.dark-mode .response ol li::before {
+  color: #6ee7b7; /* Verde menta en modo oscuro */
+}
+/* Listas Anidadas */
+.response ul ul, .response ol ol, .response ul ol, .response ol ul {
+  margin-top: 0.4em;
+  margin-bottom: 0.6em;
+  padding-left: 2em; /* Mayor indentación anidada */
+}
+.response ul ul li::before { content: "◦"; font-size: 1.1em; } /* Círculo vacío */
+.response ul ul ul li::before { content: "▪"; font-size: 0.9em; } /* Cuadrado pequeño */
+.response ol ol li::before { content: counter(list-counter, lower-alpha) "."; }
+.response ol ol ol li::before { content: counter(list-counter, lower-roman) "."; }
+
+/* Código - Refined Styling */
+.response code { /* Código en línea */
+  font-family: 'Roboto Mono', monospace;
+  background-color: var(--secondary-color-light); /* Fondo sutil */
+  color: #0b5c56; /* Color de texto más oscuro */
+  padding: 0.25em 0.5em;
+  border-radius: var(--border-radius-sm);
+  font-size: 0.92em; /* Ligeramente más grande */
   border: 1px solid var(--container-border-light);
 }
-body.dark-mode #ai-controls {
-  background-color: rgba(255,255,255,0.05);
+body.dark-mode .response code {
+  background-color: var(--secondary-color-dark);
+  color: #99f6e4; /* Verde azulado claro */
   border-color: var(--container-border-dark);
 }
+.response pre { /* Bloque de código */
+  background-color: #eef2f7; /* Fondo ligeramente diferente al inline */
+  border: 1px solid var(--container-border-light);
+  padding: 1.2em; /* Más padding */
+  border-radius: var(--border-radius-lg); /* Bordes más redondeados */
+  overflow-x: auto;
+  margin: 1.2em 0;
+  box-shadow: none; /* Quitar sombra interna */
+  font-family: 'Roboto Mono', monospace; /* Asegurar fuente monoespaciada */
+  font-size: 0.9em; /* Tamaño de fuente para bloque */
+  line-height: 1.6; /* Espaciado de línea */
+}
+body.dark-mode .response pre {
+  background-color: #1e293b; /* Gris azulado oscuro */
+  border-color: var(--container-border-dark);
+  color: var(--text-color-light); /* Asegurar texto claro */
+}
+.response pre code { /* Código dentro de pre */
+  background-color: transparent !important; /* Sin fondo extra */
+  color: inherit !important; /* Heredar color del pre */
+  padding: 0 !important;
+  border: none !important;
+  font-size: inherit !important; /* Heredar tamaño del pre */
+  line-height: inherit;
+}
+
+/* --- Controles de IA --- */
+/* #ai-controls { */ /* Comentado si ya no se usa este ID */
+  /* display: flex; */ /* Styles moved or not needed if ID is unused */
+  /* flex-wrap: wrap; */
+  /* gap: 0.75rem; */
+  /* align-items: center; */
+  /* margin-bottom: 1rem; */
+  /* padding: 0.75rem; */
+  /* background-color: rgba(0,0,0,0.03); */
+  /* border-radius: var(--border-radius-lg); */
+  /* border: 1px solid var(--container-border-light); */
+/* } */ /* Removed closing brace */
+/* body.dark-mode #ai-controls { */ /* Commented out related dark mode style */
+  /* background-color: rgba(255,255,255,0.05); */
+  /* border-color: var(--container-border-dark); */
+/* } */ /* Removed closing brace */
 .control-group { display: flex; align-items: center; gap: 0.4rem; }
 .control-group label {
   font-size: 0.8rem;
@@ -434,25 +581,103 @@ body.dark-mode .error-message { background-color: #5f1d2a; color: #fecdd3; borde
 #uploadButton:disabled { opacity: 0.6; cursor: not-allowed; background: var(--text-muted-light); box-shadow: none; transform: none; }
 body.dark-mode #uploadButton { background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 100%); }
 body.dark-mode #uploadButton:hover:not(:disabled) { background: linear-gradient(135deg, #1e40af 0%, #1d4ed8 100%); }
-body.dark-mode #uploadButton:disabled { background: var(--text-muted-dark); opacity: 0.5; }
+ body.dark-mode #uploadButton:disabled { background: var(--text-muted-dark); opacity: 0.5; }
 
-#file-list {
-  list-style: none; padding: 0; margin: 0; max-height: 80px; overflow-y: auto; border: 1px solid var(--input-border-light); border-radius: var(--border-radius-md); padding: 0.75rem; background-color: var(--input-bg-light); color: var(--text-color-dark); width: 100%; font-size: 0.85rem;
-  box-shadow: var(--shadow-inner);
+ /* NUEVO: Duplicar estilos de #uploadButton para #eq-uploadButton */
+ #eq-uploadButton {
+   padding: 0.7rem 1.2rem; background: var(--primary-gradient); color: white; border: none; border-radius: var(--border-radius-md); cursor: pointer; font-size: 0.95rem; font-weight: 500; font-family: 'Inter', sans-serif; display: flex; align-items: center; justify-content: center; gap: 0.6rem; box-shadow: var(--shadow-md);
+   width: 100%; /* Make the button span full width */
+ }
+ #eq-uploadButton i { font-size: 1em; }
+ #eq-uploadButton:hover:not(:disabled) { background: var(--primary-gradient-hover); box-shadow: var(--shadow-lg); transform: translateY(-1px); }
+ #eq-uploadButton:active:not(:disabled) { transform: translateY(0px) scale(0.98); box-shadow: var(--shadow-inner); }
+ #eq-uploadButton:disabled { opacity: 0.6; cursor: not-allowed; background: var(--text-muted-light); box-shadow: none; transform: none; }
+ body.dark-mode #eq-uploadButton { background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 100%); }
+ body.dark-mode #eq-uploadButton:hover:not(:disabled) { background: linear-gradient(135deg, #1e40af 0%, #1d4ed8 100%); }
+ body.dark-mode #eq-uploadButton:disabled { background: var(--text-muted-dark); opacity: 0.5; }
+
+
+ /* Estilos para ambas listas de archivos (#file-list y #eq-file-list) */
+ #file-list, #eq-file-list {
+   list-style: none; padding: 0; margin: 0; max-height: 80px; overflow-y: auto; border: 1px solid var(--input-border-light); border-radius: var(--border-radius-md); padding: 0.75rem; background-color: var(--input-bg-light); color: var(--text-color-dark); width: 100%; font-size: 0.85rem;
+   box-shadow: var(--shadow-inner);
+ }
+ body.dark-mode #file-list, body.dark-mode #eq-file-list { border-color: var(--input-border-dark); background-color: var(--input-bg-dark); color: var(--text-color-light); }
+ #file-list li, #eq-file-list li { margin-bottom: 0.4rem; background-color: #e2e8f0; padding: 0.4rem 0.8rem; border-radius: var(--border-radius-sm); font-family: 'Inter', sans-serif; display: flex; justify-content: space-between; align-items: center; font-size: 0.9em; }
+ body.dark-mode #file-list li, body.dark-mode #eq-file-list li { background-color: #3a414b; }
+ #file-list li:last-child, #eq-file-list li:last-child { margin-bottom: 0; }
+ #file-list li .file-icon, #eq-file-list li .file-icon { margin-right: 0.5rem; color: var(--text-muted-light); font-size: 0.9rem; }
+ body.dark-mode #file-list li .file-icon, body.dark-mode #eq-file-list li .file-icon { color: var(--text-muted-dark); }
+ #file-list li .file-icon.fa-check-circle, #eq-file-list li .file-icon.fa-check-circle { color: var(--success-color) !important; }
+ #file-list li .file-icon.fa-exclamation-triangle, #eq-file-list li .file-icon.fa-exclamation-triangle { color: var(--warning-color) !important; }
+ #file-list li .file-icon.fa-times-circle, #eq-file-list li .file-icon.fa-times-circle { color: var(--danger-color) !important; }
+
+ /* Estilos para nombre de archivo y botón de eliminar (ambas listas) */
+ #file-list li .file-name, #eq-file-list li .file-name {
+   flex-grow: 1; /* Ocupa el espacio restante */
+   margin-left: 0.5rem;
+   margin-right: 0.5rem;
+   white-space: nowrap;
+   overflow: hidden;
+   text-overflow: ellipsis; /* Añade '...' si el nombre es muy largo */
+ }
+
+ #file-list li .remove-file-btn, #eq-file-list li .remove-file-btn {
+   background: none;
+   border: none;
+   color: var(--text-muted-light);
+   cursor: pointer;
+   padding: 0.2rem 0.4rem;
+   margin-left: 0.5rem;
+   font-size: 0.9rem;
+   line-height: 1;
+   border-radius: var(--border-radius-sm);
+   transition: color var(--transition-speed-fast), background-color var(--transition-speed-fast);
+ }
+
+ #file-list li .remove-file-btn:hover, #eq-file-list li .remove-file-btn:hover {
+   color: var(--danger-color);
+   background-color: rgba(244, 63, 94, 0.1); /* Fondo rojo claro al pasar el ratón */
+ }
+
+ body.dark-mode #file-list li .remove-file-btn, body.dark-mode #eq-file-list li .remove-file-btn {
+   color: var(--text-muted-dark);
+ }
+
+ body.dark-mode #file-list li .remove-file-btn:hover, body.dark-mode #eq-file-list li .remove-file-btn:hover {
+   color: #fda4af; /* Rosa claro */
+   background-color: rgba(253, 164, 175, 0.15); /* Fondo rosa más oscuro */
+ }
+
+
+#file-upload-container button {
+  position: relative;
 }
-body.dark-mode #file-list { border-color: var(--input-border-dark); background-color: var(--input-bg-dark); color: var(--text-color-light); }
-#file-list li { margin-bottom: 0.4rem; background-color: #e2e8f0; padding: 0.4rem 0.8rem; border-radius: var(--border-radius-sm); font-family: 'Inter', sans-serif; display: flex; justify-content: space-between; align-items: center; font-size: 0.9em; }
-body.dark-mode #file-list li { background-color: #3a414b; }
-#file-list li:last-child { margin-bottom: 0; }
-#file-list li .file-icon { margin-right: 0.5rem; color: var(--text-muted-light); font-size: 0.9rem; }
-body.dark-mode #file-list li .file-icon { color: var(--text-muted-dark); }
-#file-list li .file-icon.fa-check-circle { color: var(--success-color) !important; }
-#file-list li .file-icon.fa-exclamation-triangle { color: var(--warning-color) !important; }
-#file-list li .file-icon.fa-times-circle { color: var(--danger-color) !important; }
+
+#file-upload-container button::after {
+  content: attr(title);
+  position: absolute;
+  bottom: 120%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--text-muted-light);
+  color: white;
+  padding: 0.5rem;
+  border-radius: var(--border-radius-sm);
+  font-size: 0.8rem;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease-in-out;
+}
+
+#file-upload-container button:hover::after {
+  opacity: 1;
+}
 
 /* Contenedor Textarea + Botón Enviar */
 .input-container {
-  display: flex; width: 100%; border: 1px solid var(--input-border-light); border-radius: var(--border-radius-lg); overflow: hidden; align-items: flex-end; background-color: var(--input-bg-light);
+  display: flex; width: 100%; border: 1px solid var(--input-border-light); border-radius: var(--border-radius-lg); overflow: hidden; align-items: center; background-color: var(--input-bg-light);
   box-shadow: var(--shadow-sm);
   position: relative;
 }
@@ -502,6 +727,49 @@ body.dark-mode #sendButton:disabled { background: var(--text-muted-dark); opacit
 #sendButton i { font-size: 1.2rem; transition: transform 0.2s ease; }
 #sendButton:hover:not(:disabled) i { transform: translateX(3px) scale(1.1); }
 
+/* Chat controls integrated into input container */
+.chat-controls-wrapper {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem; /* Add padding around the controls */
+}
+
+.chat-controls {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.chat-controls .control-button {
+  padding: 0.5rem;
+  background-color: var(--button-control-bg-light);
+  color: var(--button-control-text-light);
+  border: 1px solid var(--button-control-border-light);
+  border-radius: var(--border-radius-md);
+  cursor: pointer;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.chat-controls .control-button:hover:not(:disabled) {
+  background-color: var(--button-control-hover-bg-light);
+  transform: scale(1.1);
+}
+
+.chat-controls .control-button.active {
+  background-color: var(--primary-color);
+  color: white;
+  border-color: var(--primary-color);
+}
+
+.chat-controls .control-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 /* --- Toggle Dark Mode --- */
 #dark-mode-toggle {
   position: absolute; top: 1rem; right: 1rem; padding: 0.5rem; background-color: transparent; color: var(--text-muted-light); border: 1px solid transparent; border-radius: var(--border-radius-full); cursor: pointer; font-size: 1.2rem; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; z-index: 10;
@@ -521,10 +789,7 @@ body.dark-mode #dark-mode-toggle:hover {
 
 /* --- Sección de Tips de Mantenimiento --- */
 /* Tips section ahora es un bloque normal debajo del wrapper principal */
-.tips-column {
-    /* No necesita flex específico aquí */
-    /* El width: 100% heredado funciona bien */
-}
+
 #maintenance-tips-section {
   /* Hereda estilos de .card-base */
   background-color: var(--tip-section-bg-light);
@@ -647,18 +912,16 @@ body.dark-mode #regenerate-tip-button:disabled {
 }
 
 /* --- SECCIÓN: MANTENIMIENTO ESPECÍFICO --- */
-#equipment-section {
-  /* Hereda .card-base */
-}
+
 #equipment-section h2 {
   color: var(--heading-color-light); font-family: 'Inter', sans-serif; font-weight: 700; font-size: 1.4rem; margin-bottom: 1.5rem; padding-bottom: 0.6rem; border-bottom: 2px solid var(--primary-color); display: flex; align-items: center; gap: 0.6rem; letter-spacing: -0.01em;
 }
 #equipment-section h2 i { font-size: 1.3rem; color: var(--primary-color); }
 body.dark-mode #equipment-section h2 { color: var(--heading-color-dark); border-bottom-color: #6ee7b7; }
-body.dark-mode #equipment-section h2 i { color: #6ee7b7; }
+ body.dark-mode #equipment-section h2 i { color: #6ee7b7; }
 
-.equipment-input-group { margin-bottom: 1.2rem; }
-.equipment-input-group label {
+ .equipment-input-group { margin-bottom: 1.2rem; }
+ .equipment-input-group label {
   display: flex;
   align-items: center;
   margin-bottom: 0.5rem;
@@ -742,49 +1005,111 @@ body.dark-mode .maintenance-button.active {
    opacity: 0.4;
  }
 
-#equipment-question-area { margin-top: 1.5rem; }
-#equipmentQuestionInput {
-  width: 100%; padding: 0.9rem 1.1rem; border: 1px solid var(--input-border-light); border-radius: var(--border-radius-md); font-size: 1rem; background-color: var(--input-bg-light); color: var(--text-color-dark); font-family: 'Inter', sans-serif; resize: vertical; min-height: 90px; max-height: 220px; line-height: 1.6; box-sizing: border-box; margin-bottom: 1rem; display: block; box-shadow: var(--shadow-inner);
+ /* NUEVO: Wrapper para controles de equipo */
+ .equipment-controls-wrapper {
+   margin-bottom: 1.5rem; /* Espacio antes del área de pregunta */
+   padding: 0.75rem;
+   background-color: rgba(0,0,0,0.02); /* Fondo muy sutil */
+   border-radius: var(--border-radius-lg);
+   border: 1px solid var(--container-border-light);
+ }
+ body.dark-mode .equipment-controls-wrapper {
+   background-color: rgba(255,255,255,0.03);
+   border-color: var(--container-border-dark);
+ }
+ /* Ajustes para los controles dentro del wrapper de equipo */
+ .equipment-controls {
+   justify-content: center; /* Centrar los botones */
+   gap: 0.6rem; /* Espacio entre botones */
+ }
+
+ /* Ajustar el área de pregunta para contener los nuevos elementos */
+ #equipment-question-area {
+   margin-top: 1.5rem;
+   display: flex;
+   flex-direction: column; /* Apilar controles, file upload, input container */
+   gap: 0.75rem; /* Espacio entre file upload, controles e input */
+ }
+
+ /* NUEVO: Estilo para el contenedor de input de equipo, similar a .input-container */
+ .equipment-input-container {
+   display: flex; width: 100%; border: 1px solid var(--input-border-light); border-radius: var(--border-radius-lg); overflow: hidden; align-items: stretch; /* Cambiado a stretch */ background-color: var(--input-bg-light);
+   box-shadow: var(--shadow-sm);
+   position: relative;
+ }
+ .equipment-input-container:focus-within {
+    border-color: var(--input-focus-border-light);
+    box-shadow: var(--input-focus-shadow-light);
+  }
+ body.dark-mode .equipment-input-container { border-color: var(--input-border-dark); background-color: var(--input-bg-dark); }
+ body.dark-mode .equipment-input-container:focus-within {
+    border-color: var(--input-focus-border-dark);
+    box-shadow: var(--input-focus-shadow-dark);
+  }
+
+ /* Ajustar textarea y botón dentro del nuevo contenedor */
+ #equipmentQuestionInput {
+   flex: 1; /* Ocupar espacio disponible */
+   padding: 0.9rem 1.1rem; border: none; font-size: 1rem; background-color: transparent; color: var(--text-color-dark); font-family: 'Inter', sans-serif; resize: vertical; min-height: 90px; max-height: 220px; line-height: 1.6; box-sizing: border-box; display: block;
+   /* Quitar margen inferior ya que el gap del contenedor padre lo maneja */
+   margin-bottom: 0;
+   /* Quitar sombra y borde ya que el contenedor los tiene */
+   box-shadow: none;
+   border-radius: 0; /* Quitar bordes redondeados internos */
 }
 #equipmentQuestionInput:focus {
    outline: none; border-color: var(--input-focus-border-light);
    box-shadow: var(--input-focus-shadow-light);
-   background-color: #f8fafc;
+   background-color: transparent; /* Asegurar fondo transparente */
  }
-body.dark-mode #equipmentQuestionInput {
-   border-color: var(--input-border-dark); background-color: var(--input-bg-dark); color: var(--text-color-light); box-shadow: none;
- }
-body.dark-mode #equipmentQuestionInput:focus {
-   border-color: var(--input-focus-border-dark);
-   box-shadow: var(--input-focus-shadow-dark);
-   background-color: #3a414b;
- }
-#equipmentQuestionInput::placeholder { color: var(--text-muted-light); }
-body.dark-mode #equipmentQuestionInput::placeholder { color: var(--text-muted-dark); }
+ #equipmentQuestionInput:focus {
+    outline: none;
+    box-shadow: none; /* Quitar sombra de foco */
+  }
+ body.dark-mode #equipmentQuestionInput {
+    color: var(--text-color-light);
+  }
+ body.dark-mode #equipmentQuestionInput:focus {
+    background-color: transparent; /* Mantener transparente en foco oscuro */
+  }
+ #equipmentQuestionInput::placeholder { color: var(--text-muted-light); }
+ body.dark-mode #equipmentQuestionInput::placeholder { color: var(--text-muted-dark); }
 
-#sendEquipmentQuestionButton {
-  display: block; width: 100%; padding: 0.9rem 1.5rem; background: var(--primary-gradient); color: white; border: none; border-radius: var(--border-radius-md); cursor: pointer; font-size: 1.05rem; font-weight: 600; font-family: 'Inter', sans-serif; display: flex; align-items: center; justify-content: center; gap: 0.6rem; box-shadow: var(--shadow-md);
+ /* Ajustar botón de envío de equipo, similar a #sendButton */
+ #sendEquipmentQuestionButton {
+   padding: 0 1.4rem; background: var(--primary-gradient); color: white; border: none; cursor: pointer; font-size: 1rem; font-family: 'Inter', sans-serif; align-self: stretch; display: flex; align-items: center; justify-content: center; min-height: 50px; /* Asegurar altura mínima */
+   border-left: 1px solid var(--input-border-light);
+   transition: all var(--transition-speed-fast) var(--transition-timing);
+   /* Quitar width 100% y border-radius */
+   width: auto;
+   border-radius: 0;
+   box-shadow: none; /* Quitar sombra */
 }
 #sendEquipmentQuestionButton i { font-size: 1em; }
 #sendEquipmentQuestionButton:hover:not(:disabled) {
-  background: var(--primary-gradient-hover);
-  box-shadow: var(--shadow-lg); transform: translateY(-1px);
-}
-#sendEquipmentQuestionButton:active:not(:disabled) {
-  transform: translateY(0px) scale(0.98); box-shadow: var(--shadow-inner);
-}
-#sendEquipmentQuestionButton:disabled {
-  background: var(--text-muted-light); cursor: not-allowed; transform: none; box-shadow: none; opacity: 0.6;
-}
-body.dark-mode #sendEquipmentQuestionButton {
-   background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 100%);
+   background: var(--primary-gradient-hover);
+   transform: scale(1.05);
+   box-shadow: -5px 0px 15px rgba(0, 0, 0, 0.1);
  }
-body.dark-mode #sendEquipmentQuestionButton:hover:not(:disabled) {
-   background: linear-gradient(135deg, #1e40af 0%, #1d4ed8 100%);
+ #sendEquipmentQuestionButton:active:not(:disabled) {
+   transform: scale(1); opacity: 0.9; box-shadow: none;
  }
-body.dark-mode #sendEquipmentQuestionButton:disabled {
-   background: var(--text-muted-dark); opacity: 0.5;
+ #sendEquipmentQuestionButton:disabled {
+   background: var(--text-muted-light); cursor: not-allowed; transform: none; opacity: 0.6; box-shadow: none;
  }
+ body.dark-mode #sendEquipmentQuestionButton {
+    border-left-color: var(--input-border-dark);
+    background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 100%);
+  }
+ body.dark-mode #sendEquipmentQuestionButton:hover:not(:disabled) {
+    background: linear-gradient(135deg, #1e40af 0%, #1d4ed8 100%);
+    box-shadow: -5px 0px 15px rgba(0, 0, 0, 0.3);
+  }
+ body.dark-mode #sendEquipmentQuestionButton:disabled {
+    background: var(--text-muted-dark); opacity: 0.5;
+  }
+ #sendEquipmentQuestionButton i { font-size: 1.2rem; transition: transform 0.2s ease; }
+ #sendEquipmentQuestionButton:hover:not(:disabled) i { transform: translateX(3px) scale(1.1); }
 
 #equipmentLoading { display: none; margin: 1.5rem 0; text-align: center; font-size: 0.9rem; color: var(--text-muted-light); }
 #equipmentLoading i { margin-right: 0.5em; animation: spin 1.5s linear infinite; }
