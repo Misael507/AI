@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Plataforma Biomédica IA Moderna</title>
+  <!-- Recursos externos -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+    rel="stylesheet">
+  <!-- Font Awesome CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <!-- Enlace a style.css -->
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <!-- Botón toggle sidebar -->
+  <button id="toggle-sidebar" class="toggle-sidebar-button" aria-label="Toggle Sidebar">
+    <i class="fas fa-bars"></i>
+  </button>
+
+  <!-- Barra lateral con nuevo diseño pipeline -->
+  <aside class="sidebar-nav" aria-label="Navigation">
+    <nav>
+      <div class="sidebar-header">
+        <h2><i class="fas fa-robot"></i> BIAmedical</h2>
+      </div>
+      <div class="sidebar-buttons">
+        <button class="sidebar-button active" data-tab="assistant" aria-label="Asistente">
+          <i class="fas fa-stethoscope"></i>
+          <span>Asistente</span>
+        </button>
+        <button class="sidebar-button" data-tab="maintenance" aria-label="Mantenimiento">
+          <i class="fas fa-tools"></i>
+          <span>Mantenimiento</span>
+        </button>
+        <button class="sidebar-button" data-tab="tips" aria-label="Tips">
+          <i class="fas fa-lightbulb"></i>
+          <span>Tips</span>
+        </button>
+      </div>
+    </nav>
+  </aside>
+
+  <main class="main-container"> <!-- Siempre columna -->    <!-- Sección del Asistente -->
+    <section class="tab-content" data-tab-content="assistant" aria-labelledby="chat-header">
+      <div class="chat-container card-base">
+            <button id="dark-mode-toggle" aria-label="Cambiar modo de color"><i class="fas fa-moon"></i></button>
+            <h1 id="chat-header"><i class="fas fa-stethoscope"></i>BIAmedical Assistant</h1>
+            <p class="header-subtitle">Ingeniería Biomédica en Panamá, Mantenimiento Predictivo, Preventivo y
+              Correctivo, Tips y Más.</p>
+            <div id="chat-messages" aria-live="polite">
+              <!-- Mensajes del chat se añadirán aquí -->
+            </div>
+            <div class="input-area">
+              <div id="loading" role="status" aria-live="polite"></div>
+              <div id="error-message" class="error-message" role="alert"></div> <!-- Error General Chat -->
+              <div id="controls-upload-wrapper" class="controls-wrapper">
+                <div class="chat-controls">
+                  <!-- Botones de tono y longitud a la izquierda -->
+                  <div class="controls-group">
+                    <button class="control-button active" data-tone="neutral">
+                      <i class="fas fa-circle"></i> Neutral
+                    </button>
+                    <button class="control-button" data-tone="formal">
+                      <i class="fas fa-user-tie"></i> Formal
+                    </button>
+                    <button class="control-button" data-tone="conciso">
+                      <i class="fas fa-compress-alt"></i> Conciso
+                    </button>
+                  </div>
+                  <div class="controls-group">
+                    <button class="control-button" data-length="corta">
+                      <i class="fas fa-minus"></i> Corta
+                    </button>
+                    <button class="control-button active" data-length="media">
+                      <i class="fas fa-text-width"></i> Media
+                    </button>
+                    <button class="control-button" data-length="larga">
+                      <i class="fas fa-plus"></i> Larga
+                    </button>
+                  </div>
+
+                  <!-- Grupo de botones de archivos y búsqueda a la derecha -->
+                  <div class="file-controls-group">
+                    <button id="toggle-web-search-button" class="control-button">
+                      <i class="fas fa-globe"></i> Web
+                    </button>
+                    <button id="toggle-assistant-files" class="control-button file-display-toggle file-toggle-button">
+                      <i class="fas fa-paperclip"></i>
+                      <span id="assistant-file-count">0</span>
+                    </button>
+                    <!-- Botón de subir documentos responsive -->
+                    <button id="uploadButton" class="control-button upload-btn">
+                      <i class="fas fa-upload"></i>
+                      <span>Subir Documentos</span>
+                    </button>
+                    <input type="file" id="fileInput" multiple style="display: none;">
+                    <button class="references-button control-button" data-section="assistant">
+                      <i class="fas fa-link"></i> Referencias
+                    </button>
+                  </div>
+
+                  <!-- Botones de acción -->
+                  <div class="action-controls-group">
+                    <button id="regenerate-button" class="control-button" disabled>
+                      <i class="fas fa-redo"></i> Regenerar
+                    </button>
+                    <button id="clear-chat-button" class="control-button">
+                      <i class="fas fa-trash"></i> Limpiar
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div id="assistant-file-display" class="file-display-container">
+                <ul id="file-list" class="file-list"></ul>
+              </div>
+              <div class="input-container">
+                <label for="questionInput" class="visually-hidden">Pregunta para el asistente</label>
+                <!-- Added label for accessibility -->
+                <textarea id="questionInput" rows="1"
+                  placeholder="Escribe una pregunta o sube un documento..."></textarea>
+                <button id="sendButton" aria-label="Enviar pregunta"><i class="fas fa-paper-plane"></i></button>
+              </div>
+            </div>          </div>
+      </section> <!-- Fin Tab Asistente -->
+
+    <!-- Columna MANTENIMIENTO ESPECÍFICO -->
+    <!-- Removed redundant nested div.tab-content -->
+    <section class="tab-content hidden" data-tab-content="maintenance" aria-labelledby="maintenance-header">
+      <div id="equipment-section" class="card-base">
+        <h2 id="maintenance-header"><i class="fas fa-tools"></i> Mantenimiento Específico</h2>
+
+        <div class="equipment-input-group">
+          <label for="equipmentName"><i class="fas fa-tag"></i> Nombre del Equipo</label>
+          <input type="text" id="equipmentName" placeholder="Ejemplo: Monitor de Signos Vitales">
+        </div>
+        <div class="equipment-input-group">
+          <label for="equipmentBrand"><i class="fas fa-copyright"></i> Marca</label>
+          <input type="text" id="equipmentBrand" placeholder="Ejemplo: Philips">
+        </div>
+        <div class="equipment-input-group">
+          <label for="equipmentModel"><i class="fas fa-barcode"></i> Modelo</label>
+          <input type="text" id="equipmentModel" placeholder="Ejemplo: IntelliVue MX700">
+        </div>
+
+        <fieldset id="maintenance-type-selector"> <!-- Use fieldset for radio-like buttons -->
+          <legend><i class="fas fa-tasks"></i> Selecciona el Tipo de Mantenimiento:</legend>
+          <div class="maintenance-buttons">
+            <button class="maintenance-button" data-type="predictivo" aria-label="Mantenimiento Predictivo">
+              <i class="fas fa-bolt"></i> Predictivo
+            </button>
+            <button class="maintenance-button" data-type="preventivo" aria-label="Mantenimiento Preventivo">
+              <i class="fas fa-calendar-check"></i> Preventivo
+            </button>
+            <button class="maintenance-button" data-type="correctivo" aria-label="Mantenimiento Correctivo">
+              <i class="fas fa-wrench"></i> Correctivo
+            </button>
+          </div>
+        </fieldset>
+
+        <div id="equipment-question-area">
+          <div class="equipment-controls-wrapper">
+            <div class="chat-controls equipment-controls">
+              <button class="control-button" data-tone="neutral" id="eq-tone-neutral" title="Tono Neutro"
+                aria-label="Tono Neutro (Equipo)"><i class="fas fa-comment-dots"></i></button>
+              <button class="control-button" data-tone="formal" id="eq-tone-formal" title="Tono Formal"
+                aria-label="Tono Formal (Equipo)"><i class="fas fa-user-tie"></i></button>
+              <button class="control-button" data-tone="conciso" id="eq-tone-conciso" title="Tono Conciso"
+                aria-label="Tono Conciso (Equipo)"><i class="fas fa-compress-arrows-alt"></i></button>
+              <button class="control-button" data-length="corta" id="eq-length-corta" title="Respuesta Corta"
+                aria-label="Respuesta Corta (Equipo)"><i class="fas fa-align-left"></i></button>
+              <button class="control-button" data-length="media" id="eq-length-media" title="Respuesta Media"
+                aria-label="Respuesta Media (Equipo)"><i class="fas fa-align-justify"></i></button>
+              <button class="control-button" data-length="larga" id="eq-length-larga" title="Respuesta Larga"
+                aria-label="Respuesta Larga (Equipo)"><i class="fas fa-align-right"></i></button>
+              <button class="control-button" id="eq-toggle-web-search-button" title="Búsqueda web (Equipo)"
+                aria-label="Activar/Desactivar búsqueda web (Equipo)"><i class="fas fa-globe"></i></button>
+              <button class="control-button" id="eq-regenerate-button" title="Regenerar Info Específica"
+                aria-label="Regenerar información de equipo" disabled><i class="fas fa-sync-alt"></i></button>
+              <button class="control-button references-button" data-section="maintenance"
+                title="Mostrar Referencias (Equipo)" aria-label="Mostrar referencias de mantenimiento"><i
+                  class="fas fa-link"></i></button>
+              <div id="eq-file-upload-controls" class="file-upload-section">
+                <button id="eq-uploadButton" class="upload-btn" title="Subir archivos (Equipo)"> <!-- Added title -->
+                  <i class="fas fa-upload"></i>
+                  <span>Subir archivos</span> <!-- Text is hidden by CSS -->
+                </button>
+                <input type="file" id="eq-fileInput"
+                  accept=".txt,.pdf,.docx,.csv,.json,.xml,.png,.jpg,.jpeg,.webp,.heic,.heif" multiple
+                  style="display: none;" aria-hidden="true" /> <!-- Added image types -->
+                <button id="toggle-equipment-files" class="control-button file-toggle-button"
+                  aria-label="Mostrar/Ocultar archivos adjuntos de equipo">
+                  <i class="fas fa-file-alt"></i>
+                  <span id="equipment-file-count" aria-live="polite">0</span>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="equipment-input-container">
+            <label for="equipmentQuestionInput" class="visually-hidden">Pregunta específica de mantenimiento</label>
+            <!-- Added label -->
+            <textarea id="equipmentQuestionInput" rows="3"
+              placeholder="Completa los datos del equipo y selecciona un tipo..." disabled></textarea>
+            <button id="sendEquipmentQuestionButton" disabled>
+              <i class="fas fa-paper-plane"></i> Obtener Info Específica
+            </button>
+          </div>
+          <div id="equipment-file-display" class="file-display-container" aria-label="Archivos adjuntos de equipo">
+            <h4>Archivos de Equipo</h4>
+            <ul id="equipment-file-list" class="file-list"></ul>
+          </div>
+        </div>
+
+        <div id="equipmentLoading" role="status" aria-live="polite"><i class="fas fa-spinner"></i> Buscando
+          información...</div>
+        <div id="equipmentError" class="error-message" role="alert"></div> <!-- Error Específico Equipo -->
+        <div id="equipmentResponseDisplay" aria-live="polite">
+          <!-- Respuesta específica se mostrará aquí -->
+        </div>
+      </div>
+    </section> <!-- Fin Tab Mantenimiento -->
+
+    <!-- Columna de Tips -->
+    <section class="tab-content hidden" data-tab-content="tips" style="display:none;" aria-labelledby="tips-header">
+      <div class="tips-column">
+        <div id="maintenance-tips-section" class="card-base">
+          <h2 id="tips-header"><i class="fas fa-lightbulb"></i> Tips de Mantenimiento</h2>
+          <div id="maintenance-tips-content" aria-live="polite">
+            <div id="maintenance-tips-loading" style="display: none;" role="status"><i class="fas fa-spinner"></i>
+              Cargando tip...</div>
+            <div id="maintenance-tips-error" class="error-message" role="alert"></div> <!-- Error Específico Tips -->
+            <!-- Tip se mostrará aquí -->
+          </div>
+          <button id="regenerate-tip-button" disabled>
+            <i class="fas fa-sync-alt"></i> Regenerar Tip
+          </button>
+        </div>
+      </div>
+    </section> <!-- Fin Tab Tips -->
+
+  </main> <!-- Fin del main-container -->
+
+  <!-- References Panel (Global) - Use <aside> -->
+  <aside id="references-panel" class="references-panel" style="display:none;" data-section=""
+    aria-labelledby="references-title">
+    <div class="references-content">
+      <button id="close-references" aria-label="Cerrar referencias"><i class="fas fa-times"></i></button>
+      <h3 id="references-title">Referencias</h3>
+      <ul id="references-list"></ul>
+    </div>
+  </aside>
+
+  <!-- Add a visually hidden class for labels (moved to style.css) -->
+
+  <!-- Enlace a script.js -->
+  <script src="script.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+</body>
+
+</html>

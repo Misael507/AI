@@ -1,0 +1,7101 @@
+/* --- Estilos CSS (CON MODIFICACIONES para diseño atractivo, moderno e interactivo) --- */
+:root {
+  /* --- Base Palette (Light Mode) --- */
+  --bg-light: #f7f9fc;
+  /* Slightly cooler background */
+  --card-bg-light: rgba(255, 255, 255, 0.95);
+  /* Subtle transparency */
+  --card-border-light: #eef2f7;
+  /* Softer border */
+  --text-light: #2d3748;
+  /* Darker text for better contrast */
+  --text-muted-light: #718096;
+  /* Muted text */
+  --input-bg-light: rgba(255, 255, 255, 0.8);
+  /* Input transparency */
+  --input-border-light: #e2e8f0;
+  /* Softer input border */
+  --shadow-color-light: rgba(100, 116, 139, 0.1);
+  /* Softer shadow */
+
+  /* --- Base Palette (Dark Mode) --- */
+  --bg-dark: #1a202c;
+  /* Dark background */
+  --card-bg-dark: rgba(45, 55, 72, 0.9);
+  /* Dark card transparency */
+  --card-border-dark: #2d3748;
+  /* Dark border */
+  --text-dark: #e2e8f0;
+  /* Light text for dark mode */
+  --text-muted-dark: #a0aec0;
+  /* Muted dark text */
+  --input-bg-dark: rgba(45, 55, 72, 0.7);
+  /* Dark input transparency */
+  --input-border-dark: #4a5568;
+  /* Dark input border */
+  --shadow-color-dark: rgba(0, 0, 0, 0.4);
+  /* Darker shadow */
+
+  /* --- Universal Accent Palette (Blue - base for Assistant) --- */
+  --primary-light: #4299e1;
+  /* Adjusted blue */
+  --primary-dark: #63b3ed;
+  /* Lighter blue for dark mode */
+  --primary-gradient-light: linear-gradient(135deg, #63b3ed 0%, #4299e1 100%);
+  --primary-gradient-dark: linear-gradient(135deg, #90cdf4 0%, #63b3ed 100%);
+  --primary-focus-shadow-light: rgba(66, 153, 225, 0.25);
+  --primary-focus-shadow-dark: rgba(99, 179, 237, 0.35);
+
+  /* --- User Message Palette --- */
+  --user-msg-bg-light: #ebf8ff;
+  /* Lighter user message bg */
+  --user-msg-bg-dark: #2c5282;
+  /* Darker user message bg */
+  --user-msg-text-light: #2a4365;
+  /* Darker text on light bg */
+  --user-msg-text-dark: var(--text-dark);
+  --user-msg-border-light: #bee3f8;
+  --user-msg-border-dark: #4299e1;
+
+  /* --- Assistant/System Response Palette --- */
+  --response-bg-light: rgba(247, 250, 252, 0.9);
+  /* Slightly transparent response */
+  --response-bg-dark: rgba(74, 85, 104, 0.85);
+  /* Dark transparent response */
+  --response-border-light: var(--card-border-light);
+  --response-border-dark: var(--card-border-dark);
+
+  /* --- Common UI Elements --- */
+  --success-color: #48bb78;
+  /* Adjusted green */
+  --danger-color: #f56565;
+  /* Adjusted red */
+  --warning-color: #ed8936;
+  /* Adjusted orange */
+
+  --button-secondary-bg: #a0aec0;
+  --button-secondary-hover-bg: #718096;
+  --button-secondary-text: white;
+
+  --button-control-bg-light: #edf2f7;
+  --button-control-bg-dark: #2d3748;
+  --button-control-hover-bg-light: #e2e8f0;
+  --button-control-hover-bg-dark: #4a5568;
+  --button-control-active-bg-light: #cbd5e0;
+  --button-control-active-bg-dark: #718096;
+  --button-control-border-light: #e2e8f0;
+  --button-control-border-dark: #4a5568;
+  --button-control-text-light: var(--text-muted-light);
+  --button-control-text-dark: var(--text-muted-dark);
+
+  /* --- Shadows (Refined) --- */
+  --shadow-sm: 0 1px 2px 0 var(--shadow-color-light);
+  --shadow-md: 0 4px 6px -1px var(--shadow-color-light), 0 2px 4px -1px var(--shadow-color-light);
+  --shadow-lg: 0 10px 15px -3px var(--shadow-color-light), 0 4px 6px -2px var(--shadow-color-light);
+  --shadow-xl: 0 20px 25px -5px var(--shadow-color-light), 0 10px 10px -5px var(--shadow-color-light);
+  --shadow-inner: inset 0 2px 4px 0 rgba(0, 0, 0, 0.05);
+
+  /* --- Borders --- */
+  --border-radius-sm: 0.375rem;
+  /* 6px */
+  --border-radius-md: 0.5rem;
+  /* 8px */
+  --border-radius-lg: 0.75rem;
+  /* 12px */
+  --border-radius-xl: 1rem;
+  /* 16px */
+  --border-radius-full: 9999px;
+
+  /* --- Transitions --- */
+  --transition-speed-fast: 0.15s;
+  --transition-speed-normal: 0.25s;
+  --transition-speed-smooth: 0.35s;
+  --transition-timing: ease-in-out;
+  --transition-timing-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --transition-timing-fluent: cubic-bezier(0.4, 0, 0.2, 1);
+  --sidebar-width: 250px;
+  /* Slightly wider sidebar */
+
+  /* --- Section-Specific Colors --- */
+  /* Assistant Section (Blue) */
+  --assistant-primary-light: var(--primary-light);
+  --assistant-primary-dark: var(--primary-dark);
+  --assistant-gradient-light: var(--primary-gradient-light);
+  --assistant-gradient-dark: var(--primary-gradient-dark);
+  --assistant-focus-shadow-light: var(--primary-focus-shadow-light);
+  --assistant-focus-shadow-dark: var(--primary-focus-shadow-dark);
+  --assistant-bg-light: #ebf8ff;
+  /* Lighter blue bg */
+  --assistant-bg-dark: #2c5282;
+  /* Darker blue bg */
+
+  /* Maintenance Section (Orange) */
+  --maintenance-primary-light: #ed8936;
+  /* Adjusted orange */
+  --maintenance-primary-dark: #f6ad55;
+  /* Lighter orange for dark */
+  --maintenance-gradient-light: linear-gradient(135deg, #f6ad55 0%, #ed8936 100%);
+  --maintenance-gradient-dark: linear-gradient(135deg, #fbd38d 0%, #f6ad55 100%);
+  --maintenance-focus-shadow-light: rgba(237, 137, 54, 0.25);
+  --maintenance-focus-shadow-dark: rgba(246, 173, 85, 0.35);
+  --maintenance-bg-light: #fffaf0;
+  /* Lighter orange bg */
+  --maintenance-bg-dark: #7b341e;
+  /* Darker orange bg */
+
+  /* Tips Section (Green) */
+  --tips-primary-light: #48bb78;
+  /* Adjusted green */
+  --tips-primary-dark: #68d391;
+  /* Lighter green for dark */
+  --tips-gradient-light: linear-gradient(135deg, #68d391 0%, #48bb78 100%);
+  --tips-gradient-dark: linear-gradient(135deg, #9ae6b4 0%, #68d391 100%);
+  --tips-focus-shadow-light: rgba(72, 187, 120, 0.25);
+  --tips-focus-shadow-dark: rgba(104, 211, 145, 0.35);
+  --tips-bg-light: #f0fff4;
+  /* Lighter green bg */
+  --tips-bg-dark: #2f855a;
+  /* Darker green bg */
+
+  /* Variables de animación */
+  --transition-duration-normal: 0.25s;
+  --transition-duration-fast: 0.15s;
+
+  /* Font Settings */
+  --font-family-base: 'Nunito Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  --font-family-mono: 'Roboto Mono', 'Courier New', Courier, monospace;
+  --font-size-base: 16px;
+  --line-height-base: 1.5;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* Light Theme Colors */
+  --primary-light: #0d6efd;
+  --primary-hover-light: #0b5ed7;
+  --primary-focus-shadow-light: rgba(13, 110, 253, 0.25);
+  --primary-gradient-light: linear-gradient(135deg, #0d6efd 0%, #0093E9 100%);
+
+  --bg-light: #ffffff;
+  --bg-secondary-light: #f8f9fa;
+  --text-light: #212529;
+  --text-muted-light: #6c757d;
+
+  --card-bg-light: #ffffff;
+  --card-border-light: #dee2e6;
+
+  --input-bg-light: #ffffff;
+  --input-border-light: #ced4da;
+
+  --button-control-bg-light: #f8f9fa;
+  --button-control-border-light: #dee2e6;
+  --button-control-text-light: #212529;
+  --button-control-hover-bg-light: #e9ecef;
+
+  /* Dark Theme Colors */
+  --primary-dark: #3b82f6;
+  --primary-hover-dark: #2563eb;
+  --primary-focus-shadow-dark: rgba(59, 130, 246, 0.25);
+  --primary-gradient-dark: linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%);
+
+  --bg-dark: #0f172a;
+  --bg-secondary-dark: #1e293b;
+  --text-dark: #f8fafc;
+  --text-muted-dark: #94a3b8;
+
+  --card-bg-dark: #1e293b;
+  --card-border-dark: #334155;
+
+  --input-bg-dark: #0f172a;
+  --input-border-dark: #334155;
+
+  --button-control-bg-dark: #1e293b;
+  --button-control-border-dark: #334155;
+  --button-control-text-dark: #f8fafc;
+  --button-control-hover-bg-dark: #334155;
+
+  /* Common Variables */
+  --danger-color: #dc3545;
+  --success-color: #198754;
+  --warning-color: #ffc107;
+  --info-color: #0dcaf0;
+
+  /* Spacing */
+  --spacing-1: 0.25rem;
+  --spacing-2: 0.5rem;
+  --spacing-3: 1rem;
+  --spacing-4: 1.5rem;
+  --spacing-5: 2rem;
+
+  /* Border Radius */
+  --border-radius-sm: 0.25rem;
+  --border-radius-md: 0.375rem;
+  --border-radius-lg: 0.5rem;
+  --border-radius-xl: 1rem;
+  --border-radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-inner: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+
+  /* Transitions */
+  --transition-speed-fast: 150ms;
+  --transition-speed-normal: 250ms;
+  --transition-speed-slow: 350ms;
+  --transition-timing: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* --- Mejoras Generales y Suavidad --- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  border-width: 0;
+  border-style: solid;
+  border-color: var(--card-border-light);
+  /* Default border color */
+  transition: background-color var(--transition-speed-smooth) var(--transition-timing-fluent),
+    border-color var(--transition-speed-smooth) var(--transition-timing-fluent),
+    color var(--transition-speed-smooth) var(--transition-timing-fluent),
+    /* Added color transition */
+    box-shadow var(--transition-speed-smooth) var(--transition-timing-fluent),
+    transform var(--transition-speed-smooth) var(--transition-timing-fluent);
+}
+
+/* Mejoras en la nitidez del texto */
+* {
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-size: var(--font-size-base);
+  height: 100%; /* Ensure html takes full height */
+}
+
+/* Aplicar Nunito Sans globalmente */
+body {
+  font-family: var(--font-family-base);
+  font-optical-sizing: auto;
+  font-variation-settings: "wdth" 100, "YTLC" 500;
+  background-color: var(--bg-light);
+  color: var(--text-light);
+  font-weight: 300;
+  display: flex;
+  flex-direction: column; /* Keep column direction */
+  min-height: 100%; /* Ensure body takes full height */
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.6;
+  overflow-x: hidden;
+  line-height: var(--line-height-base);
+  transition: background-color var(--transition-speed-normal),
+    color var(--transition-speed-normal);
+}
+
+/* Italic style */
+em,
+i {
+  font-style: normal;
+  font-weight: 400;
+}
+
+/* Bold style */
+strong,
+b {
+  font-style: normal;
+  font-weight: 700;
+}
+
+body.dark-mode {
+  background-color: var(--bg-dark);
+  color: var(--text-dark);
+  --card-border-light: var(--card-border-dark);
+  /* Use dark border variable */
+  --shadow-color-light: var(--shadow-color-dark);
+  /* Use dark shadow variable */
+}
+
+/* --- Custom Scrollbar --- */
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--text-muted-light) var(--bg-light);
+}
+
+body.dark-mode * {
+  scrollbar-color: var(--text-muted-dark) var(--bg-dark);
+  /* Corrected variable name */
+}
+
+/* Chrome, Edge, Safari */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(156, 163, 175, 0.5);
+  border-radius: var(--border-radius-full);
+  border: 2px solid transparent;
+  background-clip: padding-box;
+  transition: background-color var(--transition-speed-fast);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(107, 114, 128, 0.7);
+}
+
+body.dark-mode ::-webkit-scrollbar-thumb {
+  background-color: var(--text-muted-dark);
+}
+
+body.dark-mode ::-webkit-scrollbar-thumb:hover {
+  background-color: var(--primary-dark);
+  /* Use primary dark for hover */
+}
+
+/* --- CONTENEDORES PRINCIPALES --- */
+.main-container {
+  padding: 1.5rem; /* Adjusted padding */
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1; /* Allow main container to grow */
+  width: 100%;
+  max-width: none; /* Remove max-width */
+  margin: 0; /* Remove margin */
+  transition: padding-left var(--transition-speed-smooth) var(--transition-timing-fluent); /* Only transition padding-left */
+  padding-left: calc(var(--sidebar-width) + 1.5rem); /* Keep sidebar padding */
+  box-sizing: border-box;
+}
+
+.main-container.sidebar-open {
+  padding-left: calc(var(--sidebar-width) + 1.5rem);
+}
+
+.main-content-wrapper {
+  display: flex;
+  width: 100%;
+  min-width: 0;
+  flex-grow: 1; /* Allow wrapper to fill remaining space */
+  position: relative; /* Needed for absolute positioning of tabs */
+}
+
+.chat-column,
+.equipment-column,
+.tips-column {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  width: 100%;
+  flex-grow: 1; /* Allow column to grow */
+}
+
+/* --- Contenedor Base Card --- */
+.card-base {
+  width: 100%;
+  padding: 1.75rem;
+  background-color: var(--card-bg-light);
+  border-radius: var(--border-radius-xl);
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--card-border-light);
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1; /* Allow card to grow to fill column */
+  min-height: 0; /* Allow card to shrink if needed, rely on flex grow */
+  position: relative;
+  backdrop-filter: blur(10px);
+}
+
+/* --- Mensajes del Chat --- */
+#chat-messages {
+  flex-grow: 1; /* Allow message area to take available space */
+  overflow-y: auto;
+  margin-bottom: 1.5rem;
+  padding: 0 15px 0 10px;
+  min-height: 100px; /* Set a smaller minimum height, flex-grow handles expansion */
+  scroll-behavior: smooth;
+}
+
+/* --- Área de Input Chat --- */
+.input-area {
+  margin-top: auto; /* Pushes input area to the bottom */
+  padding-top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex-shrink: 0; /* Prevent input area from shrinking */
+}
+
+/* Adjust body to ensure full height */
+body {
+  font-family: var(--font-family-base);
+  font-optical-sizing: auto;
+  font-variation-settings: "wdth" 100, "YTLC" 500;
+  background-color: var(--bg-light);
+  color: var(--text-light);
+  font-weight: 300;
+  display: flex;
+  flex-direction: column; /* Keep column direction */
+  min-height: 100vh;
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.6;
+  overflow-x: hidden;
+  line-height: var(--line-height-base);
+  transition: background-color var(--transition-speed-normal),
+    color var(--transition-speed-normal);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .main-container {
+    padding-left: 1rem; /* Adjust padding for mobile */
+    padding-top: 6rem; /* Keep space for potential fixed header */
+    padding-right: 1rem; /* Add right padding */
+    padding-bottom: 1rem; /* Add bottom padding */
+  }
+
+  .main-container.sidebar-open {
+    padding-left: 1rem; /* Keep mobile padding when sidebar is open */
+  }
+
+  .card-base {
+    padding: 1.25rem;
+  }
+
+  #chat-messages {
+    padding: 0 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .card-base {
+    padding: 1rem;
+  }
+}
+
+body.dark-mode .card-base {
+  background-color: var(--card-bg-dark);
+  /* Use dark variable with transparency */
+  box-shadow: var(--shadow-lg);
+  /* Keep shadow consistent */
+  border-color: var(--card-border-dark);
+  backdrop-filter: blur(10px);
+  /* Frosted glass effect */
+  
+}
+
+/* --- Universal Header Style --- */
+/* Simplified selector slightly */
+#chat-header,
+#equipment-section h2,
+#maintenance-tips-section h2 {
+  color: var(--text-light);
+  text-align: center;
+  margin-bottom: 0.25rem;
+  font-family: 'Poppins', 'Inter', sans-serif;
+  /* Inherited from body */
+  font-weight: 700;
+  font-size: 1.85rem;
+  /* Slightly larger */
+  padding: 1rem 0;
+  margin-bottom: 1.5rem;
+  position: relative;
+  transition: all var(--transition-speed-normal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  letter-spacing: -0.02em;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--card-border-light);
+  margin-bottom: 1.5rem;
+}
+
+body.dark-mode #chat-header,
+body.dark-mode #equipment-section h2,
+body.dark-mode #maintenance-tips-section h2 {
+  color: var(--text-dark);
+  border-bottom-color: var(--card-border-dark);
+}
+
+/* Header Icons - Apply Gradient Background */
+#chat-header i,
+#equipment-section h2 i,
+#maintenance-tips-section h2 i {
+  font-size: 1.3rem;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  display: inline-block;
+}
+
+/* Apply specific gradients to icons */
+#chat-header i {
+  background-image: var(--assistant-gradient-light);
+}
+
+#equipment-section h2 i {
+  background-image: var(--maintenance-gradient-light);
+}
+
+#maintenance-tips-section h2 i {
+  background-image: var(--tips-gradient-light);
+}
+
+/* Dark mode icon gradients */
+body.dark-mode #chat-header i {
+  background-image: var(--assistant-gradient-dark);
+}
+
+body.dark-mode #equipment-section h2 i {
+  background-image: var(--maintenance-gradient-dark);
+}
+
+body.dark-mode #maintenance-tips-section h2 i {
+  background-image: var(--tips-gradient-dark);
+}
+
+/* Universal Subtitle Style */
+.header-subtitle {
+  color: var(--text-muted-light);
+  text-align: center;
+  margin-top: -1rem;
+  margin-bottom: 1.5rem;
+  font-size: 0.85rem;
+  max-width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+body.dark-mode .header-subtitle {
+  color: var(--text-muted-dark);
+}
+
+/* --- Mensajes del Chat --- */
+#chat-messages {
+  flex-grow: 1;
+  overflow-y: auto;
+  margin-bottom: 1.5rem;
+  padding: 0 15px 0 10px;
+  /* Slightly more padding */
+  min-height: 350px;
+  /* Increased min height */
+  scroll-behavior: smooth;
+}
+
+.message {
+  margin-bottom: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  font-size: 0.98rem;
+  line-height: 1.65;
+  opacity: 0;
+  transform: translateY(25px);
+  animation: slideInUp 0.5s var(--transition-timing-fluent) forwards;
+  /* Use slideInUp */
+}
+
+.message:last-child {
+  animation: fadeInSmooth 0.7s var(--transition-timing-fluent) forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInSmooth {
+  from {
+    opacity: 0;
+    transform: translateY(25px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInFade {
+  from {
+    opacity: 0;
+    transform: translateX(-30px) scale(0.97);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+/* Apply animation to Assistant messages */
+.tab-content[data-tab-content="assistant"] .message {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: slideInFade 0.5s var(--transition-timing-bounce) forwards;
+}
+
+.tab-content[data-tab-content="assistant"] .message:last-child {
+  animation: fadeInSmooth 0.7s var(--transition-timing) forwards;
+}
+
+.sender {
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+  color: var(--text-muted-light);
+  font-family: 'Inter', sans-serif;
+  /* Inherited */
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+body.dark-mode .sender {
+  color: var(--text-muted-dark);
+}
+
+/* Sender Icon Color */
+.sender i {
+  font-size: 0.85rem;
+  color: var(--primary-light);
+  /* Use primary color */
+}
+
+body.dark-mode .sender i {
+  color: var(--primary-dark);
+  /* Use primary dark color */
+}
+
+.response {
+  padding: 0.9rem 1.2rem;
+  /* Increased padding */
+  border-radius: var(--border-radius-lg);
+  /* More rounded */
+  box-shadow: var(--shadow-md);
+  /* Slightly stronger shadow */
+  transition: all var(--transition-speed-normal) var(--transition-timing);
+  background: var(--response-bg-light);
+  /* Use variable with transparency */
+  backdrop-filter: blur(5px);
+  /* Subtle blur */
+  border: 1px solid var(--response-border-light);
+  max-width: 90%;
+  /* Allow slightly wider messages */
+  color: var(--text-light);
+  font-family: 'Inter', sans-serif;
+  /* Inherited */
+  word-wrap: break-word;
+  font-size: 0.98rem;
+  /* Slightly larger font */
+}
+
+.response:hover {
+  transform: translateY(-3px);
+  /* Slightly more lift */
+  box-shadow: var(--shadow-lg);
+  /* Stronger shadow on hover */
+}
+
+.message.user-turn {
+  align-items: flex-end;
+}
+
+.message.user-turn .response {
+  align-self: flex-end;
+}
+
+/* Universal User Message Style */
+.response.user-message {
+  background: var(--user-msg-bg-light);
+  /* Use specific user message bg */
+  color: var(--user-msg-text-light);
+  /* Use specific user message text */
+  border: 1px solid var(--user-msg-border-light);
+  /* Add subtle border */
+  backdrop-filter: none;
+  /* Remove blur for user messages if desired */
+}
+
+body.dark-mode .response {
+  background-color: var(--response-bg-dark);
+  /* Use dark variable */
+  color: var(--text-dark);
+  border-color: var(--response-border-dark);
+  box-shadow: var(--shadow-md);
+  /* Add subtle shadow in dark mode */
+  backdrop-filter: blur(5px);
+  /* Subtle blur */
+}
+
+/* Universal User Message Dark */
+body.dark-mode .response.user-message {
+  background: var(--user-msg-bg-dark);
+  /* Use dark user message bg */
+  border: 1px solid var(--user-msg-border-dark);
+  /* Dark border */
+  color: var(--user-msg-text-dark);
+  backdrop-filter: none;
+}
+
+/* --- Estilos Mejorados para Contenido de Respuesta --- */
+.response p {
+  margin-bottom: 0.8em;
+  line-height: 1.7;
+}
+
+.response p:last-child {
+  margin-bottom: 0;
+}
+
+/* Títulos */
+.response h3,
+.response h4,
+.response h5,
+.response h6 {
+  font-family: 'Inter', sans-serif;
+  /* Inherited */
+  font-weight: 600;
+  margin-top: 1.6em;
+  margin-bottom: 0.7em;
+  color: var(--text-light);
+  /* Default heading color */
+  line-height: 1.4;
+}
+
+body.dark-mode .response h3,
+body.dark-mode .response h4,
+body.dark-mode .response h5,
+body.dark-mode .response h6 {
+  color: var(--text-dark);
+}
+
+.response h3 {
+  font-size: 1.5rem;
+  border-bottom: 1px solid var(--card-border-light);
+  padding-bottom: 0.4em;
+  letter-spacing: -0.01em;
+}
+
+body.dark-mode .response h3 {
+  border-bottom-color: var(--card-border-dark);
+}
+
+.response h4 {
+  font-size: 1.25rem;
+}
+
+.response h5 {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--text-muted-light);
+}
+
+.response h6 {
+  font-size: 1.0rem;
+  font-weight: 600;
+  color: var(--text-muted-light);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+body.dark-mode .response h5,
+body.dark-mode .response h6 {
+  color: var(--text-muted-dark);
+}
+
+/* Negrita */
+.response strong {
+  color: inherit;
+  /* Inherit color from parent */
+  font-weight: 700;
+  /* Make bold stand out */
+}
+
+/* Listas */
+.response ul,
+.response ol {
+  margin-top: 0.8em;
+  margin-bottom: 1.4em;
+  /* Increased spacing */
+  padding-left: 1.5em;
+  /* Adjusted indentation */
+}
+
+.response li {
+  margin-bottom: 0.7em;
+  /* Increased spacing */
+  position: relative;
+  padding-left: 1.8em;
+  /* Ensure space for marker */
+  line-height: 1.7;
+}
+
+/* Marcadores UL - Use section-specific colors */
+.tab-content[data-tab-content="assistant"] .response ul li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  top: 0.1em;
+  color: var(--assistant-primary-light);
+  font-size: 1.3em;
+  /* Slightly larger marker */
+  line-height: inherit;
+}
+
+/* Add similar rules for maintenance and tips sections if they use lists */
+#equipmentResponseDisplay ul li::before {
+  /* Specific to equipment response */
+  content: "•";
+  position: absolute;
+  left: 0;
+  top: 0.1em;
+  color: var(--maintenance-primary-light);
+  font-size: 1.3em;
+  line-height: inherit;
+}
+
+.tab-content[data-tab-content="tips"] .response ul li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  top: 0.1em;
+  color: var(--tips-primary-light);
+  font-size: 1.3em;
+  line-height: inherit;
+}
+
+
+/* Marcadores OL - Use section-specific colors */
+.response ol {
+  list-style: none;
+  counter-reset: list-counter;
+}
+
+.tab-content[data-tab-content="assistant"] .response ol li::before {
+  content: counter(list-counter) ".";
+  counter-increment: list-counter;
+  position: absolute;
+  left: 0;
+  top: 0.1em;
+  color: var(--assistant-primary-light);
+  font-weight: 600;
+  font-size: 0.95em;
+  width: 1.5em;
+  /* Ensure space for numbers */
+  text-align: right;
+  margin-right: 0.3em;
+  line-height: inherit;
+}
+
+/* Add similar rules for maintenance and tips sections */
+#equipmentResponseDisplay ol li::before {
+  content: counter(list-counter) ".";
+  counter-increment: list-counter;
+  position: absolute;
+  left: 0;
+  top: 0.1em;
+  color: var(--maintenance-primary-light);
+  font-weight: 600;
+  font-size: 0.95em;
+  width: 1.5em;
+  text-align: right;
+  margin-right: 0.3em;
+  line-height: inherit;
+}
+
+.tab-content[data-tab-content="tips"] .response ol li::before {
+  content: counter(list-counter) ".";
+  counter-increment: list-counter;
+  position: absolute;
+  left: 0;
+  top: 0.1em;
+  color: var(--tips-primary-light);
+  font-weight: 600;
+  font-size: 0.95em;
+  width: 1.5em;
+  text-align: right;
+  margin-right: 0.3em;
+  line-height: inherit;
+}
+
+/* Dark Mode List Markers */
+body.dark-mode .tab-content[data-tab-content="assistant"] .response ul li::before,
+body.dark-mode .tab-content[data-tab-content="assistant"] .response ol li::before {
+  color: var(--assistant-primary-dark);
+}
+
+body.dark-mode #equipmentResponseDisplay ul li::before,
+body.dark-mode #equipmentResponseDisplay ol li::before {
+  color: var(--maintenance-primary-dark);
+}
+
+body.dark-mode .tab-content[data-tab-content="tips"] .response ul li::before,
+body.dark-mode .tab-content[data-tab-content="tips"] .response ol li::before {
+  color: var(--tips-primary-dark);
+}
+
+/* Listas Anidadas */
+.response ul ul,
+.response ol ol,
+.response ul ol,
+.response ol ul {
+  margin-top: 0.4em;
+  margin-bottom: 0.6em;
+  padding-left: 2em;
+}
+
+.response ul ul li::before {
+  content: "◦";
+  font-size: 1.1em;
+}
+
+.response ul ul ul li::before {
+  content: "▪";
+  font-size: 0.9em;
+}
+
+.response ol ol li::before {
+  content: counter(list-counter, lower-alpha) ".";
+}
+
+.response ol ol ol li::before {
+  content: counter(list-counter, lower-roman) ".";
+}
+
+/* Código */
+.response code {
+  font-family: 'Roboto Mono', monospace;
+  background-color: rgba(237, 242, 247, 0.8);
+  /* Slightly transparent code bg */
+  color: var(--text-light);
+  padding: 0.25em 0.5em;
+  /* Slightly more padding */
+  border-radius: var(--border-radius-sm);
+  /* Consistent rounding */
+  font-size: 0.9em;
+  border: 1px solid var(--input-border-light);
+  /* Use input border color */
+  white-space: pre-wrap;
+  /* Allow wrapping for inline code */
+  word-break: break-word;
+}
+
+body.dark-mode .response code {
+  background-color: rgba(45, 55, 72, 0.8);
+  /* Dark transparent code bg */
+  color: var(--text-dark);
+  border-color: var(--input-border-dark);
+}
+
+.response pre {
+  background-color: rgba(237, 242, 247, 0.9);
+  /* Slightly transparent pre bg */
+  border: 1px solid var(--input-border-light);
+  padding: 1.2em 1.5em;
+  /* Increased padding */
+  border-radius: var(--border-radius-lg);
+  /* More rounded */
+  overflow-x: auto;
+  margin: 1.5em 0;
+  /* Increased margin */
+  box-shadow: var(--shadow-inner);
+  /* Add inner shadow */
+  font-family: 'Roboto Mono', monospace;
+  font-size: 0.9em;
+  line-height: 1.6;
+}
+
+body.dark-mode .response pre {
+  background-color: rgba(26, 32, 44, 0.9);
+  /* Darker pre bg */
+  border-color: var(--input-border-dark);
+  color: var(--text-dark);
+  box-shadow: none;
+  /* Remove inner shadow in dark mode */
+}
+
+.response pre code {
+  background-color: transparent !important;
+  /* Ensure no nested background */
+  color: inherit !important;
+  padding: 0 !important;
+  border: none !important;
+  font-size: inherit !important;
+  line-height: inherit !important;
+  white-space: pre !important;
+  /* Prevent wrapping inside pre */
+  word-break: normal !important;
+}
+
+/* --- Controles de IA --- */
+.control-group {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.control-group label {
+  font-size: 0.8rem;
+  color: var(--text-muted-light);
+  margin-right: 0.3rem;
+  font-weight: 500;
+}
+
+body.dark-mode .control-group label {
+  color: var(--text-muted-dark);
+}
+
+.control-button {
+  padding: 0.4rem 0.8rem;
+  background-color: var(--button-control-bg-light);
+  color: var(--button-control-text-light);
+  border: 1px solid var(--button-control-border-light);
+  border-radius: var(--border-radius-lg);
+  /* More rounded */
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-speed-normal) var(--transition-timing);
+  /* Use standard transition */
+}
+
+.control-button i {
+  font-size: 0.9em;
+  opacity: 0.8;
+}
+
+.control-button:hover:not(:disabled) {
+  background-color: var(--button-control-hover-bg-light);
+  border-color: #94a3b8;
+  /* Consider using a variable */
+  color: var(--text-light);
+  /* Use defined variable */
+  transform: translateY(-2px);
+  /* More lift */
+  box-shadow: var(--shadow-md);
+}
+
+.control-button:active:not(:disabled) {
+  transform: translateY(0px) scale(0.97);
+  box-shadow: var(--shadow-inner);
+}
+
+.control-button.active {
+  background-color: var(--assistant-primary-light);
+  color: white;
+  border-color: var(--assistant-primary-light);
+  font-weight: 600;
+  box-shadow: var(--shadow-inner);
+  /* Inner shadow when active */
+}
+
+.control-button.active i {
+  opacity: 1;
+}
+
+body.dark-mode .control-button {
+  background-color: var(--button-control-bg-dark);
+  color: var(--button-control-text-dark);
+  border-color: var(--button-control-border-dark);
+  box-shadow: none;
+}
+
+body.dark-mode .control-button:hover:not(:disabled) {
+  background-color: var(--button-control-hover-bg-dark);
+  border-color: #64748b;
+  /* Consider using a variable */
+  color: var(--text-dark);
+  /* Use defined variable */
+  transform: translateY(-1px);
+}
+
+body.dark-mode .control-button.active {
+  background-color: var(--assistant-primary-dark);
+  color: var(--text-dark);
+  border-color: var(--assistant-primary-dark);
+  box-shadow: var(--shadow-inner);
+  /* Inner shadow when active */
+}
+
+/* Regenerate Icon Color */
+.control-button#regenerate-button:not(.active) i,
+.control-button#eq-regenerate-button:not(.active) i {
+  color: var(--assistant-primary-light);
+}
+
+body.dark-mode .control-button#regenerate-button:not(.active) i,
+body.dark-mode .control-button#eq-regenerate-button:not(.active) i {
+  color: var(--assistant-primary-dark);
+}
+
+/* Web Search Icon Color */
+.control-button#toggle-web-search-button:not(.active) i,
+.control-button#eq-toggle-web-search-button:not(.active) i {
+  color: var(--success-color);
+}
+
+body.dark-mode .control-button#toggle-web-search-button:not(.active) i,
+body.dark-mode .control-button#eq-toggle-web-search-button:not(.active) i {
+  color: #34d399;
+  /* Consider using a variable */
+}
+
+.control-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+  background-color: var(--button-control-bg-light);
+}
+
+body.dark-mode .control-button:disabled {
+  background-color: var(--button-control-bg-dark);
+  opacity: 0.4;
+}
+
+/* --- Área de Input Chat --- */
+.input-area {
+  margin-top: auto;
+  padding-top: 1.5rem;
+  /* Increased padding */
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+#controls-upload-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  /* Increased gap */
+  align-items: center;
+  padding: 0.25rem 0;
+}
+
+.chat-controls {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+  /* Increased gap */
+  padding: 0.75rem 0;
+  /* Increased padding */
+}
+
+.chat-controls::-webkit-scrollbar {
+  display: none;
+}
+
+/* Replicated style from .maintenance-button for .chat-controls .control-button */
+.chat-controls .control-button {
+  flex: 0 0 auto;
+  /* Don't grow, don't shrink, base on auto width */
+  padding: 0.7rem 1.1rem;
+  /* Slightly more padding */
+  background-color: var(--button-control-bg-light);
+  color: var(--button-control-text-light);
+  border: 1px solid var(--button-control-border-light);
+  border-radius: var(--border-radius-lg);
+  /* More rounded */
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  text-align: center;
+  min-width: auto;
+  /* Adjusted from 110px */
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-speed-normal) var(--transition-timing);
+  /* Use standard transition */
+}
+
+.chat-controls .control-button i {
+  font-size: 0.95em;
+  /* Match maintenance button icon size */
+  opacity: 0.8;
+}
+
+.chat-controls .control-button:hover:not(.active):not(:disabled) {
+  background-color: var(--button-control-hover-bg-light);
+  border-color: #94a3b8;
+  /* Consider variable */
+  color: var(--text-light);
+  transform: translateY(-2px);
+  /* More lift */
+  /* Keep hover effect */
+  box-shadow: var(--shadow-md);
+  /* Keep hover effect */
+}
+
+/* Assistant Active Chat Control (Specific Gradient) */
+.chat-controls .control-button.active {
+  background: var(--assistant-gradient-light);
+  /* Use Assistant gradient */
+  color: white;
+  border-color: transparent;
+  font-weight: 600;
+  transform: scale(1.02);
+  /* Slightly less scale */
+  box-shadow: var(--shadow-inner);
+  /* Inner shadow */
+}
+
+.chat-controls .control-button.active i {
+  opacity: 1;
+}
+
+/* Dark Mode Chat Controls */
+body.dark-mode .chat-controls .control-button {
+  background-color: var(--button-control-bg-dark);
+  color: var (--button-control-text-dark);
+  border-color: var(--button-control-border-dark);
+  box-shadow: none;
+}
+
+body.dark-mode .chat-controls .control-button:hover:not(.active):not(:disabled) {
+  background-color: var(--button-control-hover-bg-dark);
+  border-color: #64748b;
+  /* Consider variable */
+  color: var(--text-dark);
+  transform: translateY(-1px);
+}
+
+/* Dark Mode Assistant Active Chat Control */
+body.dark-mode .chat-controls .control-button.active {
+  background: var(--assistant-gradient-dark);
+  /* Use Assistant dark gradient */
+  color: var(--text-dark);
+  /* Adjust text color for dark gradient */
+  border-color: transparent;
+  transform: scale(1.02);
+  box-shadow: var(--shadow-inner);
+  /* Inner shadow */
+}
+
+/* Specific Icon Colors (Keep these) */
+.chat-controls .control-button#regenerate-button:not(.active) i {
+  color: var(--assistant-primary-light);
+}
+
+body.dark-mode .chat-controls .control-button#regenerate-button:not(.active) i {
+  color: var(--assistant-primary-dark);
+}
+
+.chat-controls .control-button#toggle-web-search-button:not(.active) i {
+  color: var(--success-color);
+}
+
+body.dark-mode .chat-controls .control-button#toggle-web-search-button:not(.active) i {
+  color: #34d399;
+}
+
+.chat-controls .references-button:not(.active) i {
+  color: var(--assistant-primary-light);
+}
+
+/* References icon color */
+body.dark-mode .chat-controls .references-button:not(.active) i {
+  color: var(--assistant-primary-dark);
+}
+
+/* Botón Limpiar Chat (Keep specific danger styling) */
+.chat-controls #clear-chat-button {
+  background-color: rgba(239, 68, 68, 0.1);
+  color: var (--danger-color);
+  border-color: rgba(239, 68, 68, 0.3);
+  /* Keep padding or adjust if needed */
+  padding: 0.7rem 1rem;
+  font-size: 0.9rem;
+}
+
+#clear-chat-button i {
+  margin-right: 0;
+}
+
+body.dark-mode #clear-chat-button {
+  background-color: rgba(248, 113, 113, 0.15);
+  color: #fca5a5;
+  border-color: rgba(248, 113, 113, 0.4);
+}
+
+#clear-chat-button:hover:not(:disabled) {
+  background-color: rgba(239, 68, 68, 0.2);
+  border-color: rgba(239, 68, 68, 0.5);
+  color: #b91c1c;
+}
+
+body.dark-mode #clear-chat-button:hover:not(:disabled) {
+  background-color: rgba(248, 113, 113, 0.25);
+  border-color: rgba(248, 113, 113, 0.6);
+  color: #fee2e2;
+}
+
+/* File Upload Controls */
+#file-upload-controls {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+/* Maintenance File Upload Controls - Flex Layout */
+#eq-file-upload-controls {
+  display: flex;
+  /* Use flexbox */
+  align-items: center;
+  /* Align items vertically */
+  gap: 0.4rem;
+  /* Keep the gap */
+  /* margin-left: auto; /* This might be handled by the parent wrapper */
+  /* flex-shrink: 0; /* This might be handled by the parent wrapper */
+}
+
+
+/* Round Upload Buttons */
+#uploadButton,
+#eq-uploadButton {
+  border-radius: var(--border-radius-full);
+  width: 48px;
+  /* Slightly larger */
+  height: 48px;
+  padding: 0;
+  /* Remove padding */
+  display: flex;
+  /* Center content */
+  align-items: center;
+  /* Center content */
+  justify-content: center;
+  /* Center content */
+  font-size: 1.2rem;
+  /* Larger icon */
+  /* Adjust icon size if needed */
+  overflow: hidden;
+  /* Hide text overflow */
+  flex-shrink: 0;
+  /* Prevent shrinking */
+  transition: all var(--transition-speed-normal) var(--transition-timing);
+  /* Add transition */
+}
+
+#uploadButton span,
+#eq-uploadButton span {
+  display: none;
+  /* Hide the text */
+}
+
+/* Responsive Upload Button (Assistant) */
+#uploadButton {
+  /* Apply Assistant colors */
+  background: var(--assistant-gradient-light);
+  color: white;
+  border: none;
+  position: relative;
+  /* For potential text positioning */
+}
+
+#uploadButton span {
+  /* Keep span for potential future use, but hide */
+  display: none;
+}
+
+#uploadButton:hover:not(:disabled) {
+  background: linear-gradient(135deg, var(--assistant-primary-light) 0%, #3182ce 100%);
+  /* Darker hover */
+  transform: scale(1.05);
+  /* Slightly more scale */
+  box-shadow: var(--shadow-md);
+}
+
+body.dark-mode #uploadButton {
+  background: var(--assistant-gradient-dark);
+  color: var(--text-dark);
+}
+
+body.dark-mode #uploadButton:hover:not(:disabled) {
+  background: linear-gradient(135deg, var(--assistant-primary-dark) 0%, #63b3ed 100%);
+  /* Lighter hover */
+}
+
+/* Media query for responsiveness */
+@media (max-width: 600px) {
+  #uploadButton {
+    width: 40px;
+    /* Smaller on small screens */
+    height: 40px;
+    font-size: 1rem;
+    /* Smaller icon */
+  }
+
+  /* Hide text if it was ever shown */
+  #uploadButton span {
+    display: none;
+  }
+}
+
+
+#eq-uploadButton {
+  /* Apply Maintenance colors */
+  background: var(--maintenance-gradient-light);
+  color: white;
+  border: none;
+}
+
+#eq-uploadButton:hover:not(:disabled) {
+  background: linear-gradient(135deg, var(--maintenance-primary-light) 0%, #dd6b20 100%);
+  /* Darker hover */
+  transform: scale(1.05);
+  box-shadow: var(--shadow-md);
+}
+
+body.dark-mode #eq-uploadButton {
+  background: var(--maintenance-gradient-dark);
+  color: var(--text-dark);
+}
+
+body.dark-mode #eq-uploadButton:hover:not(:disabled) {
+  background: linear-gradient(135deg, var(--maintenance-primary-dark) 0%, #f6ad55 100%);
+  /* Lighter hover */
+}
+
+/* Round File Toggle Buttons */
+.file-toggle-button,
+#toggle-equipment-files {
+  border-radius: var(--border-radius-full);
+  width: 48px;
+  /* Match upload button size */
+  height: 48px;
+  padding: 0 !important;
+  /* Remove padding, override potential !important */
+  display: flex;
+  /* Center content */
+  align-items: center;
+  /* Center content */
+  justify-content: center;
+  /* Center content */
+  font-size: 1.1rem !important;
+  /* Adjust icon size */
+  position: relative;
+  flex-shrink: 0;
+  /* Prevent shrinking */
+  transition: all var(--transition-speed-normal) var(--transition-timing);
+  /* Add transition */
+}
+
+/* Adjust badge position for round button */
+.file-toggle-button #assistant-file-count,
+.file-toggle-button #eq-file-count,
+#toggle-equipment-files #equipment-file-count {
+  /* Combined selector */
+  top: 2px;
+  /* Adjust position */
+  right: 2px;
+  width: 20px;
+  /* Slightly larger badge */
+  height: 20px;
+  font-size: 0.75rem;
+  /* Larger font */
+  line-height: 20px;
+  /* Center text vertically */
+  background-color: var(--danger-color);
+  /* Make badge stand out */
+  color: white;
+  border-radius: 50%;
+}
+
+/* Assistant File Toggle */
+.file-toggle-button {
+  /* Refers to #toggle-assistant-files */
+  background-color: var(--button-control-bg-light);
+  color: var(--assistant-primary-light);
+  border: 1px solid var(--assistant-primary-light);
+}
+
+.file-toggle-button:hover:not(:disabled) {
+  background-color: var(--assistant-bg-light);
+  transform: scale(1.05);
+}
+
+body.dark-mode .file-toggle-button {
+  background-color: var(--button-control-bg-dark);
+  color: var(--assistant-primary-dark);
+  border: 1px solid var(--assistant-primary-dark);
+}
+
+body.dark-mode .file-toggle-button:hover:not(:disabled) {
+  background-color: var(--assistant-bg-dark);
+  transform: scale(1.05);
+}
+
+/* Maintenance File Toggle */
+#toggle-equipment-files {
+  background-color: var(--button-control-bg-light);
+  color: var(--maintenance-primary-light);
+  border: 1px solid var(--maintenance-primary-light);
+}
+
+#toggle-equipment-files:hover:not(:disabled) {
+  background-color: var(--maintenance-bg-light);
+  transform: scale(1.05);
+}
+
+body.dark-mode #toggle-equipment-files {
+  background-color: var(--button-control-bg-dark);
+  color: var(--maintenance-primary-dark);
+  border: 1px solid var(--maintenance-primary-dark);
+}
+
+body.dark-mode #toggle-equipment-files:hover:not(:disabled) {
+  background-color: var(--maintenance-bg-dark);
+  transform: scale(1.05);
+}
+
+/* Hide default file input */
+#fileInput,
+#eq-fileInput {
+  display: none;
+}
+
+/* File Display Container */
+.file-display-container {
+  border: 1px solid var(--input-border-light);
+  border-radius: var(--border-radius-lg);
+  /* More rounded */
+  background-color: rgba(255, 255, 255, 0.6);
+  /* More transparent */
+  max-height: 0;
+  /* Start collapsed */
+  overflow: hidden;
+  /* Hide content when collapsed */
+  opacity: 0;
+  /* Start hidden */
+  transform: translateY(-10px);
+  transition: max-height var(--transition-speed-smooth) var(--transition-timing-fluent),
+    opacity var (--transition-speed-smooth) var(--transition-timing-fluent),
+    transform var(--transition-speed-smooth) var(--transition-timing-fluent),
+    padding var(--transition-speed-smooth) var(--transition-timing-fluent),
+    margin var(--transition-speed-smooth) var(--transition-timing-fluent);
+  /* Corrected timing variable */
+  padding: 0;
+  /* Remove padding when collapsed */
+  margin-top: 0;
+  /* Remove margin when collapsed */
+  backdrop-filter: blur(3px);
+  /* Subtle blur */
+}
+
+.file-display-container.visible {
+  max-height: 300px;
+  /* Expand to max height */
+  opacity: 1;
+  /* Fade in */
+  transform: translateY(0);
+  padding: 1.2rem;
+  /* Increased padding */
+  margin-top: 0.5rem;
+  /* Restore margin */
+}
+
+.file-display-container h4 {
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+  font-size: 0.95rem;
+  /* Slightly larger */
+  font-weight: 600;
+  /* Less bold */
+  color: var(--text-muted-light);
+}
+
+.file-display-container ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-height: 150px;
+  /* Limit height and allow scroll */
+  overflow-y: auto;
+  padding-right: 5px;
+  /* Space for scrollbar */
+}
+
+.file-display-container li {
+  margin-bottom: 0.5rem;
+  /* Increased spacing */
+  background-color: rgba(237, 242, 247, 0.9);
+  /* Use control bg color */
+  padding: 0.5rem 1rem;
+  /* Increased padding */
+  border-radius: var(--border-radius-md);
+  /* Consistent rounding */
+  font-family: 'Poppins', 'Inter', sans-serif;
+  /* Inherited */
+  font-weight: 300;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.9em;
+}
+
+.file-display-container li:last-child {
+  margin-bottom: 0;
+}
+
+.file-display-container li .file-icon {
+  margin-right: 0.5rem;
+  color: var(--text-muted-light);
+  font-size: 0.9rem;
+}
+
+/* Icon colors - Avoid !important if possible */
+.file-display-container li .file-icon.fa-check-circle {
+  color: var(--success-color);
+}
+
+.file-display-container li .file-icon.fa-exclamation-triangle {
+  color: var(--warning-color);
+}
+
+.file-display-container li .file-icon.fa-times-circle {
+  color: var(--danger-color);
+}
+
+.file-display-container li .file-name {
+  flex-grow: 1;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.file-display-container li .remove-file-btn {
+  background: none;
+  border: none;
+  color: var(--text-muted-light);
+  cursor: pointer;
+  padding: 0.2rem 0.4rem;
+  margin-left: 0.5rem;
+  font-size: 0.9rem;
+  line-height: 1;
+  border-radius: var(--border-radius-sm);
+  transition: color var(--transition-speed-fast), background-color var(--transition-speed-fast);
+}
+
+.file-display-container li .remove-file-btn:hover {
+  color: var(--danger-color);
+  background-color: rgba(244, 63, 94, 0.1);
+}
+
+/* Dark Mode File Display */
+body.dark-mode .file-display-container {
+  border-color: var(--input-border-dark);
+  background-color: rgba(45, 55, 72, 0.6);
+  /* Dark transparent */
+  backdrop-filter: blur(3px);
+}
+
+body.dark-mode .file-display-container h4 {
+  color: var(--text-muted-dark);
+}
+
+body.dark-mode .file-display-container li {
+  background-color: rgba(26, 32, 44, 0.9);
+  /* Darker item bg */
+}
+
+body.dark-mode .file-display-container li .file-icon {
+  color: var(--text-muted-dark);
+}
+
+body.dark-mode .file-display-container li .remove-file-btn {
+  color: var(--text-muted-dark);
+}
+
+body.dark-mode .file-display-container li .remove-file-btn:hover {
+  color: #fda4af;
+  /* Consider using a variable */
+  background-color: rgba(253, 164, 175, 0.15);
+}
+
+/* File List (within container) */
+#file-list,
+#eq-file-list {
+  position: static;
+  display: block;
+  border: none;
+  padding: 0;
+  margin: 0;
+  max-height: none;
+  overflow-y: visible;
+  background-color: transparent;
+  box-shadow: none;
+  width: 100%;
+}
+
+/* Contenedor Textarea + Botón Enviar */
+.input-container {
+  display: flex;
+  width: 100%;
+  border: 1px solid var(--input-border-light);
+  border-radius: var(--border-radius-xl);
+  /* More rounded */
+  overflow: hidden;
+  align-items: stretch;
+  background-color: var(--input-bg-light);
+  /* Use variable with transparency */
+  backdrop-filter: blur(8px);
+  /* Stronger blur for input */
+  box-shadow: var(--shadow-md);
+  /* Slightly stronger shadow */
+  position: relative;
+  transition: all var(--transition-speed-normal);
+}
+
+/* Universal Input Focus */
+.input-container:focus-within,
+.equipment-input-container:focus-within {
+  border-color: var(--assistant-primary-light);
+  /* Use assistant color for focus */
+  box-shadow: 0 0 0 3px var(--assistant-focus-shadow-light), var(--shadow-lg);
+  transform: translateY(-1px) scale(1.01);
+  /* Subtle lift and scale */
+}
+
+body.dark-mode .input-container {
+  border-color: var(--input-border-dark);
+  background-color: var(--input-bg-dark);
+  /* Use dark variable */
+  backdrop-filter: blur(8px);
+}
+
+/* Universal Input Focus Dark */
+body.dark-mode .input-container:focus-within,
+body.dark-mode .equipment-input-container:focus-within {
+  border-color: var(--assistant-primary-dark);
+  /* Use assistant dark color */
+  box-shadow: 0 0 0 3px var(--assistant-focus-shadow-dark), var(--shadow-lg);
+}
+
+textarea#questionInput {
+  flex: 1;
+  padding: 0.9rem 1.1rem;
+  border: none;
+  font-size: 1.05rem;
+  /* Slightly larger font */
+  background-color: transparent;
+  color: var(--text-light);
+  font-family: 'Inter', sans-serif;
+  /* Inherited */
+  resize: none;
+  overflow-y: hidden;
+  min-height: 55px;
+  /* Slightly taller */
+  max-height: 180px;
+  /* Allow more height */
+  line-height: 1.6;
+  box-sizing: border-box;
+  display: block;
+}
+
+textarea#questionInput:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+body.dark-mode textarea#questionInput {
+  color: var(--text-dark);
+}
+
+textarea#questionInput::placeholder {
+  color: var(--text-muted-light);
+  transition: color var(--transition-speed-normal) ease;
+}
+
+body.dark-mode textarea#questionInput::placeholder {
+  color: var(--text-muted-dark);
+}
+
+textarea#questionInput:focus::placeholder {
+  color: transparent;
+}
+
+/* Universal Send Button Style */
+#sendButton,
+#sendEquipmentQuestionButton {
+  padding: 0 1.2rem;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 1.05rem;
+  /* Match textarea */
+  font-family: 'Inter', sans-serif;
+  /* Inherited */
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 55px;
+  /* Match textarea */
+  border-left: 1px solid var(--input-border-light);
+  transition: all var(--transition-speed-fast) var(--transition-timing);
+  width: auto;
+  border-radius: 0 var(--border-radius-xl) var(--border-radius-xl) 0;
+  /* Round outer corners */
+  box-shadow: none;
+}
+
+/* Dark Mode Send Button */
+body.dark-mode #sendButton,
+body.dark-mode #sendEquipmentQuestionButton {
+  border-left-color: var(--input-border-dark);
+}
+
+/* Send Button Hover */
+#sendButton:hover:not(:disabled),
+#sendEquipmentQuestionButton:hover:not(:disabled) {
+  transform: scale(1.03);
+  /* Slightly less scale */
+  box-shadow: -4px 0px 12px var(--shadow-color-light);
+  /* Adjusted shadow */
+  filter: brightness(1.1);
+  /* Add brightness effect */
+}
+
+/* Dark Mode Send Button Hover */
+body.dark-mode #sendButton:hover:not(:disabled),
+body.dark-mode #sendEquipmentQuestionButton:hover:not(:disabled) {
+  box-shadow: -4px 0px 12px var(--shadow-color-dark);
+  filter: brightness(1.15);
+}
+
+/* Send Button Active */
+#sendButton:active:not(:disabled),
+#sendEquipmentQuestionButton:active:not(:disabled) {
+  transform: scale(0.98);
+  /* Scale down slightly */
+  opacity: 0.95;
+  box-shadow: none;
+  filter: brightness(0.95);
+}
+
+/* Send Button Disabled */
+#sendButton:disabled,
+#sendEquipmentQuestionButton:disabled {
+  background: var(--text-muted-light);
+  cursor: not-allowed;
+  transform: none;
+  opacity: 0.5;
+  /* Less opaque */
+  box-shadow: none;
+}
+
+body.dark-mode #sendButton:disabled,
+body.dark-mode #sendEquipmentQuestionButton:disabled {
+  background: var(--text-muted-dark);
+  opacity: 0.4;
+}
+
+/* Send Button Icon */
+#sendButton i,
+#sendEquipmentQuestionButton i {
+  font-size: 1.2rem;
+  /* Larger icon */
+  transition: transform 0.2s ease;
+}
+
+#sendButton:hover:not(:disabled) i,
+#sendEquipmentQuestionButton:hover:not(:disabled) i {
+  transform: translateX(3px) scale(1.1);
+  /* More movement */
+}
+
+/* Apply Assistant colors to main send button */
+#sendButton {
+  background: var(--assistant-gradient-light);
+}
+
+#sendButton:hover:not(:disabled) {
+  background: linear-gradient(135deg, var(--assistant-primary-light) 0%, #2563eb 100%);
+}
+
+body.dark-mode #sendButton {
+  background: var(--assistant-gradient-dark);
+}
+
+body.dark-mode #sendButton:hover:not(:disabled) {
+  background: linear-gradient(135deg, var(--assistant-primary-dark) 0%, #93c5fd 100%);
+}
+
+/* Apply Maintenance colors to equipment send button */
+#sendEquipmentQuestionButton {
+  background: var(--maintenance-gradient-light);
+}
+
+#sendEquipmentQuestionButton:hover:not(:disabled) {
+  background: linear-gradient(135deg, var(--maintenance-primary-light) 0%, #ea580c 100%);
+}
+
+body.dark-mode #sendEquipmentQuestionButton {
+  background: var(--maintenance-gradient-dark);
+}
+
+body.dark-mode #sendEquipmentQuestionButton:hover:not(:disabled) {
+  background: linear-gradient(135deg, var(--maintenance-primary-dark) 0%, #fdba74 100%);
+}
+
+/* Assistant Active Chat Control */
+.tab-content[data-tab-content="assistant"] .chat-controls .control-button.active {
+  background-color: var(--assistant-primary-light);
+  color: white;
+  border-color: var(--assistant-primary-light);
+}
+
+/* Maintenance Active Chat Control */
+.tab-content[data-tab-content="maintenance"] .equipment-controls .control-button.active {
+  background-color: var(--maintenance-primary-light);
+  color: white;
+  border-color: var(--maintenance-primary-light);
+}
+
+/* Dark Mode Active Chat Control */
+body.dark-mode .tab-content[data-tab-content="assistant"] .chat-controls .control-button.active {
+  background-color: var(--assistant-primary-dark);
+  color: var(--text-dark);
+  border-color: var(--assistant-primary-dark);
+}
+
+body.dark-mode .tab-content[data-tab-content="maintenance"] .equipment-controls .control-button.active {
+  background-color: var(--maintenance-primary-dark);
+  color: var(--text-dark);
+  border-color: var(--maintenance-primary-dark);
+}
+
+/* --- Toggle Dark Mode --- */
+#dark-mode-toggle {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  padding: 0.5rem;
+  background-color: transparent;
+  color: var(--text-muted-light);
+  border: 1px solid transparent;
+  border-radius: var(--border-radius-full);
+  cursor: pointer;
+  font-size: 1.2rem;
+  width: 48px;
+  /* Match other round buttons */
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  transition: all var(--transition-speed-normal) var(--transition-timing);
+}
+
+body.dark-mode #dark-mode-toggle {
+  color: var(--text-muted-dark);
+}
+
+#dark-mode-toggle:hover {
+  color: var(--assistant-primary-light);
+  background-color: rgba(66, 153, 225, 0.1);
+  /* Use primary color rgba */
+  border-color: rgba(66, 153, 225, 0.2);
+  transform: rotate(15deg) scale(1.15);
+  /* More rotation/scale */
+}
+
+body.dark-mode #dark-mode-toggle:hover {
+  color: var(--assistant-primary-dark);
+  background-color: rgba(99, 179, 237, 0.1);
+  border-color: rgba(99, 179, 237, 0.2);
+}
+
+/* --- Sección de Tips de Mantenimiento --- */
+#maintenance-tips-section {
+  background-color: var(--card-bg-light);
+  border-color: var(--card-border-light);
+}
+
+body.dark-mode #maintenance-tips-section {
+  background-color: var(--card-bg-dark);
+  border-color: var(--card-border-dark);
+}
+
+@keyframes pulse {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.6;
+  }
+}
+
+#maintenance-tips-content {
+  overflow-y: auto;
+  flex-grow: 1;
+  font-size: 1rem;
+  /* Slightly larger */
+  line-height: 1.7;
+  padding: 0.5rem 10px 0.5rem 0;
+  min-height: 150px;
+  /* Increased height */
+  color: var(--text-light);
+}
+
+body.dark-mode #maintenance-tips-content {
+  color: var(--text-dark);
+}
+
+/* Tips Item */
+.tab-content[data-tab-content="tips"] #maintenance-tips-content .tip-item {
+  padding: 1.2rem 1.5rem;
+  /* Increased padding */
+  background-color: rgba(72, 187, 120, 0.08);
+  /* Use tips color rgba */
+  border-left: 5px solid var(--tips-primary-light);
+  /* Thicker border */
+  border-radius: 0 var(--border-radius-lg) var(--border-radius-lg) 0;
+  /* More rounded */
+  margin-bottom: 1rem;
+  opacity: 0;
+  transform: translateX(-20px);
+  animation: slideInFade 0.5s var(--transition-timing) forwards;
+  box-shadow: var(--shadow-md);
+  /* Add shadow */
+  position: relative;
+  overflow: hidden;
+}
+
+.tab-content[data-tab-content="tips"] #maintenance-tips-content .tip-item:hover {
+  transform: translateX(5px) scale(1.02);
+  /* More subtle transform */
+  box-shadow: var(--shadow-lg);
+  border-left-color: #38a169;
+  /* Darker green */
+  background-color: rgba(72, 187, 120, 0.12);
+}
+
+body.dark-mode .tab-content[data-tab-content="tips"] #maintenance-tips-content .tip-item {
+  background-color: rgba(104, 211, 145, 0.1);
+  /* Use dark tips color rgba */
+  border-left-color: var(--tips-primary-dark);
+  box-shadow: none;
+}
+
+body.dark-mode .tab-content[data-tab-content="tips"] #maintenance-tips-content .tip-item:hover {
+  border-left-color: #9ae6b4;
+  /* Lighter green */
+  background-color: rgba(104, 211, 145, 0.15);
+}
+
+#maintenance-tips-content .tip-item p {
+  margin-bottom: 0.5em;
+}
+
+#maintenance-tips-content .tip-item p:last-child {
+  margin-bottom: 0;
+}
+
+.tab-content[data-tab-content="tips"] #maintenance-tips-content .tip-item strong {
+  color: inherit;
+  font-weight: 600;
+}
+
+#maintenance-tips-loading,
+#equipmentLoading {
+  /* Combined loading styles */
+  text-align: center;
+  color: var(--text-muted-light);
+  padding: 2.5rem;
+  font-size: 0.9rem;
+  display: none;
+  /* Initially hidden */
+  margin: 1.5rem 0;
+}
+
+#maintenance-tips-loading i,
+#equipmentLoading i {
+  margin-right: 0.5em;
+  animation: spin 1.5s linear infinite;
+}
+
+body.dark-mode #maintenance-tips-loading,
+body.dark-mode #equipmentLoading {
+  color: var(--text-muted-dark);
+}
+
+/* General Error Message Style */
+.error-message {
+  color: var (--danger-color);
+  background-color: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  padding: 0.8rem 1.2rem;
+  border-radius: var(--border-radius-md);
+  margin: 1rem 0;
+  font-size: 0.9rem;
+  font-weight: 500;
+  display: none;
+  /* Initially hidden */
+  opacity: 0;
+  transition: opacity var(--transition-speed-normal);
+}
+
+body.dark-mode .error-message {
+  background-color: rgba(248, 113, 113, 0.15);
+  color: #fca5a5;
+  border-color: rgba(248, 113, 113, 0.4);
+}
+
+/* Specific Error Placeholders (inherit general style) */
+/* Ensure elements with IDs #maintenance-tips-error, #equipmentError, #error-message
+   also have the .error-message class in the HTML to inherit styles. */
+
+
+#regenerate-tip-button {
+  margin-top: 1.5rem;
+  padding: 0.8rem 1.6rem;
+  /* Increased padding */
+  border: none;
+  border-radius: var(--border-radius-lg);
+  /* More rounded */
+  cursor: pointer;
+  font-size: 1rem;
+  /* Larger font */
+  font-weight: 500;
+  font-family: 'Inter', sans-serif;
+  /* Inherited */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  width: max-content;
+  align-self: center;
+  box-shadow: var(--shadow-md);
+  background: var(--tips-gradient-light);
+  /* Use gradient */
+  color: white;
+  transition: all var(--transition-speed-normal) var(--transition-timing);
+  /* Use standard transition */
+}
+
+#regenerate-tip-button i {
+  transition: transform 0.3s ease;
+}
+
+#regenerate-tip-button:hover:not(:disabled) {
+  background: linear-gradient(135deg, var(--tips-primary-light) 0%, #38a169 100%);
+  /* Darker gradient */
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-2px);
+  /* Lift effect */
+}
+
+#regenerate-tip-button:hover:not(:disabled) i {
+  transform: rotate(180deg);
+}
+
+#regenerate-tip-button:active:not(:disabled) {
+  transform: translateY(0px) scale(0.97);
+  box-shadow: var(--shadow-inner);
+}
+
+#regenerate-tip-button:disabled {
+  background-color: #d1fae5;
+  /* Consider using a variable */
+  color: #065f46;
+  /* Consider using a variable */
+  cursor: not-allowed;
+  transform: none;
+  opacity: 0.7;
+  box-shadow: none;
+}
+
+body.dark-mode #regenerate-tip-button {
+  background-color: var(--tips-primary-dark);
+  color: var(--text-dark);
+  box-shadow: none;
+}
+
+body.dark-mode #regenerate-tip-button:hover:not(:disabled) {
+  background-color: #4ade80;
+  /* Consider using a variable */
+}
+
+body.dark-mode #regenerate-tip-button:disabled {
+  background-color: #14532d;
+  /* Consider using a variable */
+  color: #6ee7b7;
+  /* Consider using a variable */
+  opacity: 0.5;
+}
+
+/* --- SECCIÓN: MANTENIMIENTO ESPECÍFICO --- */
+.equipment-input-group {
+  margin-bottom: 1.2rem;
+}
+
+.equipment-input-group label {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-muted-light);
+}
+
+.equipment-input-group label i {
+  margin-right: 0.5em;
+  font-size: 0.9em;
+  opacity: 0.7;
+}
+
+body.dark-mode .equipment-input-group label {
+  color: var(--text-muted-dark);
+}
+
+.equipment-input-group input[type="text"] {
+  width: 100%;
+  padding: 0.9rem 1.1rem;
+  /* Increased padding */
+  font-size: 1rem;
+  /* Standard font size */
+  border-radius: var(--border-radius-lg);
+  /* More rounded */
+  border: 1px solid var(--input-border-light);
+  background-color: var(--input-bg-light);
+  /* Use transparent bg */
+  color: var(--text-light);
+  font-family: 'Inter', sans-serif;
+  /* Inherited */
+  box-shadow: var(--shadow-inner);
+  transition: all var(--transition-speed-normal) var(--transition-timing);
+  /* Add transition */
+}
+
+/* Maintenance Input Focus */
+.tab-content[data-tab-content="maintenance"] .equipment-input-group input[type="text"]:focus {
+  border-color: var(--maintenance-primary-light);
+  box-shadow: 0 0 0 3px var(--maintenance-focus-shadow-light), var(--shadow-inner);
+  background-color: rgba(255, 255, 255, 0.9);
+  /* Less transparent on focus */
+}
+
+body.dark-mode .tab-content[data-tab-content="maintenance"] .equipment-input-group input[type="text"]:focus {
+  border-color: var(--maintenance-primary-dark);
+  box-shadow: 0 0 0 3px var(--maintenance-focus-shadow-dark);
+  background-color: rgba(45, 55, 72, 0.8);
+  /* Less transparent on focus */
+}
+
+body.dark-mode .equipment-input-group input[type="text"] {
+  border-color: var(--input-border-dark);
+  background-color: var(--input-bg-dark);
+  /* Use dark transparent bg */
+  color: var(--text-dark);
+  box-shadow: none;
+}
+
+#maintenance-type-selector {
+  margin-bottom: 1.5rem;
+}
+
+/* Use legend for fieldset */
+#maintenance-type-selector legend {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.8rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-muted-light);
+  padding: 0;
+  /* Reset default legend padding */
+}
+
+#maintenance-type-selector legend i {
+  margin-right: 0.5em;
+  font-size: 0.9em;
+  opacity: 0.7;
+}
+
+body.dark-mode #maintenance-type-selector legend {
+  color: var (--text-muted-dark);
+}
+
+.maintenance-buttons {
+  display: flex;
+  gap: 1rem;
+  /* Increased gap */
+  flex-wrap: wrap;
+}
+
+.maintenance-button {
+  flex: 1;
+  padding: 0.8rem 1.1rem;
+  /* Increased padding */
+  background-color: var(--button-control-bg-light);
+  color: var (--button-control-text-light);
+  border: 1px solid var(--button-control-border-light);
+  border-radius: var(--border-radius-lg);
+  /* More rounded */
+  cursor: pointer;
+  font-size: 0.95rem;
+  /* Slightly larger */
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  text-align: center;
+  min-width: 120px;
+  /* Slightly wider */
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-speed-normal) var(--transition-timing);
+  /* Use standard transition */
+}
+
+.maintenance-button i {
+  font-size: 0.95em;
+  opacity: 0.8;
+}
+
+.maintenance-button:hover:not(.active):not(:disabled) {
+  background-color: var(--button-control-hover-bg-light);
+  border-color: #94a3b8;
+  /* Consider variable */
+  color: var(--text-light);
+  /* Use defined variable */
+  transform: translateY(-2px);
+  /* Lift effect */
+  box-shadow: var(--shadow-md);
+}
+
+/* Maintenance Button Active */
+.maintenance-button.active {
+  background: var(--maintenance-gradient-light);
+  /* Use gradient */
+  color: white;
+  border-color: transparent;
+  font-weight: 600;
+  transform: scale(1.02);
+  /* Less scale */
+  box-shadow: var(--shadow-inner);
+  /* Inner shadow */
+}
+
+body.dark-mode .maintenance-button {
+  background-color: var(--button-control-bg-dark);
+  color: var(--button-control-text-dark);
+  border-color: var(--button-control-border-dark);
+  box-shadow: none;
+}
+
+body.dark-mode .maintenance-button:hover:not(.active):not(:disabled) {
+  background-color: var(--button-control-hover-bg-dark);
+  border-color: #64748b;
+  /* Consider variable */
+  color: var(--text-dark);
+  /* Use defined variable */
+  transform: translateY(-1px);
+}
+
+/* Dark Mode Maintenance Button Active */
+body.dark-mode .maintenance-button.active {
+  background: var(--maintenance-gradient-dark);
+  /* Use dark gradient */
+  color: var (--text-dark);
+  border-color: transparent;
+  transform: scale(1.02);
+  box-shadow: var(--shadow-inner);
+}
+
+.maintenance-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+  background-color: var(--button-control-bg-light);
+  color: var(--button-control-text-light);
+}
+
+body.dark-mode .maintenance-button:disabled {
+  background-color: var(--button-control-bg-dark);
+  color: var(--button-control-text-dark);
+  opacity: 0.4;
+}
+
+/* Wrapper para controles de equipo */
+.equipment-controls-wrapper {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  /* Increased padding */
+  background-color: rgba(255, 250, 240, 0.6);
+  /* Use maintenance bg rgba */
+  border-radius: var(--border-radius-lg);
+  /* More rounded */
+  border: 1px solid var(--maintenance-bg-light);
+  /* Use maintenance bg for border */
+  backdrop-filter: blur(3px);
+  /* Subtle blur */
+}
+
+body.dark-mode .equipment-controls-wrapper {
+  background-color: rgba(158, 100, 80, 0);
+  /* Use dark maintenance bg rgba */
+
+  backdrop-filter: blur(3px);
+}
+
+/* Controles dentro del wrapper de equipo */
+.equipment-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  /* Increased gap */
+  align-items: center;
+  justify-content: center;
+  /* Center buttons */
+}
+
+/* Área de pregunta de equipo */
+#equipment-question-area {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  /* Increased gap */
+}
+
+/* Contenedor de input de equipo */
+.equipment-input-container {
+  display: flex;
+  width: 100%;
+  border: 1px solid var(--input-border-light);
+  border-radius: var(--border-radius-xl);
+  overflow: hidden;
+  align-items: stretch;
+  background-color: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(12px);
+  /* Performance: Use with caution */
+  box-shadow: var(--shadow-sm);
+  position: relative;
+  transition: all var(--transition-speed-normal);
+}
+
+/* Maintenance Input Container Focus */
+.tab-content[data-tab-content="maintenance"] .equipment-input-container:focus-within {
+  border-color: var(--maintenance-primary-light);
+  /* Use maintenance color */
+  box-shadow: 0 0 0 3px var(--maintenance-focus-shadow-light), var(--shadow-lg);
+}
+
+body.dark-mode .tab-content[data-tab-content="maintenance"] .equipment-input-container:focus-within {
+  border-color: var(--maintenance-primary-dark);
+  box-shadow: 0 0 0 3px var(--maintenance-focus-shadow-dark), var(--shadow-lg);
+}
+
+body.dark-mode .equipment-input-container {
+  border-color: var(--input-border-dark);
+  background-color: var(--input-bg-dark);
+  backdrop-filter: none;
+  /* Remove backdrop in dark mode if desired */
+}
+
+/* Textarea de equipo */
+#equipmentQuestionInput {
+  flex: 1;
+  padding: 0.9rem 1.1rem;
+  border: none;
+  font-size: 1.05rem;
+  /* Slightly larger font */
+  background-color: transparent;
+  color: var(--text-light);
+  font-family: 'Inter', sans-serif;
+  /* Inherited */
+  resize: vertical;
+  /* Allow vertical resize */
+  overflow-y: auto;
+  /* Show scrollbar when needed */
+  min-height: 100px;
+  /* Taller min height */
+  max-height: 250px;
+  /* Taller max height */
+  line-height: 1.6;
+  box-sizing: border-box;
+  display: block;
+  margin-bottom: 0;
+  box-shadow: none;
+  border-radius: 0;
+}
+
+#equipmentQuestionInput:focus {
+  outline: none;
+  box-shadow: none;
+  background-color: transparent;
+}
+
+body.dark-mode #equipmentQuestionInput {
+  color: var(--text-dark);
+}
+
+body.dark-mode #equipmentQuestionInput:focus {
+  background-color: transparent;
+}
+
+#equipmentQuestionInput::placeholder {
+  color: var(--text-muted-light);
+}
+
+body.dark-mode #equipmentQuestionInput::placeholder {
+  color: var(--text-muted-dark);
+}
+
+/* Botón de envío de equipo */
+#sendEquipmentQuestionButton i {
+  font-size: 1em;
+  /* Match text size */
+}
+
+#sendEquipmentQuestionButton:active:not(:disabled) {
+  transform: scale(1);
+  opacity: 0.9;
+  box-shadow: none;
+}
+
+/* Disabled state inherits general disabled button style from the combined selector above */
+/* Dark mode disabled state also inherits from the combined selector */
+
+#sendEquipmentQuestionButton i {
+  font-size: 1.2rem;
+  transition: transform 0.2s ease;
+}
+
+#sendEquipmentQuestionButton:hover:not(:disabled) i {
+  transform: translateX(3px) scale(1.1);
+}
+
+/* Respuesta específica de equipo */
+#equipmentResponseDisplay {
+  margin-top: 1.5rem;
+  padding: 1.5rem;
+  /* Increased padding */
+  background-color: rgba(255, 250, 240, 0.9);
+  /* Use maintenance bg rgba */
+  border-radius: var(--border-radius-lg);
+  /* More rounded */
+  border: 1px solid var(--maintenance-bg-light);
+  /* Use maintenance bg for border */
+  backdrop-filter: blur(5px);
+  /* Subtle blur */
+  min-height: 120px;
+  /* Increased min height */
+  font-size: 1rem;
+  /* Standard font size */
+  line-height: 1.7;
+  word-wrap: break-word;
+  color: var(--text-light);
+  display: none;
+  /* Initially hidden */
+  opacity: 0;
+  animation: fadeInSmooth 0.8s var(--transition-timing) forwards;
+  box-shadow: var(--shadow-md);
+  /* Add shadow */
+}
+
+body.dark-mode #equipmentResponseDisplay {
+  background-color: rgba(123, 52, 30, 0.8);
+  /* Dark maintenance bg rgba */
+  border-color: var(--maintenance-bg-dark);
+  color: var(--text-dark);
+  box-shadow: none;
+  backdrop-filter: blur(5px);
+}
+
+/* Apply improved formatting styles to equipment response */
+#equipmentResponseDisplay p {
+  margin-bottom: 1em;
+}
+
+#equipmentResponseDisplay p:last-child {
+  margin-bottom: 0;
+}
+
+#equipmentResponseDisplay code {
+  font-family: 'Roboto Mono', monospace;
+  background-color: rgba(237, 242, 247, 0.8);
+  color: var(--text-light);
+  padding: 0.25em 0.5em;
+  border-radius: var(--border-radius-sm);
+}
+
+#equipmentResponseDisplay pre {
+  background-color: rgba(237, 242, 247, 0.9);
+  border: 1px solid var(--input-border-light);
+  padding: 1.2em 1.5em;
+  border-radius: var(--border-radius-lg);
+  overflow-x: auto;
+}
+
+#equipmentResponseDisplay table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid var(--card-border-light);
+}
+
+#equipmentResponseDisplay th {
+  background-color: var(--bg-light);
+  padding: 0.8em 1.1em;
+  text-align: left;
+  font-weight: 600;
+}
+
+#equipmentResponseDisplay td {
+  padding: 0.8em 1.1em;
+  border-bottom: 1px solid var(--card-border-light);
+}
+
+#equipmentResponseDisplay ul {
+  list-style: disc;
+  padding-left: 1.5em;
+}
+
+#equipmentResponseDisplay ol {
+  list-style: decimal;
+  padding-left: 1.5em;
+}
+
+#equipmentResponseDisplay li {
+  margin-bottom: 0.5em;
+}
+
+/* Ensure list markers use maintenance color (already handled above) */
+
+
+/* --- References Panel / Modal --- */
+.references-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 350px;
+  /* Wider panel */
+  max-width: 90%;
+  height: 100%;
+  background-color: var(--card-bg-light);
+  /* Use card bg */
+  border-left: 1px solid var(--card-border-light);
+  box-shadow: -5px 0 15px var(--shadow-color-light);
+  /* Stronger shadow */
+  transform: translateX(100%);
+  opacity: 0;
+  /* Start hidden */
+  transition: transform var(--transition-speed-smooth) var(--transition-timing-fluent),
+    /* Use fluent timing */
+    opacity var(--transition-speed-smooth) var(--transition-timing-fluent),
+    background-color var(--transition-speed-smooth) var(--transition-timing-fluent);
+  /* Ensure opacity transition */
+  z-index: 200;
+  display: flex;
+  /* Keep flex for internal layout */
+  flex-direction: column;
+  backdrop-filter: blur(10px);
+  /* Add blur */
+}
+
+.references-panel.open {
+  transform: translateX(0);
+  opacity: 1;
+  /* Fade in */
+}
+
+body.dark-mode .references-panel {
+  background-color: var(--card-bg-dark);
+  border-left: 1px solid var(--card-border-dark);
+  box-shadow: -5px 0 15px var(--shadow-color-dark);
+  backdrop-filter: blur(10px);
+}
+
+.references-content {
+  padding: 1.5rem;
+  /* Increased padding */
+  overflow-y: auto;
+  flex-grow: 1;
+}
+
+#close-references {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  font-size: 1.4rem;
+  /* Larger icon */
+  cursor: pointer;
+  color: var(--text-muted-light);
+  /* Use muted color */
+  transition: all var(--transition-speed-fast) var(--transition-timing);
+}
+
+#close-references:hover {
+  color: var(--danger-color);
+  /* Red on hover */
+  transform: scale(1.1) rotate(90deg);
+}
+
+body.dark-mode #close-references {
+  color: var(--text-muted-dark);
+}
+
+body.dark-mode #close-references:hover {
+  color: var(--danger-color);
+  /* Keep red */
+}
+
+#references-list {
+  list-style: none;
+  padding: 0;
+  margin-top: 3.5rem;
+  /* Adjust for larger close button/title */
+  /* Space for title/close button */
+}
+
+#references-list li {
+  margin-bottom: 1.2rem;
+  /* Increased spacing */
+  padding: 0.5rem 0;
+  border-bottom: 1px dashed var(--input-border-light);
+  /* Add separator */
+}
+
+#references-list li:last-child {
+  border-bottom: none;
+}
+
+#references-list a {
+  color: var(--primary-light);
+  /* Use primary color for links */
+  text-decoration: none;
+  /* Remove underline */
+  font-weight: 500;
+  word-break: break-all;
+  transition: color var(--transition-speed-fast);
+}
+
+#references-list a:hover {
+  color: #2b6cb0;
+  /* Darker blue */
+  text-decoration: underline;
+  /* Underline on hover */
+}
+
+body.dark-mode #references-list li {
+  border-bottom-color: var(--input-border-dark);
+}
+
+body.dark-mode #references-list a {
+  color: var(--primary-dark);
+}
+
+body.dark-mode #references-list a:hover {
+  color: #90cdf4;
+  /* Lighter blue */
+}
+
+/* --- Responsive Tables in Responses --- */
+.response table,
+#equipmentResponseDisplay table {
+  /* Apply to both */
+  width: 100%;
+  border-collapse: separate;
+  /* Use separate for spacing and radius */
+  border-spacing: 0;
+  margin: 1.5em 0;
+  /* Increased margin */
+  overflow: hidden;
+  /* Needed for border-radius */
+  display: block;
+  /* Makes table scrollable horizontally */
+  border: 1px solid var(--card-border-light);
+  border-radius: var(--border-radius-lg);
+  /* Rounded corners */
+  box-shadow: var(--shadow-sm);
+  background-color: var(--card-bg-light);
+  /* Ensure background */
+}
+
+/* Table Header */
+.response thead,
+#equipmentResponseDisplay thead {
+  background-color: var(--bg-light);
+  /* Use lighter bg */
+  color: var(--text-light);
+  border-bottom: 2px solid var(--card-border-light);
+}
+
+/* Section-specific Table Headers */
+/* ... (Keep existing section-specific thead styles if desired, or remove for consistency) ... */
+
+.response th,
+#equipmentResponseDisplay th {
+  padding: 0.8em 1.1em;
+  /* Increased padding */
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.9em;
+  /* Slightly larger */
+  letter-spacing: 0.05em;
+  text-align: left;
+  /* Ensure alignment */
+}
+
+body.dark-mode .response thead,
+body.dark-mode #equipmentResponseDisplay thead {
+  background-color: var(--bg-dark);
+  color: var(--text-dark);
+  border-bottom-color: var(--card-border-dark);
+}
+
+/* Dark Mode Section Headers */
+/* ... (Keep existing dark mode section-specific thead styles if desired) ... */
+
+/* Table Cells */
+.response td,
+#equipmentResponseDisplay td {
+  padding: 0.8em 1.1em;
+  /* Increased padding */
+  border-bottom: 1px solid var(--card-border-light);
+  /* Use bottom border only */
+  text-align: left;
+  vertical-align: top;
+  background-color: transparent;
+  /* Let table background show */
+  transition: background-color var(--transition-speed-fast) var(--transition-timing);
+}
+
+.response tr:last-child td,
+#equipmentResponseDisplay tr:last-child td {
+  border-bottom: none;
+  /* Remove border for last row */
+}
+
+
+body.dark-mode .response th,
+body.dark-mode .response td,
+body.dark-mode #equipmentResponseDisplay th,
+body.dark-mode #equipmentResponseDisplay td {
+  border-color: var(--card-border-dark);
+}
+
+/* Table Row Striping/Hover */
+.response tr:hover td,
+#equipmentResponseDisplay tr:hover td {
+  background-color: rgba(237, 242, 247, 0.5);
+  /* Subtle hover */
+}
+
+body.dark-mode .response tr:hover td,
+body.dark-mode #equipmentResponseDisplay tr:hover td {
+  background-color: rgba(45, 55, 72, 0.5);
+  /* Subtle dark hover */
+}
+
+/* Table Scrollbar */
+.response table::-webkit-scrollbar,
+#equipmentResponseDisplay table::-webkit-scrollbar {
+  height: 6px;
+  /* Thinner scrollbar */
+}
+
+.response table::-webkit-scrollbar-thumb,
+#equipmentResponseDisplay table::-webkit-scrollbar-thumb {
+  background: var(--text-muted-light);
+  /* Use muted color */
+  border-radius: var(--border-radius-full);
+}
+
+.response table::-webkit-scrollbar-thumb:hover,
+#equipmentResponseDisplay table::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-light);
+  /* Primary on hover */
+}
+
+body.dark-mode .response table::-webkit-scrollbar-thumb,
+body.dark-mode #equipmentResponseDisplay table::-webkit-scrollbar-thumb {
+  background: var(--text-muted-dark);
+}
+
+body.dark-mode .response table::-webkit-scrollbar-thumb:hover,
+body.dark-mode #equipmentResponseDisplay table::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-dark);
+}
+
+/* --- Sidebar Navigation (Replaces Tab Bar) --- */
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem 1rem;
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100vh;
+  width: var(--sidebar-width);
+  background-color: var(--card-bg-light);
+  /* Use card bg */
+  border-right: 1px solid var(--card-border-light);
+  box-shadow: var(--shadow-md);
+  z-index: 150;
+  /* Ensure it's above content but below modals */
+  transition: background-color var(--transition-speed-smooth) var(--transition-timing-fluent),
+    border-color var(--transition-speed-smooth) var(--transition-timing-fluent);
+  backdrop-filter: blur(10px);
+  /* Add blur */
+}
+
+body.dark-mode .sidebar-nav {
+  background-color: var(--card-bg-dark);
+  border-right-color: var(--card-border-dark);
+  backdrop-filter: blur(10px);
+}
+
+.sidebar-nav nav {
+  /* Target the inner nav if needed, or apply directly to sidebar-nav */
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  /* Space between buttons */
+  padding: 0 1rem;
+  /* Padding inside the sidebar */
+}
+
+.sidebar-buttons {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  /* Reduced gap */
+}
+
+.sidebar-button {
+  width: 95%;
+  /* Slightly narrower */
+  padding: 0.9rem 1rem;
+  /* Adjusted padding */
+  margin: 0.1rem auto;
+  /* Add small vertical margin */
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  border-radius: var(--border-radius-lg);
+  /* More rounded */
+  font-size: 1rem;
+  /* Standard font size */
+  font-weight: 500;
+  color: var(--text-muted-light);
+  cursor: pointer;
+  transition: all var(--transition-speed-normal) var(--transition-timing-fluent);
+  border: 1px solid transparent;
+  /* Add transparent border for layout consistency */
+}
+
+.sidebar-button i {
+  width: 28px;
+  /* Ensure icon alignment */
+  text-align: center;
+  margin-right: 1rem;
+  font-size: 1.2rem;
+  /* Larger icons */
+  transition: transform var(--transition-speed-smooth) var(--transition-timing-bounce);
+}
+
+.sidebar-button span {
+  flex-grow: 1;
+  /* Ensure text takes available space */
+  text-align: left;
+}
+
+.sidebar-button:hover {
+  background-color: var(--bg-light);
+  /* Use main bg for hover */
+  color: var(--text-light);
+  /* Darken text on hover */
+  transform: translateX(4px) scale(1.02);
+  /* Adjust transform */
+  border-color: var(--card-border-light);
+  /* Show subtle border */
+}
+
+/* Active state uses section-specific colors */
+.sidebar-button.active {
+  font-weight: 600;
+  transform: translateX(4px) scale(1.02);
+  box-shadow: var(--shadow-sm);
+  /* Add subtle shadow */
+}
+
+/* Section-specific active styles */
+.sidebar-button[data-tab="assistant"].active {
+  background-color: var(--assistant-bg-light);
+  color: var(--assistant-primary-light);
+  border-color: var(--assistant-primary-light);
+}
+
+.sidebar-button[data-tab="maintenance"].active {
+  background-color: var(--maintenance-bg-light);
+  color: var(--maintenance-primary-light);
+  border-color: var(--maintenance-primary-light);
+}
+
+.sidebar-button[data-tab="tips"].active {
+  background-color: var(--tips-bg-light);
+  color: var(--tips-primary-light);
+  border-color: var(--tips-primary-light);
+}
+
+.sidebar-button.active i {
+  transform: scale(1.15);
+  /* Slightly more scale for active icon */
+}
+
+/* Modo oscuro para la barra lateral */
+body.dark-mode .sidebar-nav {
+  background-color: var(--card-bg-dark);
+  border-right-color: var(--card-border-dark);
+}
+
+body.dark-mode .sidebar-button {
+  color: var(--text-muted-dark);
+}
+
+body.dark-mode .sidebar-button:hover {
+  background-color: var(--bg-dark);
+  color: var(--text-dark);
+  border-color: var(--card-border-dark);
+}
+
+/* Dark mode active states */
+body.dark-mode .sidebar-button[data-tab="assistant"].active {
+  background-color: var(--assistant-bg-dark);
+  color: var(--assistant-primary-dark);
+  border-color: var(--assistant-primary-dark);
+}
+
+body.dark-mode .sidebar-button[data-tab="maintenance"].active {
+  background-color: var(--maintenance-bg-dark);
+  color: var(--maintenance-primary-dark);
+  border-color: var(--maintenance-primary-dark);
+}
+
+body.dark-mode .sidebar-button[data-tab="tips"].active {
+  background-color: var(--tips-bg-dark);
+  color: var(--tips-primary-dark);
+  border-color: var(--tips-primary-dark);
+}
+
+/* Ajustar el contenedor principal para la barra lateral */
+.main-container {
+  padding-left: calc(var(--sidebar-width) + 2rem);
+  /* Increased padding */
+  transition: padding-left var(--transition-speed-smooth) var(--transition-timing-fluent);
+}
+
+/* Tab Content Transitions */
+.tab-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transform: translateY(15px) scale(0.98);
+  transition: opacity var(--transition-speed-smooth) var(--transition-timing-fluent),
+              transform var(--transition-speed-smooth) var(--transition-timing-fluent);
+  pointer-events: none;
+  will-change: opacity, transform;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+.tab-content:not(.hidden) { /* Style for the active tab */
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto; /* Allow interaction when visible */
+  z-index: 1; /* Bring active tab to the front */
+}
+
+/* Remove the .hidden class styles as we now control visibility with opacity and pointer-events */
+/* .tab-content.hidden { ... } */ /* REMOVE THIS RULE */
+
+/* --- Accessibility --- */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* --- Responsive Design Updates --- */
+/* Grouped media queries at the end */
+@media (max-width: 768px) {
+  .main-container {
+    padding: 1rem;
+  }
+
+  .tab-bar {
+    padding: 0.25rem;
+  }
+
+  .tab-button {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+  }
+
+  .message {
+    margin-bottom: 1rem;
+  }
+
+  .response {
+    padding: 0.75rem 1rem;
+    max-width: 95%;
+  }
+
+  #controls-upload-wrapper {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .chat-controls {
+    justify-content: center;
+    /* Keep centered */
+    flex-wrap: wrap;
+    /* Allow wrapping */
+  }
+
+  #uploadButton {
+    width: 100%;
+    justify-content: center;
+  }
+
+  #file-list,
+  #eq-file-list {
+    /* Target both lists */
+    position: static;
+    display: block;
+    width: 100%;
+    margin-top: 0.5rem;
+    max-height: 80px;
+    /* Reintroduce max-height for small screens */
+    overflow-y: auto;
+    /* Allow scroll */
+  }
+
+  .equipment-controls {
+    gap: 0.4rem;
+  }
+
+  .equipment-controls .control-button {
+    padding: 0.4rem 0.5rem;
+    font-size: 0.75rem;
+  }
+
+  /* Removed styles targeting non-existent IDs/classes */
+
+  /* Adjust sidebar and main content for smaller screens */
+  .sidebar-nav {
+    width: 100%;
+    /* Full width when closed */
+    height: auto;
+    /* Adjust height */
+    position: fixed;
+    /* Keep fixed */
+    top: 0;
+    left: 0;
+    transform: translateY(-100%);
+    /* Slide from top */
+    border-right: none;
+    border-bottom: 1px solid var(--card-border-light);
+    z-index: 200;
+    /* Ensure above content */
+    backdrop-filter: blur(15px);
+    /* Stronger blur when open */
+  }
+
+  .sidebar-nav.open {
+    transform: translateY(0);
+    box-shadow: var(--shadow-lg);
+  }
+
+  body.dark-mode .sidebar-nav {
+    border-bottom-color: var(--card-border-dark);
+  }
+
+  .sidebar-nav nav {
+    flex-direction: row;
+    /* Horizontal buttons */
+    justify-content: space-around;
+    padding: 0.5rem;
+  }
+
+  .sidebar-buttons {
+    flex-direction: row;
+    gap: 0.5rem;
+  }
+
+  .sidebar-button {
+    width: auto;
+    /* Auto width */
+    padding: 0.6rem 0.8rem;
+    font-size: 0.9rem;
+  }
+
+  .sidebar-button span {
+    display: none;
+    /* Hide text on mobile */
+  }
+
+  .sidebar-button i {
+    margin-right: 0;
+    /* Remove margin when text is hidden */
+    font-size: 1.1rem;
+  }
+
+  .sidebar-header {
+    display: none;
+    /* Hide header on mobile */
+  }
+
+  .toggle-sidebar-button {
+    top: 0.75rem;
+    left: 0.75rem;
+    z-index: 210;
+    /* Above sidebar */
+  }
+
+  .main-container {
+    padding-left: 1rem;
+    /* Reset padding */
+    padding-top: 6rem;
+    /* Space for fixed header/sidebar */
+  }
+
+  .main-container.sidebar-open {
+    padding-left: 1rem;
+    /* No change needed when open */
+  }
+
+  /* Adjust round buttons */
+  #uploadButton,
+  #eq-uploadButton,
+  .file-toggle-button,
+  #toggle-equipment-files,
+  #dark-mode-toggle {
+    width: 44px;
+    height: 44px;
+    font-size: 1.1rem;
+  }
+
+  .file-toggle-button #assistant-file-count,
+  #toggle-equipment-files #equipment-file-count {
+    width: 18px;
+    height: 18px;
+    font-size: 0.7rem;
+    line-height: 18px;
+  }
+
+  /* Make chat controls wrap better */
+  .chat-controls {
+    justify-content: center;
+    /* Center items when wrapped */
+  }
+
+  .file-controls-group,
+  .action-controls-group {
+    margin-left: 0;
+    /* Remove auto margin */
+    flex-basis: 100%;
+    /* Force wrap if needed */
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+
+  /* Further adjustments for very small screens */
+  .chat-controls .control-button,
+  #file-upload-controls .control-button,
+  #uploadButton,
+  /* Now round */
+  .file-toggle-button {
+    /* Now round */
+    width: 40px;
+    /* Slightly smaller round buttons */
+    height: 40px;
+    font-size: 1rem;
+    /* Adjust icon size */
+  }
+
+  /* Adjust badge for smaller round buttons */
+  .file-toggle-button #assistant-file-count,
+  .file-toggle-button #eq-file-count,
+  #toggle-equipment-files #equipment-file-count {
+    width: 16px;
+    height: 16px;
+    font-size: 0.65rem;
+  }
+
+
+  #clear-chat-button {
+    padding: 0.7rem;
+    /* Adjust padding if needed */
+    min-width: 40px;
+    /* Ensure minimum size */
+    width: auto;
+    /* Allow text to expand */
+    height: 40px;
+    border-radius: var(--border-radius-md);
+    /* Keep original radius */
+  }
+
+  #clear-chat-button span {
+    display: none;
+    /* Hide text on clear button */
+  }
+
+  #clear-chat-button i {
+    margin-right: 0;
+  }
+
+  .equipment-controls .control-button,
+  #eq-file-upload-controls .control-button,
+  #eq-uploadButton,
+  /* Now round */
+  #toggle-equipment-files {
+    /* Now round */
+    width: 40px;
+    /* Slightly smaller round buttons */
+    height: 40px;
+    font-size: 1rem;
+    /* Adjust icon size */
+  }
+
+  #sendEquipmentQuestionButton span {
+    display: none;
+    /* Hide text on eq send button */
+  }
+
+  #sendEquipmentQuestionButton i {
+    margin-left: 0;
+    /* Adjust icon margin if text is hidden */
+  }
+
+  /* Further adjustments for very small screens */
+  .card-base {
+    padding: 1.25rem;
+    /* Reduce padding */
+  }
+
+  #chat-header,
+  #equipment-section h2,
+  #maintenance-tips-section h2 {
+    font-size: 1.5rem;
+    /* Smaller headers */
+  }
+
+  .response {
+    padding: 0.7rem 1rem;
+    font-size: 0.95rem;
+  }
+
+  textarea#questionInput,
+  #equipmentQuestionInput {
+    font-size: 1rem;
+    min-height: 50px;
+  }
+
+  #sendButton,
+  #sendEquipmentQuestionButton {
+    padding: 0 1rem;
+    min-height: 50px;
+  }
+
+  #sendButton i,
+  #sendEquipmentQuestionButton i {
+    font-size: 1.1rem;
+  }
+
+  /* Adjust round buttons */
+  #uploadButton,
+  #eq-uploadButton,
+  .file-toggle-button,
+  #toggle-equipment-files,
+  #dark-mode-toggle {
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+  }
+
+  .file-toggle-button #assistant-file-count,
+  #toggle-equipment-files #equipment-file-count {
+    width: 16px;
+    height: 16px;
+    font-size: 0.65rem;
+    line-height: 16px;
+  }
+
+  /* Sidebar buttons even smaller */
+  .sidebar-button {
+    padding: 0.5rem 0.6rem;
+  }
+
+  .sidebar-button i {
+    font-size: 1rem;
+  }
+}
+
+#eq-uploadButton {
+  /* Inherit general upload-btn styles if defined, or add specific styles */
+  padding: 0.5rem 0.8rem;
+  font-size: 0.85rem;
+  width: auto;
+  /* Apply Maintenance colors */
+  background: var(--maintenance-gradient-light);
+  color: white;
+  border: none;
+}
+
+#eq-uploadButton:hover:not(:disabled) {
+  background: linear-gradient(135deg, var(--maintenance-primary-light) 0%, #ea580c 100%);
+  transform: scale(1.03);
+  box-shadow: var(--shadow-md);
+}
+
+body.dark-mode #eq-uploadButton {
+  background: var(--maintenance-gradient-dark);
+  color: var(--text-dark);
+  /* Ensure text is readable */
+}
+
+body.dark-mode #eq-uploadButton:hover:not(:disabled) {
+  background: linear-gradient(135deg, var(--maintenance-primary-dark) 0%, #fdba74 100%);
+}
+
+#toggle-equipment-files {
+  /* Inherit general file-toggle-button styles if defined, or add specific styles */
+  padding: 0.5rem !important;
+  /* Review if !important is needed */
+  font-size: 1rem !important;
+  /* Review if !important is needed */
+  position: relative;
+  /* Apply Maintenance colors */
+  background-color: var(--button-control-bg-light);
+  color: var(--maintenance-primary-light);
+  border: 1px solid var(--maintenance-primary-light);
+}
+
+#toggle-equipment-files:hover:not(:disabled) {
+  background-color: var(--maintenance-bg-light);
+}
+
+body.dark-mode #toggle-equipment-files {
+  background-color: var(--button-control-bg-dark);
+  color: var(--maintenance-primary-dark);
+  border: 1px solid var(--maintenance-primary-dark);
+}
+
+body.dark-mode #toggle-equipment-files:hover:not(:disabled) {
+  background-color: var(--maintenance-bg-dark);
+}
+
+/* Toggle Sidebar Button */
+.toggle-sidebar-button {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 1000;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--card-bg-light);
+  border: 1px solid var(--card-border-light);
+  color: var(--text-light);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: var(--shadow-md);
+}
+
+.toggle-sidebar-button:hover {
+  transform: scale(1.1);
+  box-shadow: var(--shadow-lg);
+}
+
+body.dark-mode .toggle-sidebar-button {
+  background: var(--card-bg-dark);
+  border-color: var (--card-border-dark);
+  color: var(--text-dark);
+}
+
+/* Sidebar Nuevo Diseño */
+.sidebar-nav {
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100vh;
+  width: var(--sidebar-width);
+  background: var(--card-bg-light);
+  border-right: 1px solid var(--card-border-light);
+  transform: translateX(-100%);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 100;
+  overflow-y: auto;
+  box-shadow: none;
+}
+
+.sidebar-nav.open {
+  transform: translateX(0);
+  box-shadow: var(--shadow-lg);
+}
+
+.sidebar-header {
+  padding: 1.5rem;
+  border-bottom: 1px solid var(--card-border-light);
+  margin-bottom: 1rem;
+}
+
+.sidebar-header h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-light);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.sidebar-header h2 i {
+  color: var(--primary-light);
+}
+
+.sidebar-buttons {
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.sidebar-button {
+  display: flex;
+  align-items: center;
+  padding: 1rem 1.25rem;
+  border-radius: var(--border-radius-md);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--text-muted-light);
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 500;
+  width: 100%;
+  text-align: left;
+}
+
+.sidebar-button i {
+  margin-right: 0.75rem;
+  font-size: 1.1rem;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.sidebar-button:hover {
+  background: var(--bg-light);
+  transform: translateX(5px);
+}
+
+/* Colores específicos por sección en sidebar */
+.sidebar-button[data-tab="assistant"].active {
+  background: var(--assistant-bg-light);
+  color: var(--assistant-primary-light);
+  border-color: var(--assistant-primary-light);
+}
+
+.sidebar-button[data-tab="maintenance"].active {
+  background: var(--maintenance-bg-light);
+  color: var(--maintenance-primary-light);
+  border-color: var(--maintenance-primary-light);
+}
+
+.sidebar-button[data-tab="tips"].active {
+  background: var(--tips-bg-light);
+  color: var(--tips-primary-light);
+  border-color: var(--tips-primary-light);
+}
+
+/* Dark mode sidebar */
+body.dark-mode .sidebar-nav {
+  background: var(--card-bg-dark);
+  border-right-color: var(--card-border-dark);
+}
+
+body.dark-mode .sidebar-header {
+  border-bottom-color: var(--card-border-dark);
+}
+
+body.dark-mode .sidebar-header h2 {
+  color: var(--text-dark);
+}
+
+body.dark-mode .sidebar-header h2 i {
+  color: var(--primary-dark);
+}
+
+body.dark-mode .sidebar-button {
+  color: var(--text-muted-dark);
+}
+
+body.dark-mode .sidebar-button:hover {
+  background: var(--bg-dark);
+}
+
+body.dark-mode .sidebar-button[data-tab="assistant"].active {
+  background: var(--assistant-bg-dark);
+  color: var(--assistant-primary-dark);
+  border-color: var(--assistant-primary-dark);
+}
+
+body.dark-mode .sidebar-button[data-tab="maintenance"].active {
+  background: var(--maintenance-bg-dark);
+  color: var(--maintenance-primary-dark);
+  border-color: var(--maintenance-primary-dark);
+}
+
+body.dark-mode .sidebar-button[data-tab="tips"].active {
+  background: var(--tips-bg-dark);
+  color: var(--tips-primary-dark);
+  border-color: var(--tips-primary-dark);
+}
+
+/* Ajuste del contenedor principal */
+.main-container {
+  padding-left: 1.5rem;
+  transition: padding-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.main-container.sidebar-open {
+  padding-left: calc(var(--sidebar-width) + 1.5rem);
+}
+
+/* Ajuste de espaciado de secciones */
+.tab-content[data-tab-content="maintenance"],
+.tab-content[data-tab-content="tips"] {
+  padding-top: 0;
+}
+
+/* Mejoras en la estructura de output */
+.response,
+#equipmentResponseDisplay,
+.tip-item {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  letter-spacing: 0.01em;
+}
+
+.response h3,
+#equipmentResponseDisplay h3,
+.tip-item h3 {
+  font-size: 1.35rem;
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
+  color: var(--text-light);
+  font-weight: 600;
+  border-bottom: 2px solid var(--card-border-light);
+  padding-bottom: 0.5rem;
+}
+
+.response h4,
+#equipmentResponseDisplay h4,
+.tip-item h4 {
+  font-size: 1.2rem;
+  margin-top: 1.25rem;
+  margin-bottom: 0.75rem;
+  color: var(--text-light);
+  font-weight: 600;
+}
+
+.response p,
+#equipmentResponseDisplay p,
+.tip-item p {
+  margin-bottom: 1rem;
+}
+
+.response ul,
+.response ol,
+#equipmentResponseDisplay ul,
+#equipmentResponseDisplay ol,
+.tip-item ul,
+.tip-item ol {
+  margin: 1rem 0;
+  padding-left: 1.5rem;
+}
+
+.response li,
+#equipmentResponseDisplay li,
+.tip-item li {
+  margin-bottom: 0.5rem;
+}
+
+.response code,
+#equipmentResponseDisplay code,
+.tip-item code {
+  background: var(--bg-light);
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+  font-family: 'Roboto Mono', monospace;
+  font-size: 0.9em;
+  color: var(--text-light);
+}
+
+/* Mejoras en las animaciones de botones */
+.control-button,
+.maintenance-button,
+#sendButton,
+#sendEquipmentQuestionButton,
+#regenerate-tip-button {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform;
+}
+
+.control-button:hover:not(:disabled),
+.maintenance-button:hover:not(:disabled),
+#sendButton:hover:not(:disabled),
+#sendEquipmentQuestionButton:hover:not(:disabled),
+#regenerate-tip-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+}
+
+.control-button:active:not(:disabled),
+.maintenance-button:active:not(:disabled),
+#sendButton:active:not(:disabled),
+#sendEquipmentQuestionButton:active:not(:disabled),
+#regenerate-tip-button:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+/* Dark mode improvements */
+body.dark-mode .response h3,
+body.dark-mode #equipmentResponseDisplay h3,
+body.dark-mode .tip-item h3 {
+  color: var(--text-dark);
+  border-bottom-color: var(--card-border-dark);
+}
+
+body.dark-mode .response h4,
+body.dark-mode #equipmentResponseDisplay h4,
+body.dark-mode .tip-item h4 {
+  color: var(--text-dark);
+}
+
+body.dark-mode .response code,
+body.dark-mode #equipmentResponseDisplay code,
+body.dark-mode .tip-item code {
+  background: var(--bg-dark);
+  color: var(--text-dark);
+}
+
+/* Mejoras en las tablas */
+.response table,
+#equipmentResponseDisplay table,
+.tip-item table {
+  width: 100%;
+  margin: 1.5rem 0;
+  border-collapse: collapse;
+  border: 1px solid var(--card-border-light);
+  border-radius: var(--border-radius-md);
+  overflow: hidden;
+  background-color: var(--card-bg-light);
+}
+
+.response th,
+#equipmentResponseDisplay th,
+.tip-item th {
+  background-color: var(--bg-light);
+  padding: 1rem;
+  text-align: left;
+  font-weight: 600;
+  border-bottom: 2px solid var(--card-border-light);
+  color: var(--text-light);
+  font-size: 0.95rem;
+}
+
+.response td,
+#equipmentResponseDisplay td,
+.tip-item td {
+  padding: 0.875rem 1rem;
+  border-bottom: 1px solid var(--card-border-light);
+  transition: background-color 0.2s var(--transition-timing-fluent);
+}
+
+.response tr:last-child td,
+#equipmentResponseDisplay tr:last-child td,
+.tip-item tr:last-child td {
+  border-bottom: none;
+}
+
+.response tr:hover td,
+#equipmentResponseDisplay tr:hover td,
+.tip-item tr:hover td {
+  background-color: var(--bg-light);
+}
+
+/* Dark mode para tablas */
+body.dark-mode .response table,
+body.dark-mode #equipmentResponseDisplay table,
+body.dark-mode .tip-item table {
+  background-color: var(--card-bg-dark);
+  border-color: var(--card-border-dark);
+}
+
+body.dark-mode .response th,
+body.dark-mode #equipmentResponseDisplay th,
+body.dark-mode .tip-item th {
+  background-color: var(--bg-dark);
+  color: var(--text-dark);
+  border-bottom-color: var (--card-border-dark);
+}
+
+body.dark-mode .response td,
+body.dark-mode #equipmentResponseDisplay td,
+body.dark-mode .tip-item td {
+  background-color: var(--card-bg-dark);
+  border-bottom-color: var(--card-border-dark);
+}
+
+body.dark-mode .response tr:hover td,
+body.dark-mode #equipmentResponseDisplay tr:hover td,
+body.dark-mode .tip-item tr:hover td {
+  background-color: var(--bg-dark);
+}
+
+/* Responsive para tablas */
+@media (max-width: 768px) {
+
+  .response table,
+  #equipmentResponseDisplay table,
+  .tip-item table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* Estilo para viñetas azules */
+.response ul,
+#equipmentResponseDisplay ul,
+.tip-item ul {
+  list-style: none !important;
+  padding-left: 1.5rem;
+  margin: 1rem 0;
+}
+
+.response ul li,
+#equipmentResponseDisplay ul li,
+.tip-item ul li {
+  position: relative;
+  padding-left: 1.8em;
+  /* Ensure space */
+  margin-bottom: 0.75rem;
+}
+
+.response ul li::before,
+#equipmentResponseDisplay ul li::before,
+.tip-item ul li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: var(--assistant-primary-light);
+  font-weight: bold;
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
+/* Dark mode para viñetas */
+body.dark-mode .response ul li::before,
+body.dark-mode #equipmentResponseDisplay ul li::before,
+body.dark-mode .tip-item ul li::before {
+  color: var(--assistant-primary-dark);
+}
+
+/* Asegurar que no haya estilos de lista por defecto */
+.response ul,
+#equipmentResponseDisplay ul,
+.tip-item ul,
+.response li,
+#equipmentResponseDisplay li,
+.tip-item li {
+  list-style-type: none !important;
+  -webkit-padding-start: 0;
+}
+
+/* Responsive para tablas */
+@media (max-width: 768px) {
+
+  .response table,
+  #equipmentResponseDisplay table,
+  .tip-item table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* Mejoras en los botones de la barra lateral */
+.sidebar-button {
+  width: 90%;
+  margin: 0.25rem auto;
+  padding: 1rem 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.75rem;
+  border-radius: var(--border-radius-md);
+  transition: all 0.3s var(--transition-timing-fluent);
+  background: transparent;
+  border: 1px solid transparent;
+}
+
+.sidebar-button i {
+  width: 1.5rem;
+  text-align: center;
+  transition: transform 0.3s var(--transition-timing-bounce);
+}
+
+.sidebar-button span {
+  flex: 1;
+  text-align: left;
+}
+
+/* Mejora del hover de los botones laterales */
+.sidebar-button:hover {
+  transform: translateX(5px);
+  background: var(--bg-light);
+}
+
+/* Estado activo mejorado */
+.sidebar-button.active {
+  background: var(--bg-light);
+  border-color: var(--primary-light);
+  transform: translateX(5px);
+}
+
+.sidebar-button.active i {
+  transform: scale(1.2);
+}
+
+/* Animaciones Fluent mejoradas */
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Animación del panel de archivos */
+.file-display-container {
+  max-height: 0;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: max-height 0.4s var(--transition-timing-fluent),
+    opacity 0.3s var(--transition-timing-fluent),
+    transform 0.3s var(--transition-timing-fluent),
+    padding 0.3s var(--transition-timing-fluent),
+    margin 0.3s var (--transition-timing-fluent);
+}
+
+.file-display-container.visible {
+  max-height: 300px;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Animación del panel de referencias */
+.references-panel {
+  transform: translateX(100%);
+  opacity: 0;
+  transition: transform 0.4s var(--transition-timing-fluent),
+    opacity 0.3s var(--transition-timing-fluent);
+}
+
+.references-panel.open {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+/* Botones de control (asistente) */
+.chat-controls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0;
+}
+
+/* Grupo de botones de archivos */
+.file-controls-group {
+  display: flex;
+  gap: 0.5rem;
+  margin-left: auto;
+}
+
+/* Alineación de botones de archivo */
+#file-upload-controls {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-left: auto;
+}
+
+/* Mejoras en la barra lateral */
+.sidebar-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 1rem;
+  width: 100%;
+  border: none;
+  background: transparent;
+  color: var(--text-color);
+  transition: all 0.3s var(--transition-timing-fluent);
+  border-radius: var(--border-radius-md);
+  text-align: center;
+}
+
+.sidebar-button i {
+  width: 1.5rem;
+  text-align: center;
+  transition: transform 0.3s var(--transition-timing-bounce);
+}
+
+.sidebar-button.active {
+  background: var(--primary-light);
+  color: var(--text-light);
+  transform: translateX(5px);
+}
+
+.sidebar-button.active i {
+  transform: scale(1.2);
+}
+
+/* Estilos mejorados para tablas */
+.response table,
+#equipmentResponseDisplay table,
+.tip-item table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin: 1.5rem 0;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-md);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.response th,
+#equipmentResponseDisplay th,
+.tip-item th {
+  background: var(--bg-light);
+  padding: 1rem;
+  text-align: left;
+  font-weight: 600;
+  border-bottom: 2px solid var(--border-color);
+  color: var(--text-color);
+}
+
+.response td,
+#equipmentResponseDisplay td,
+.tip-item td {
+  padding: 0.875rem 1rem;
+  border-bottom: 1px solid var(--border-color);
+  transition: background-color 0.2s var(--transition-timing-fluent);
+}
+
+.response tr:last-child td,
+#equipmentResponseDisplay tr:last-child td,
+.tip-item tr:last-child td {
+  border-bottom: none;
+}
+
+.response tr:hover td,
+#equipmentResponseDisplay tr:hover td,
+.tip-item tr:hover td {
+  background: var(--bg-light);
+}
+
+/* Mejoras en los botones de control */
+.control-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: var(--border-radius-md);
+  border: 1px solid var(--border-color);
+  background: var(--bg-light);
+  color: var (--text-color);
+  transition: all 0.3s var(--transition-timing-fluent);
+}
+
+.control-button i {
+  transition: transform 0.3s var(--transition-timing-bounce);
+}
+
+.control-button:hover:not(:disabled) {
+  background: var(--hover-bg);
+  transform: translateY(-2px);
+}
+
+.control-button:hover:not(:disabled) i {
+  transform: scale(1.1);
+}
+
+.control-button.active {
+  background: var(--primary-gradient-light);
+  color: white;
+  border-color: transparent;
+  font-weight: 600;
+  transform: scale(1.02);
+  box-shadow: var(--shadow-inner);
+}
+
+/* Animaciones mejoradas para paneles */
+.file-display-container {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: all 0.4s var(--transition-timing-fluent);
+}
+
+.file-display-container.visible {
+  max-height: 300px;
+  opacity: 1;
+  padding: 1rem;
+  margin: 1rem 0;
+}
+
+.references-panel {
+  transform: translateX(100%);
+  opacity: 0;
+  transition: all 0.4s var(--transition-timing-fluent);
+}
+
+.references-panel.open {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+/* Animaciones para elementos de lista */
+.file-list li,
+.references-list li {
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: all 0.3s var(--transition-timing-fluent);
+}
+
+.file-list li.visible,
+.references-list li.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Reorganización de botones en la sección del asistente */
+.chat-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem;
+}
+
+.file-controls-group {
+  display: flex;
+  gap: 0.5rem;
+  margin-left: auto;
+}
+
+.action-controls-group {
+  display: flex;
+  gap: 0.5rem;
+}
+
+/* References Panel */
+.references-panel {
+  transform: translateX(100%);
+  opacity: 0;
+  /* Start hidden */
+}
+
+/* References Panel Active State */
+.references-panel.open {
+  transform: translateX(0);
+  opacity: 1;
+  backdrop-filter: blur(10px);
+  /* Stronger blur when open */
+}
+
+/* References Panel Content */
+.references-content {
+  padding: 1.2rem;
+  height: 100%;
+  overflow-y: auto;
+}
+
+/* References Title */
+.references-content h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--card-border-light);
+  color: var(--text-light);
+}
+
+/* References List */
+.references-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.references-list li {
+  margin-bottom: 1rem;
+  padding: 0.8rem;
+  background: var(--bg-light);
+  border: 1px solid var(--card-border-light);
+  border-radius: var(--border-radius-md);
+  transition: all var(--transition-speed-normal) var(--transition-timing);
+}
+
+.references-list li:hover {
+  transform: translateX(3px);
+  background: var(--button-control-bg-light);
+  border-color: var(--primary-light);
+}
+
+.references-list a {
+  color: var(--text-light);
+  text-decoration: none;
+  display: block;
+  word-break: break-word;
+}
+
+.references-list a:hover {
+  color: var(--primary-light);
+}
+
+/* Dark Mode References */
+body.dark-mode .references-content h3 {
+  color: var(--text-dark);
+  border-color: var(--card-border-dark);
+}
+
+body.dark-mode .references-list li {
+  background: var(--bg-dark);
+  border-color: var(--card-border-dark);
+}
+
+body.dark-mode .references-list li:hover {
+  background: var(--button-control-bg-dark);
+  border-color: var(--primary-dark);
+}
+
+body.dark-mode .references-list a {
+  color: var(--text-dark);
+}
+
+body.dark-mode .references-list a:hover {
+  color: var(--primary-dark);
+}
+
+/* Close References Button */
+#close-references {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  padding: 0.5rem;
+  background: transparent;
+  border: none;
+  color: var(--text-muted-light);
+  cursor: pointer;
+  transition: all var(--transition-speed-normal) var(--transition-timing);
+  border-radius: var(--border-radius-full);
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#close-references:hover {
+  color: var(--primary-light);
+  background-color: rgba(13, 110, 253, 0.1);
+  transform: rotate(90deg);
+}
+
+body.dark-mode #close-references:hover {
+  color: var(--primary-dark);
+  background-color: rgba(59, 130, 246, 0.1);
+}
+
+/* Common Element Styles */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Common Input Container Style */
+.input-container,
+.equipment-input-container,
+.input-group input,
+.equipment-input-group input {
+  background-color: var(--input-bg-light);
+  border: 1px solid var(--input-border-light);
+  border-radius: var(--border-radius-lg);
+  transition: all var(--transition-speed-normal) var(--transition-timing);
+  box-shadow: var(--shadow-inner);
+}
+
+/* Common Input Focus */
+.input-container:focus-within,
+.equipment-input-container:focus-within,
+.input-group input:focus,
+.equipment-input-group input:focus {
+  border-color: var(--primary-light);
+  box-shadow: 0 0 0 3px var(--primary-focus-shadow-light), var(--shadow-inner);
+}
+
+/* Common Input Dark Mode */
+body.dark-mode .input-container,
+body.dark-mode .equipment-input-container,
+body.dark-mode .input-group input,
+body.dark-mode .equipment-input-group input {
+  background-color: var(--input-bg-dark);
+  border-color: var(--input-border-dark);
+}
+
+body.dark-mode .input-container:focus-within,
+body.dark-mode .equipment-input-container:focus-within,
+body.dark-mode .input-group input:focus,
+body.dark-mode .equipment-input-group input:focus {
+  border-color: var(--primary-dark);
+  box-shadow: 0 0 0 3px var(--primary-focus-shadow-dark), var(--shadow-inner);
+}
+
+/* Common Button Style */
+.btn,
+.control-button,
+.maintenance-button {
+  font-family: inherit;
+  font-weight: 500;
+  padding: 0.6rem 1rem;
+  border-radius: var(--border-radius-md);
+  transition: all var(--transition-speed-normal) var(--transition-timing);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border: 1px solid var(--button-control-border-light);
+  background-color: var(--button-control-bg-light);
+  color: var(--button-control-text-light);
+}
+
+/* Common Button Hover */
+.btn:hover:not(:disabled),
+.control-button:hover:not(:disabled),
+.maintenance-button:hover:not(:disabled) {
+  background-color: var(--button-control-hover-bg-light);
+  border-color: var(--button-control-hover-bg-light);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Common Button Active */
+.btn.active,
+.control-button.active,
+.maintenance-button.active {
+  background: var(--primary-gradient-light);
+  color: white;
+  border-color: transparent;
+  font-weight: 600;
+  transform: scale(1.02);
+  box-shadow: var(--shadow-inner);
+}
+
+/* Common Button Dark Mode */
+body.dark-mode .btn,
+body.dark-mode .control-button,
+body.dark-mode .maintenance-button {
+  background-color: var(--button-control-bg-dark);
+  border-color: var(--button-control-border-dark);
+  color: var(--button-control-text-dark);
+}
+
+body.dark-mode .btn:hover:not(:disabled),
+body.dark-mode .control-button:hover:not(:disabled),
+body.dark-mode .maintenance-button:hover:not(:disabled) {
+  background-color: var(--button-control-hover-bg-dark);
+  border-color: var(--button-control-hover-bg-dark);
+  color: var(--text-dark);
+}
+
+body.dark-mode .btn.active,
+body.dark-mode .control-button.active,
+body.dark-mode .maintenance-button.active {
+  background: var(--primary-gradient-dark);
+  color: white;
+}
+
+/* Common Card Style */
+.card,
+.card-base {
+  background-color: var(--card-bg-light);
+  border: 1px solid var(--card-border-light);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-md);
+  transition: all var(--transition-speed-normal) var(--transition-timing);
+}
+
+/* Common Card Dark Mode */
+body.dark-mode .card,
+body.dark-mode .card-base {
+  background-color: var(--card-bg-dark);
+  border-color: var(--card-border-dark);
+}
+
+/* Common Loading Indicator */
+.loading-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-muted-light);
+  font-size: 0.9rem;
+}
+
+.loading-indicator i {
+  animation: spin 1s linear infinite;
+}
+
+body.dark-mode .loading-indicator {
+  color: var(--text-muted-dark);
+}
+
+@keyframes spin {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Common Error Message */
+.error-message {
+  background-color: rgba(220, 53, 69, 0.1);
+  border: 1px solid rgba(220, 53, 69, 0.3);
+  color: var (--danger-color);
+  padding: 0.7rem 1rem;
+  border-radius: var(--border-radius-md);
+  margin: 0.8rem 0;
+  font-size: 0.9rem;
+  font-weight: 500;
+  display: none;
+  opacity: 0;
+  transition: opacity var(--transition-speed-normal);
+}
+
+body.dark-mode .error-message {
+  background-color: rgba(220, 53, 69, 0.2);
+  border-color: rgba(220, 53, 69, 0.4);
+  color: #f8d7da;
+}
+
+/* Common Link Style */
+a {
+  color: var(--primary-light);
+  text-decoration: none;
+  transition: color var(--transition-speed-normal);
+}
+
+a:hover {
+  color: var(--primary-dark);
+  text-decoration: underline;
+}
+
+body.dark-mode a {
+  color: var(--primary-dark);
+}
+
+body.dark-mode a:hover {
+  color: var(--primary-light);
+}
+
+/* Common Form Elements */
+label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: var(--text-light);
+  font-weight: 500;
+}
+
+body.dark-mode label {
+  color: var(--text-dark);
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+textarea {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border: 1px solid var(--input-border-light);
+  border-radius: var(--border-radius-md);
+  background-color: var(--input-bg-light);
+  color: var(--text-light);
+  font-family: inherit;
+  font-size: 1rem;
+  transition: all var(--transition-speed-normal);
+}
+
+body.dark-mode input[type="text"],
+body.dark-mode input[type="email"],
+body.dark-mode input[type="password"],
+body.dark-mode textarea {
+  background-color: var(--input-bg-dark);
+  border-color: var(--input-border-dark);
+  color: var(--text-dark);
+}
+
+/* Common Selection Style */
+::selection {
+  background-color: var(--primary-light);
+  color: white;
+}
+
+body.dark-mode ::selection {
+  background-color: var(--primary-dark);
+  color: var(--bg-dark);
+}
+
+/* Common Table Style */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+  border: 1px solid var(--card-border-light);
+  border-radius: var(--border-radius-md);
+  overflow: hidden;
+}
+
+th {
+  background-color: var(--button-control-bg-light);
+  color: var(--text-light);
+  font-weight: 600;
+  text-align: left;
+  padding: 0.8rem 1rem;
+}
+
+td {
+  padding: 0.8rem 1rem;
+  border-bottom: 1px solid var(--card-border-light);
+}
+
+tr:hover td {
+  background-color: var(--button-control-bg-light);
+}
+
+body.dark-mode table {
+  border-color: var(--card-border-dark);
+}
+
+body.dark-mode th {
+  background-color: var(--button-control-bg-dark);
+  color: var(--text-dark);
+}
+
+body.dark-mode td {
+  border-color: var(--card-border-dark);
+}
+
+body.dark-mode tr:hover td {
+  background-color: var(--button-control-bg-dark);
+}
+
+/* Common List Style */
+ul,
+ol {
+  padding-left: 1.5rem;
+  margin: 1rem 0;
+}
+
+li {
+  margin-bottom: 0.5rem;
+}
+
+/* Common Code Style */
+code {
+  font-family: 'Roboto Mono', monospace;
+  background-color: var(--button-control-bg-light);
+  padding: 0.2em 0.4em;
+  border-radius: var(--border-radius-sm);
+  font-size: 0.9em;
+  color: var(--text-light);
+  border: 1px solid var(--input-border-light);
+}
+
+pre {
+  background-color: var(--button-control-bg-light);
+  padding: 1rem;
+  border-radius: var(--border-radius-md);
+  overflow-x: auto;
+  border: 1px solid var(--input-border-light);
+  margin: 1rem 0;
+}
+
+pre code {
+  background-color: transparent;
+  padding: 0;
+  border: none;
+  font-size: 0.9em;
+  color: inherit;
+}
+
+body.dark-mode code {
+  background-color: var(--button-control-bg-dark);
+  color: var(--text-dark);
+  border-color: var(--input-border-dark);
+}
+
+body.dark-mode pre {
+  background-color: var(--button-control-bg-dark);
+  border-color: var(--input-border-dark);
+}
+
+/* Ensure consistent spacing */
+.mb-1 {
+  margin-bottom: 0.25rem;
+}
+
+.mb-2 {
+  margin-bottom: 0.5rem;
+}
+
+.mb-3 {
+  margin-bottom: 1rem;
+}
+
+.mb-4 {
+  margin-bottom: 1.5rem;
+}
+
+.mb-5 {
+  margin-bottom: 2rem;
+}
+
+.mt-1 {
+  margin-top: 0.25rem;
+}
+
+.mt-2 {
+  margin-top: 0.5rem;
+}
+
+.mt-3 {
+  margin-top: 1rem;
+}
+
+.mt-4 {
+  margin-top: 1.5rem;
+}
+
+.mt-5 {
+  margin-top: 2rem;
+}
+
+.mx-1 {
+  margin-left: 0.25rem;
+  margin-right: 0.25rem;
+}
+
+.mx-2 {
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+}
+
+.mx-3 {
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
+.mx-4 {
+  margin-left: 1.5rem;
+  margin-right: 1.5rem;
+}
+
+.mx-5 {
+  margin-left: 2rem;
+  margin-right: 2rem;
+}
+
+.my-1 {
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem;
+}
+
+.my-2 {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.my-3 {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.my-4 {
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.my-5 {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+/* Common Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Apply animations */
+.fade-in {
+  animation: fadeIn var(--transition-speed-normal) var(--transition-timing);
+}
+
+.slide-up {
+  animation: slideInUp var(--transition-speed-normal) var(--transition-timing);
+}
+
+.slide-left {
+  animation: slideInLeft var(--transition-speed-normal) var(--transition-timing);
+}
+
+.slide-right {
+  animation: slideInRight var(--transition-speed-normal) var (--transition-timing);
+}
+
+.scale-in {
+  animation: scaleIn var(--transition-speed-normal) var(--transition-timing);
+}
+
+/* Common Focus Styles */
+:focus {
+  outline: none;
+}
+
+:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--primary-focus-shadow-light);
+}
+
+body.dark-mode :focus-visible {
+  box-shadow: 0 0 0 3px var(--primary-focus-shadow-dark);
+}
+
+/* Ensure consistent z-index layers */
+:root {
+  --z-dropdown: 1000;
+  --z-sticky: 1020;
+  --z-fixed: 1030;
+  --z-modal-backdrop: 1040;
+  --z-modal: 1050;
+  --z-popover: 1060;
+  --z-tooltip: 1070;
+}
+
+/* Base Styles */
+html {
+  font-size: var(--font-size-base);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-family-base);
+  line-height: var(--line-height-base);
+  color: var(--text-light);
+  background-color: var(--bg-light);
+  transition: background-color var(--transition-speed-normal),
+    color var(--transition-speed-normal);
+}
+
+/* Dark Mode */
+body.dark-mode {
+  color: var(--text-dark);
+  background-color: var(--bg-dark);
+}
+
+/* Chat Interface */
+.chat-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--spacing-4);
+}
+
+.chat-messages {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+  margin-bottom: var(--spacing-4);
+}
+
+.message {
+  display: flex;
+  margin: 1rem 0;
+  padding: 1rem;
+  border-radius: 12px;
+  animation: messageAppear 0.3s ease-out;
+}
+
+.message.user {
+  background: var(--user-message-bg);
+  margin-left: 2rem;
+}
+
+.message.assistant {
+  background: var(--assistant-message-bg);
+  margin-right: 2rem;
+}
+
+.message-avatar {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--accent-primary);
+  color: white;
+  font-size: 1.2rem;
+}
+
+.message-content {
+  flex: 1;
+  overflow-x: auto;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+/* Code and JSON formatting */
+pre {
+  background: var(--bg-secondary);
+  border-radius: 8px;
+  padding: 1rem;
+  overflow-x: auto;
+  font-family: 'Fira Code', 'Consolas', monospace;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+code {
+  font-family: 'Fira Code', 'Consolas', monospace;
+  font-size: 0.9em;
+  padding: 0.2em 0.4em;
+  border-radius: 4px;
+  background: var(--bg-secondary);
+}
+
+.json-content {
+  font-family: 'Fira Code', 'Consolas', monospace;
+}
+
+.json-key {
+  color: #e06c75;
+}
+
+.json-string {
+  color: #98c379;
+}
+
+.json-number {
+  color: #d19a66;
+}
+
+.json-boolean {
+  color: #c678dd;
+}
+
+.json-null {
+  color: #e06c75;
+}
+
+/* Streaming effect */
+.message.streaming .message-content {
+  border-right: 2px solid var (--accent-primary);
+  animation: cursorBlink 1s infinite;
+}
+
+/* Animations */
+@keyframes messageAppear {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes cursorBlink {
+
+  0%,
+  100% {
+    border-color: transparent;
+  }
+
+  50% {
+    border-color: var(--accent-primary);
+  }
+}
+
+/* Accessibility improvements */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+/* Focus states */
+button:focus,
+input:focus,
+textarea:focus {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 2px;
+}
+
+/* Responsive font sizes */
+@media (max-width: 768px) {
+  :root {
+    --font-size-base: 14px;
+  }
+
+  .message {
+    margin: 0.75rem 0;
+    padding: 0.75rem;
+  }
+}
+
+/* High contrast improvements */
+@media (prefers-contrast: high) {
+  :root {
+    --text-primary: #000000;
+    --text-secondary: #333333;
+    --accent-primary: #0000EE;
+    --accent-secondary: #551A8B;
+  }
+
+  [data-theme="dark"] {
+    --text-primary: #FFFFFF;
+    --text-secondary: #CCCCCC;
+    --accent-primary: #00FF00;
+    --accent-secondary: #FFFF00;
+  }
+}
+
+/* --- Responsive Design Updates --- */
+/* Grouped media queries at the end */
+@media (max-width: 768px) {
+  .main-container {
+    padding: 1rem;
+  }
+
+  .tab-bar {
+    padding: 0.25rem;
+  }
+
+  .tab-button {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+  }
+
+  .message {
+    margin-bottom: 1rem;
+  }
+
+  .response {
+    padding: 0.75rem 1rem;
+    max-width: 95%;
+  }
+
+  #controls-upload-wrapper {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .chat-controls {
+    justify-content: center;
+    /* Keep centered */
+    flex-wrap: wrap;
+    /* Allow wrapping */
+  }
+
+  #uploadButton {
+    width: 100%;
+    justify-content: center;
+  }
+
+  #file-list,
+  #eq-file-list {
+    /* Target both lists */
+    position: static;
+    display: block;
+    width: 100%;
+    margin-top: 0.5rem;
+    max-height: 80px;
+    /* Reintroduce max-height for small screens */
+    overflow-y: auto;
+    /* Allow scroll */
+  }
+
+  .equipment-controls {
+    gap: 0.4rem;
+  }
+
+  .equipment-controls .control-button {
+    padding: 0.4rem 0.5rem;
+    font-size: 0.75rem;
+  }
+
+  /* Removed styles targeting non-existent IDs/classes */
+
+  /* Adjust sidebar and main content for smaller screens */
+  .sidebar-nav {
+    width: 100%;
+    /* Full width when closed */
+    height: auto;
+    /* Adjust height */
+    position: fixed;
+    /* Keep fixed */
+    top: 0;
+    left: 0;
+    transform: translateY(-100%);
+    /* Slide from top */
+    border-right: none;
+    border-bottom: 1px solid var(--card-border-light);
+    z-index: 200;
+    /* Ensure above content */
+    backdrop-filter: blur(15px);
+    /* Stronger blur when open */
+  }
+
+  .sidebar-nav.open {
+    transform: translateY(0);
+    box-shadow: var(--shadow-lg);
+  }
+
+  body.dark-mode .sidebar-nav {
+    border-bottom-color: var(--card-border-dark);
+  }
+
+  .sidebar-nav nav {
+    flex-direction: row;
+    /* Horizontal buttons */
+    justify-content: space-around;
+    padding: 0.5rem;
+  }
+
+  .sidebar-buttons {
+    flex-direction: row;
+    gap: 0.5rem;
+  }
+
+  .sidebar-button {
+    width: auto;
+    /* Auto width */
+    padding: 0.6rem 0.8rem;
+    font-size: 0.9rem;
+  }
+
+  .sidebar-button span {
+    display: none;
+    /* Hide text on mobile */
+  }
+
+  .sidebar-button i {
+    margin-right: 0;
+    /* Remove margin when text is hidden */
+    font-size: 1.1rem;
+  }
+
+  .sidebar-header {
+    display: none;
+    /* Hide header on mobile */
+  }
+
+  .toggle-sidebar-button {
+    top: 0.75rem;
+    left: 0.75rem;
+    z-index: 210;
+    /* Above sidebar */
+  }
+
+  .main-container {
+    padding-left: 1rem;
+    /* Reset padding */
+    padding-top: 6rem;
+    /* Space for fixed header/sidebar */
+  }
+
+  .main-container.sidebar-open {
+    padding-left: 1rem;
+    /* No change needed when open */
+  }
+
+  /* Adjust round buttons */
+  #uploadButton,
+  #eq-uploadButton,
+  .file-toggle-button,
+  #toggle-equipment-files,
+  #dark-mode-toggle {
+    width: 44px;
+    height: 44px;
+    font-size: 1.1rem;
+  }
+
+  .file-toggle-button #assistant-file-count,
+  #toggle-equipment-files #equipment-file-count {
+    width: 18px;
+    height: 18px;
+    font-size: 0.7rem;
+    line-height: 18px;
+  }
+
+  /* Make chat controls wrap better */
+  .chat-controls {
+    justify-content: center;
+    /* Center items when wrapped */
+  }
+
+  .file-controls-group,
+  .action-controls-group {
+    margin-left: 0;
+    /* Remove auto margin */
+    flex-basis: 100%;
+    /* Force wrap if needed */
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+
+  /* Further adjustments for very small screens */
+  .chat-controls .control-button,
+  #file-upload-controls .control-button,
+  #uploadButton,
+  /* Now round */
+  .file-toggle-button {
+    /* Now round */
+    width: 40px;
+    /* Slightly smaller round buttons */
+    height: 40px;
+    font-size: 1rem;
+    /* Adjust icon size */
+  }
+
+  /* Adjust badge for smaller round buttons */
+  .file-toggle-button #assistant-file-count,
+  .file-toggle-button #eq-file-count,
+  #toggle-equipment-files #equipment-file-count {
+    width: 16px;
+    height: 16px;
+    font-size: 0.65rem;
+  }
+
+
+  #clear-chat-button {
+    padding: 0.7rem;
+    /* Adjust padding if needed */
+    min-width: 40px;
+    /* Ensure minimum size */
+    width: auto;
+    /* Allow text to expand */
+    height: 40px;
+    border-radius: var(--border-radius-md);
+    /* Keep original radius */
+  }
+
+  #clear-chat-button span {
+    display: none;
+    /* Hide text on clear button */
+  }
+
+  #clear-chat-button i {
+    margin-right: 0;
+  }
+
+  .equipment-controls .control-button,
+  #eq-file-upload-controls .control-button,
+  #eq-uploadButton,
+  /* Now round */
+  #toggle-equipment-files {
+    /* Now round */
+    width: 40px;
+    /* Slightly smaller round buttons */
+    height: 40px;
+    font-size: 1rem;
+    /* Adjust icon size */
+  }
+
+  #sendEquipmentQuestionButton span {
+    display: none;
+    /* Hide text on eq send button */
+  }
+
+  #sendEquipmentQuestionButton i {
+    margin-left: 0;
+    /* Adjust icon margin if text is hidden */
+  }
+
+  /* Further adjustments for very small screens */
+  .card-base {
+    padding: 1.25rem;
+    /* Reduce padding */
+  }
+
+  #chat-header,
+  #equipment-section h2,
+  #maintenance-tips-section h2 {
+    font-size: 1.5rem;
+    /* Smaller headers */
+  }
+
+  .response {
+    padding: 0.7rem 1rem;
+    font-size: 0.95rem;
+  }
+
+  textarea#questionInput,
+  #equipmentQuestionInput {
+    font-size: 1rem;
+    min-height: 50px;
+  }
+
+  #sendButton,
+  #sendEquipmentQuestionButton {
+    padding: 0 1rem;
+    min-height: 50px;
+  }
+
+  #sendButton i,
+  #sendEquipmentQuestionButton i {
+    font-size: 1.1rem;
+  }
+
+  /* Adjust round buttons */
+  #uploadButton,
+  #eq-uploadButton,
+  .file-toggle-button,
+  #toggle-equipment-files,
+  #dark-mode-toggle {
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+  }
+
+  .file-toggle-button #assistant-file-count,
+  #toggle-equipment-files #equipment-file-count {
+    width: 16px;
+    height: 16px;
+    font-size: 0.65rem;
+    line-height: 16px;
+  }
+
+  /* Sidebar buttons even smaller */
+  .sidebar-button {
+    padding: 0.5rem 0.6rem;
+  }
+
+  .sidebar-button i {
+    font-size: 1rem;
+  }
+}
+
+#eq-uploadButton {
+  /* Inherit general upload-btn styles if defined, or add specific styles */
+  padding: 0.5rem 0.8rem;
+  font-size: 0.85rem;
+  width: auto;
+  /* Apply Maintenance colors */
+  background: var(--maintenance-gradient-light);
+  color: white;
+  border: none;
+}
+
+#eq-uploadButton:hover:not(:disabled) {
+  background: linear-gradient(135deg, var(--maintenance-primary-light) 0%, #ea580c 100%);
+  transform: scale(1.03);
+  box-shadow: var(--shadow-md);
+}
+
+body.dark-mode #eq-uploadButton {
+  background: var(--maintenance-gradient-dark);
+  color: var(--text-dark);
+  /* Ensure text is readable */
+}
+
+body.dark-mode #eq-uploadButton:hover:not(:disabled) {
+  background: linear-gradient(135deg, var(--maintenance-primary-dark) 0%, #fdba74 100%);
+}
+
+#toggle-equipment-files {
+  /* Inherit general file-toggle-button styles if defined, or add specific styles */
+  padding: 0.5rem !important;
+  /* Review if !important is needed */
+  font-size: 1rem !important;
+  /* Review if !important is needed */
+  position: relative;
+  /* Apply Maintenance colors */
+  background-color: var(--button-control-bg-light);
+  color: var(--maintenance-primary-light);
+  border: 1px solid var(--maintenance-primary-light);
+}
+
+#toggle-equipment-files:hover:not(:disabled) {
+  background-color: var(--maintenance-bg-light);
+}
+
+body.dark-mode #toggle-equipment-files {
+  background-color: var(--button-control-bg-dark);
+  color: var(--maintenance-primary-dark);
+  border: 1px solid var(--maintenance-primary-dark);
+}
+
+body.dark-mode #toggle-equipment-files:hover:not(:disabled) {
+  background-color: var(--maintenance-bg-dark);
+}
+
+/* Toggle Sidebar Button */
+.toggle-sidebar-button {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 1000;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--card-bg-light);
+  border: 1px solid var(--card-border-light);
+  color: var(--text-light);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: var(--shadow-md);
+}
+
+.toggle-sidebar-button:hover {
+  transform: scale(1.1);
+  box-shadow: var(--shadow-lg);
+}
+
+body.dark-mode .toggle-sidebar-button {
+  background: var(--card-bg-dark);
+  border-color: var (--card-border-dark);
+  color: var(--text-dark);
+}
+
+/* Sidebar Nuevo Diseño */
+.sidebar-nav {
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100vh;
+  width: var(--sidebar-width);
+  background: var(--card-bg-light);
+  border-right: 1px solid var(--card-border-light);
+  transform: translateX(-100%);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 100;
+  overflow-y: auto;
+  box-shadow: none;
+}
+
+.sidebar-nav.open {
+  transform: translateX(0);
+  box-shadow: var(--shadow-lg);
+}
+
+.sidebar-header {
+  padding: 1.5rem;
+  border-bottom: 1px solid var(--card-border-light);
+  margin-bottom: 1rem;
+}
+
+.sidebar-header h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-light);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.sidebar-header h2 i {
+  color: var(--primary-light);
+}
+
+.sidebar-buttons {
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.sidebar-button {
+  display: flex;
+  align-items: center;
+  padding: 1rem 1.25rem;
+  border-radius: var(--border-radius-md);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--text-muted-light);
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 500;
+  width: 100%;
+  text-align: left;
+}
+
+.sidebar-button i {
+  margin-right: 0.75rem;
+  font-size: 1.1rem;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.sidebar-button:hover {
+  background: var(--bg-light);
+  transform: translateX(5px);
+}
+
+/* Colores específicos por sección en sidebar */
+.sidebar-button[data-tab="assistant"].active {
+  background: var(--assistant-bg-light);
+  color: var(--assistant-primary-light);
+  border-color: var(--assistant-primary-light);
+}
+
+.sidebar-button[data-tab="maintenance"].active {
+  background: var(--maintenance-bg-light);
+  color: var(--maintenance-primary-light);
+  border-color: var(--maintenance-primary-light);
+}
+
+.sidebar-button[data-tab="tips"].active {
+  background: var(--tips-bg-light);
+  color: var(--tips-primary-light);
+  border-color: var(--tips-primary-light);
+}
+
+/* Dark mode sidebar */
+body.dark-mode .sidebar-nav {
+  background: var(--card-bg-dark);
+  border-right-color: var(--card-border-dark);
+}
+
+body.dark-mode .sidebar-header {
+  border-bottom-color: var(--card-border-dark);
+}
+
+body.dark-mode .sidebar-header h2 {
+  color: var(--text-dark);
+}
+
+body.dark-mode .sidebar-header h2 i {
+  color: var(--primary-dark);
+}
+
+body.dark-mode .sidebar-button {
+  color: var(--text-muted-dark);
+}
+
+body.dark-mode .sidebar-button:hover {
+  background: var(--bg-dark);
+}
+
+body.dark-mode .sidebar-button[data-tab="assistant"].active {
+  background: var(--assistant-bg-dark);
+  color: var(--assistant-primary-dark);
+  border-color: var(--assistant-primary-dark);
+}
+
+body.dark-mode .sidebar-button[data-tab="maintenance"].active {
+  background: var(--maintenance-bg-dark);
+  color: var(--maintenance-primary-dark);
+  border-color: var(--maintenance-primary-dark);
+}
+
+body.dark-mode .sidebar-button[data-tab="tips"].active {
+  background: var(--tips-bg-dark);
+  color: var(--tips-primary-dark);
+  border-color: var(--tips-primary-dark);
+}
+
+/* Ajuste del contenedor principal */
+.main-container {
+  padding-left: 1.5rem;
+  transition: padding-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.main-container.sidebar-open {
+  padding-left: calc(var(--sidebar-width) + 1.5rem);
+}
+
+/* Ajuste de espaciado de secciones */
+.tab-content[data-tab-content="maintenance"],
+.tab-content[data-tab-content="tips"] {
+  padding-top: 0;
+}
+
+/* Mejoras en la estructura de output */
+.response,
+#equipmentResponseDisplay,
+.tip-item {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  letter-spacing: 0.01em;
+}
+
+.response h3,
+#equipmentResponseDisplay h3,
+.tip-item h3 {
+  font-size: 1.35rem;
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
+  color: var(--text-light);
+  font-weight: 600;
+  border-bottom: 2px solid var(--card-border-light);
+  padding-bottom: 0.5rem;
+}
+
+.response h4,
+#equipmentResponseDisplay h4,
+.tip-item h4 {
+  font-size: 1.2rem;
+  margin-top: 1.25rem;
+  margin-bottom: 0.75rem;
+  color: var(--text-light);
+  font-weight: 600;
+}
+
+.response p,
+#equipmentResponseDisplay p,
+.tip-item p {
+  margin-bottom: 1rem;
+}
+
+.response ul,
+.response ol,
+#equipmentResponseDisplay ul,
+#equipmentResponseDisplay ol,
+.tip-item ul,
+.tip-item ol {
+  margin: 1rem 0;
+  padding-left: 1.5rem;
+}
+
+.response li,
+#equipmentResponseDisplay li,
+.tip-item li {
+  margin-bottom: 0.5rem;
+}
+
+.response code,
+#equipmentResponseDisplay code,
+.tip-item code {
+  background: var(--bg-light);
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+  font-family: 'Roboto Mono', monospace;
+  font-size: 0.9em;
+  color: var(--text-light);
+}
+
+/* Mejoras en las animaciones de botones */
+.control-button,
+.maintenance-button,
+#sendButton,
+#sendEquipmentQuestionButton,
+#regenerate-tip-button {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform;
+}
+
+.control-button:hover:not(:disabled),
+.maintenance-button:hover:not(:disabled),
+#sendButton:hover:not(:disabled),
+#sendEquipmentQuestionButton:hover:not(:disabled),
+#regenerate-tip-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+}
+
+.control-button:active:not(:disabled),
+.maintenance-button:active:not(:disabled),
+#sendButton:active:not(:disabled),
+#sendEquipmentQuestionButton:active:not(:disabled),
+#regenerate-tip-button:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+/* Dark mode improvements */
+body.dark-mode .response h3,
+body.dark-mode #equipmentResponseDisplay h3,
+body.dark-mode .tip-item h3 {
+  color: var(--text-dark);
+  border-bottom-color: var(--card-border-dark);
+}
+
+body.dark-mode .response h4,
+body.dark-mode #equipmentResponseDisplay h4,
+body.dark-mode .tip-item h4 {
+  color: var(--text-dark);
+}
+
+body.dark-mode .response code,
+body.dark-mode #equipmentResponseDisplay code,
+body.dark-mode .tip-item code {
+  background: var(--bg-dark);
+  color: var(--text-dark);
+}
+
+/* Mejoras en las tablas */
+.response table,
+#equipmentResponseDisplay table,
+.tip-item table {
+  width: 100%;
+  margin: 1.5rem 0;
+  border-collapse: collapse;
+  border: 1px solid var(--card-border-light);
+  border-radius: var(--border-radius-md);
+  overflow: hidden;
+  background-color: var(--card-bg-light);
+}
+
+.response th,
+#equipmentResponseDisplay th,
+.tip-item th {
+  background-color: var(--bg-light);
+  padding: 1rem;
+  text-align: left;
+  font-weight: 600;
+  border-bottom: 2px solid var(--card-border-light);
+  color: var(--text-light);
+  font-size: 0.95rem;
+}
+
+.response td,
+#equipmentResponseDisplay td,
+.tip-item td {
+  padding: 0.875rem 1rem;
+  border-bottom: 1px solid var(--card-border-light);
+  transition: background-color 0.2s var(--transition-timing-fluent);
+}
+
+.response tr:last-child td,
+#equipmentResponseDisplay tr:last-child td,
+.tip-item tr:last-child td {
+  border-bottom: none;
+}
+
+.response tr:hover td,
+#equipmentResponseDisplay tr:hover td,
+.tip-item tr:hover td {
+  background-color: var(--bg-light);
+}
+
+/* Dark mode para tablas */
+body.dark-mode .response table,
+body.dark-mode #equipmentResponseDisplay table,
+body.dark-mode .tip-item table {
+  background-color: var(--card-bg-dark);
+  border-color: var(--card-border-dark);
+}
+
+body.dark-mode .response th,
+body.dark-mode #equipmentResponseDisplay th,
+body.dark-mode .tip-item th {
+  background-color: var(--bg-dark);
+  color: var(--text-dark);
+  border-bottom-color: var (--card-border-dark);
+}
+
+body.dark-mode .response td,
+body.dark-mode #equipmentResponseDisplay td,
+body.dark-mode .tip-item td {
+  background-color: var(--card-bg-dark);
+  border-bottom-color: var(--card-border-dark);
+}
+
+body.dark-mode .response tr:hover td,
+body.dark-mode #equipmentResponseDisplay tr:hover td,
+body.dark-mode .tip-item tr:hover td {
+  background-color: var(--bg-dark);
+}
+
+/* Responsive para tablas */
+@media (max-width: 768px) {
+
+  .response table,
+  #equipmentResponseDisplay table,
+  .tip-item table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* Estilo para viñetas azules */
+.response ul,
+#equipmentResponseDisplay ul,
+.tip-item ul {
+  list-style: none !important;
+  padding-left: 1.5rem;
+  margin: 1rem 0;
+}
+
+.response ul li,
+#equipmentResponseDisplay ul li,
+.tip-item ul li {
+  position: relative;
+  padding-left: 1.8em;
+  /* Ensure space */
+  margin-bottom: 0.75rem;
+}
+
+.response ul li::before,
+#equipmentResponseDisplay ul li::before,
+.tip-item ul li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: var(--assistant-primary-light);
+  font-weight: bold;
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
+/* Dark mode para viñetas */
+body.dark-mode .response ul li::before,
+body.dark-mode #equipmentResponseDisplay ul li::before,
+body.dark-mode .tip-item ul li::before {
+  color: var(--assistant-primary-dark);
+}
+
+/* Asegurar que no haya estilos de lista por defecto */
+.response ul,
+#equipmentResponseDisplay ul,
+.tip-item ul,
+.response li,
+#equipmentResponseDisplay li,
+.tip-item li {
+  list-style-type: none !important;
+  -webkit-padding-start: 0;
+}
+
+/* Responsive para tablas */
+@media (max-width: 768px) {
+
+  .response table,
+  #equipmentResponseDisplay table,
+  .tip-item table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* Mejoras en los botones de la barra lateral */
+.sidebar-button {
+  width: 90%;
+  margin: 0.25rem auto;
+  padding: 1rem 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.75rem;
+  border-radius: var(--border-radius-md);
+  transition: all 0.3s var(--transition-timing-fluent);
+  background: transparent;
+  border: 1px solid transparent;
+}
+
+.sidebar-button i {
+  width: 1.5rem;
+  text-align: center;
+  transition: transform 0.3s var(--transition-timing-bounce);
+}
+
+.sidebar-button span {
+  flex: 1;
+  text-align: left;
+}
+
+/* Mejora del hover de los botones laterales */
+.sidebar-button:hover {
+  transform: translateX(5px);
+  background: var(--bg-light);
+}
+
+/* Estado activo mejorado */
+.sidebar-button.active {
+  background: var(--bg-light);
+  border-color: var(--primary-light);
+  transform: translateX(5px);
+}
+
+.sidebar-button.active i {
+  transform: scale(1.2);
+}
+
+/* Animaciones Fluent mejoradas */
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Animación del panel de archivos */
+.file-display-container {
+  max-height: 0;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: max-height 0.4s var(--transition-timing-fluent),
+    opacity 0.3s var(--transition-timing-fluent),
+    transform 0.3s var(--transition-timing-fluent),
+    padding 0.3s var(--transition-timing-fluent),
+    margin 0.3s var (--transition-timing-fluent);
+}
+
+.file-display-container.visible {
+  max-height: 300px;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Animación del panel de referencias */
+.references-panel {
+  transform: translateX(100%);
+  opacity: 0;
+  transition: transform 0.4s var(--transition-timing-fluent),
+    opacity 0.3s var(--transition-timing-fluent);
+}
+
+.references-panel.open {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+/* Botones de control (asistente) */
+.chat-controls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0;
+}
+
+/* Grupo de botones de archivos */
+.file-controls-group {
+  display: flex;
+  gap: 0.5rem;
+  margin-left: auto;
+}
+
+/* Alineación de botones de archivo */
+#file-upload-controls {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-left: auto;
+}
+
+/* Mejoras en la barra lateral */
+.sidebar-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 1rem;
+  width: 100%;
+  border: none;
+  background: transparent;
+  color: var(--text-color);
+  transition: all 0.3s var(--transition-timing-fluent);
+  border-radius: var(--border-radius-md);
+  text-align: center;
+}
+
+.sidebar-button i {
+  width: 1.5rem;
+  text-align: center;
+  transition: transform 0.3s var(--transition-timing-bounce);
+}
+
+.sidebar-button.active {
+  background: var(--primary-light);
+  color: var(--text-light);
+  transform: translateX(5px);
+}
+
+.sidebar-button.active i {
+  transform: scale(1.2);
+}
+
+/* Estilos mejorados para tablas */
+.response table,
+#equipmentResponseDisplay table,
+.tip-item table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin: 1.5rem 0;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-md);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.response th,
+#equipmentResponseDisplay th,
+.tip-item th {
+  background: var(--bg-light);
+  padding: 1rem;
+  text-align: left;
+  font-weight: 600;
+  border-bottom: 2px solid var(--border-color);
+  color: var(--text-color);
+}
+
+.response td,
+#equipmentResponseDisplay td,
+.tip-item td {
+  padding: 0.875rem 1rem;
+  border-bottom: 1px solid var(--border-color);
+  transition: background-color 0.2s var(--transition-timing-fluent);
+}
+
+.response tr:last-child td,
+#equipmentResponseDisplay tr:last-child td,
+.tip-item tr:last-child td {
+  border-bottom: none;
+}
+
+.response tr:hover td,
+#equipmentResponseDisplay tr:hover td,
+.tip-item tr:hover td {
+  background: var(--bg-light);
+}
+
+/* Mejoras en los botones de control */
+.control-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: var(--border-radius-md);
+  border: 1px solid var(--border-color);
+  background: var(--bg-light);
+  color: var (--text-color);
+  transition: all 0.3s var(--transition-timing-fluent);
+}
+
+.control-button i {
+  transition: transform 0.3s var(--transition-timing-bounce);
+}
+
+.control-button:hover:not(:disabled) {
+  background: var(--hover-bg);
+  transform: translateY(-2px);
+}
+
+.control-button:hover:not(:disabled) i {
+  transform: scale(1.1);
+}
+
+.control-button.active {
+  background: var(--primary-gradient-light);
+  color: white;
+  border-color: transparent;
+  font-weight: 600;
+  transform: scale(1.02);
+  box-shadow: var(--shadow-inner);
+}
+
+/* Animaciones mejoradas para paneles */
+.file-display-container {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: all 0.4s var(--transition-timing-fluent);
+}
+
+.file-display-container.visible {
+  max-height: 300px;
+  opacity: 1;
+  padding: 1rem;
+  margin: 1rem 0;
+}
+
+.references-panel {
+  transform: translateX(100%);
+  opacity: 0;
+  transition: all 0.4s var(--transition-timing-fluent);
+}
+
+.references-panel.open {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+/* Animaciones para elementos de lista */
+.file-list li,
+.references-list li {
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: all 0.3s var(--transition-timing-fluent);
+}
+
+.file-list li.visible,
+.references-list li.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Reorganización de botones en la sección del asistente */
+.chat-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem;
+}
+
+.file-controls-group {
+  display: flex;
+  gap: 0.5rem;
+  margin-left: auto;
+}
+
+.action-controls-group {
+  display: flex;
+  gap: 0.5rem;
+}
+
+/* References Panel */
+.references-panel {
+  transform: translateX(100%);
+  opacity: 0;
+  /* Start hidden */
+}
+
+/* References Panel Active State */
+.references-panel.open {
+  transform: translateX(0);
+  opacity: 1;
+  backdrop-filter: blur(10px);
+  /* Stronger blur when open */
+}
+
+/* References Panel Content */
+.references-content {
+  padding: 1.2rem;
+  height: 100%;
+  overflow-y: auto;
+}
+
+/* References Title */
+.references-content h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--card-border-light);
+  color: var(--text-light);
+}
+
+/* References List */
+.references-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.references-list li {
+  margin-bottom: 1rem;
+  padding: 0.8rem;
+  background: var(--bg-light);
+  border: 1px solid var(--card-border-light);
+  border-radius: var(--border-radius-md);
+  transition: all var(--transition-speed-normal) var(--transition-timing);
+}
+
+.references-list li:hover {
+  transform: translateX(3px);
+  background: var(--button-control-bg-light);
+  border-color: var(--primary-light);
+}
+
+.references-list a {
+  color: var(--text-light);
+  text-decoration: none;
+  display: block;
+  word-break: break-word;
+}
+
+.references-list a:hover {
+  color: var(--primary-light);
+}
+
+/* Dark Mode References */
+body.dark-mode .references-content h3 {
+  color: var(--text-dark);
+  border-color: var(--card-border-dark);
+}
+
+body.dark-mode .references-list li {
+  background: var(--bg-dark);
+  border-color: var(--card-border-dark);
+}
+
+body.dark-mode .references-list li:hover {
+  background: var(--button-control-bg-dark);
+  border-color: var(--primary-dark);
+}
+
+body.dark-mode .references-list a {
+  color: var(--text-dark);
+}
+
+body.dark-mode .references-list a:hover {
+  color: var(--primary-dark);
+}
+
+/* Close References Button */
+#close-references {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  padding: 0.5rem;
+  background: transparent;
+  border: none;
+  color: var(--text-muted-light);
+  cursor: pointer;
+  transition: all var(--transition-speed-normal) var(--transition-timing);
+  border-radius: var(--border-radius-full);
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#close-references:hover {
+  color: var(--primary-light);
+  background-color: rgba(13, 110, 253, 0.1);
+  transform: rotate(90deg);
+}
+
+body.dark-mode #close-references:hover {
+  color: var(--primary-dark);
+  background-color: rgba(59, 130, 246, 0.1);
+}
+
+/* Common Element Styles */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Common Input Container Style */
+.input-container,
+.equipment-input-container,
+.input-group input,
+.equipment-input-group input {
+  background-color: var(--input-bg-light);
+  border: 1px solid var(--input-border-light);
+  border-radius: var(--border-radius-lg);
+  transition: all var(--transition-speed-normal) var(--transition-timing);
+  box-shadow: var(--shadow-inner);
+}
+
+/* Common Input Focus */
+.input-container:focus-within,
+.equipment-input-container:focus-within,
+.input-group input:focus,
+.equipment-input-group input:focus {
+  border-color: var(--primary-light);
+  box-shadow: 0 0 0 3px var(--primary-focus-shadow-light), var(--shadow-inner);
+}
+
+/* Common Input Dark Mode */
+body.dark-mode .input-container,
+body.dark-mode .equipment-input-container,
+body.dark-mode .input-group input,
+body.dark-mode .equipment-input-group input {
+  background-color: var(--input-bg-dark);
+  border-color: var(--input-border-dark);
+}
+
+body.dark-mode .input-container:focus-within,
+body.dark-mode .equipment-input-container:focus-within,
+body.dark-mode .input-group input:focus,
+body.dark-mode .equipment-input-group input:focus {
+  border-color: var(--primary-dark);
+  box-shadow: 0 0 0 3px var(--primary-focus-shadow-dark), var(--shadow-inner);
+}
+
+/* Common Button Style */
+.btn,
+.control-button,
+.maintenance-button {
+  font-family: inherit;
+  font-weight: 500;
+  padding: 0.6rem 1rem;
+  border-radius: var(--border-radius-md);
+  transition: all var(--transition-speed-normal) var(--transition-timing);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border: 1px solid var(--button-control-border-light);
+  background-color: var(--button-control-bg-light);
+  color: var(--button-control-text-light);
+}
+
+/* Common Button Hover */
+.btn:hover:not(:disabled),
+.control-button:hover:not(:disabled),
+.maintenance-button:hover:not(:disabled) {
+  background-color: var(--button-control-hover-bg-light);
+  border-color: var(--button-control-hover-bg-light);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Common Button Active */
+.btn.active,
+.control-button.active,
+.maintenance-button.active {
+  background: var(--primary-gradient-light);
+  color: white;
+  border-color: transparent;
+  font-weight: 600;
+  transform: scale(1.02);
+  box-shadow: var(--shadow-inner);
+}
+
+/* Common Button Dark Mode */
+body.dark-mode .btn,
+body.dark-mode .control-button,
+body.dark-mode .maintenance-button {
+  background-color: var(--button-control-bg-dark);
+  border-color: var(--button-control-border-dark);
+  color: var(--button-control-text-dark);
+}
+
+body.dark-mode .btn:hover:not(:disabled),
+body.dark-mode .control-button:hover:not(:disabled),
+body.dark-mode .maintenance-button:hover:not(:disabled) {
+  background-color: var(--button-control-hover-bg-dark);
+  border-color: var(--button-control-hover-bg-dark);
+  color: var(--text-dark);
+}
+
+body.dark-mode .btn.active,
+body.dark-mode .control-button.active,
+body.dark-mode .maintenance-button.active {
+  background: var(--primary-gradient-dark);
+  color: white;
+}
+
+/* Common Card Style */
+.card,
+.card-base {
+  background-color: var(--card-bg-light);
+  border: 1px solid var(--card-border-light);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-md);
+  transition: all var(--transition-speed-normal) var (--transition-timing);
+}
+
+/* Common Card Dark Mode */
+body.dark-mode .card,
+body.dark-mode .card-base {
+  background-color: var(--card-bg-dark);
+  border-color: var(--card-border-dark);
+}
+
+/* Common Loading Indicator */
+.loading-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-muted-light);
+  font-size: 0.9rem;
+}
+
+.loading-indicator i {
+  animation: spin 1s linear infinite;
+}
+
+body.dark-mode .loading-indicator {
+  color: var(--text-muted-dark);
+}
+
+@keyframes spin {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Common Error Message */
+.error-message {
+  background-color: rgba(220, 53, 69, 0.1);
+  border: 1px solid rgba(220, 53, 69, 0.3);
+  color: var (--danger-color);
+  padding: 0.7rem 1rem;
+  border-radius: var(--border-radius-md);
+  margin: 0.8rem 0;
+  font-size: 0.9rem;
+  font-weight: 500;
+  display: none;
+  opacity: 0;
+  transition: opacity var(--transition-speed-normal);
+}
+
+body.dark-mode .error-message {
+  background-color: rgba(220, 53, 69, 0.2);
+  border-color: rgba(220, 53, 69, 0.4);
+  color: #f8d7da;
+}
+
+/* Common Link Style */
+a {
+  color: var(--primary-light);
+  text-decoration: none;
+  transition: color var(--transition-speed-normal);
+}
+
+a:hover {
+  color: var(--primary-dark);
+  text-decoration: underline;
+}
+
+body.dark-mode a {
+  color: var(--primary-dark);
+}
+
+body.dark-mode a:hover {
+  color: var(--primary-light);
+}
+
+/* Common Form Elements */
+label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: var(--text-light);
+  font-weight: 500;
+}
+
+body.dark-mode label {
+  color: var(--text-dark);
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+textarea {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border: 1px solid var(--input-border-light);
+  border-radius: var(--border-radius-md);
+  background-color: var(--input-bg-light);
+  color: var(--text-light);
+  font-family: inherit;
+  font-size: 1rem;
+  transition: all var(--transition-speed-normal);
+}
+
+body.dark-mode input[type="text"],
+body.dark-mode input[type="email"],
+body.dark-mode input[type="password"],
+body.dark-mode textarea {
+  background-color: var(--input-bg-dark);
+  border-color: var(--input-border-dark);
+  color: var(--text-dark);
+}
+
+/* Common Selection Style */
+::selection {
+  background-color: var(--primary-light);
+  color: white;
+}
+
+body.dark-mode ::selection {
+  background-color: var(--primary-dark);
+  color: var(--bg-dark);
+}
+
+/* Common Table Style */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+  border: 1px solid var(--card-border-light);
+  border-radius: var(--border-radius-md);
+  overflow: hidden;
+}
+
+th {
+  background-color: var(--button-control-bg-light);
+  color: var(--text-light);
+  font-weight: 600;
+  text-align: left;
+  padding: 0.8rem 1rem;
+}
+
+td {
+  padding: 0.8rem 1rem;
+  border-bottom: 1px solid var(--card-border-light);
+}
+
+tr:hover td {
+  background-color: var(--button-control-bg-light);
+}
+
+body.dark-mode table {
+  border-color: var(--card-border-dark);
+}
+
+body.dark-mode th {
+  background-color: var(--button-control-bg-dark);
+  color: var(--text-dark);
+}
+
+body.dark-mode td {
+  border-color: var(--card-border-dark);
+}
+
+body.dark-mode tr:hover td {
+  background-color: var(--button-control-bg-dark);
+}
+
+/* Common List Style */
+ul,
+ol {
+  padding-left: 1.5rem;
+  margin: 1rem 0;
+}
+
+li {
+  margin-bottom: 0.5rem;
+}
+
+/* Common Code Style */
+code {
+  font-family: 'Roboto Mono', monospace;
+  background-color: var(--button-control-bg-light);
+  padding: 0.2em 0.4em;
+  border-radius: var(--border-radius-sm);
+  font-size: 0.9em;
+  color: var(--text-light);
+  border: 1px solid var(--input-border-light);
+}
+
+pre {
+  background-color: var(--button-control-bg-light);
+  padding: 1rem;
+  border-radius: var(--border-radius-md);
+  overflow-x: auto;
+  border: 1px solid var(--input-border-light);
+  margin: 1rem 0;
+}
+
+pre code {
+  background-color: transparent;
+  padding: 0;
+  border: none;
+  font-size: 0.9em;
+  color: inherit;
+}
+
+body.dark-mode code {
+  background-color: var(--button-control-bg-dark);
+  color: var(--text-dark);
+  border-color: var(--input-border-dark);
+}
+
+body.dark-mode pre {
+  background-color: var(--button-control-bg-dark);
+  border-color: var(--input-border-dark);
+}
+
+/* Ensure consistent spacing */
+.mb-1 {
+  margin-bottom: 0.25rem;
+}
+
+.mb-2 {
+  margin-bottom: 0.5rem;
+}
+
+.mb-3 {
+  margin-bottom: 1rem;
+}
+
+.mb-4 {
+  margin-bottom: 1.5rem;
+}
+
+.mb-5 {
+  margin-bottom: 2rem;
+}
+
+.mt-1 {
+  margin-top: 0.25rem;
+}
+
+.mt-2 {
+  margin-top: 0.5rem;
+}
+
+.mt-3 {
+  margin-top: 1rem;
+}
+
+.mt-4 {
+  margin-top: 1.5rem;
+}
+
+.mt-5 {
+  margin-top: 2rem;
+}
+
+.mx-1 {
+  margin-left: 0.25rem;
+  margin-right: 0.25rem;
+}
+
+.mx-2 {
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+}
+
+.mx-3 {
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
+.mx-4 {
+  margin-left: 1.5rem;
+  margin-right: 1.5rem;
+}
+
+.mx-5 {
+  margin-left: 2rem;
+  margin-right: 2rem;
+}
+
+.my-1 {
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem;
+}
+
+.my-2 {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.my-3 {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.my-4 {
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.my-5 {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+/* Common Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Apply animations */
+.fade-in {
+  animation: fadeIn var(--transition-speed-normal) var(--transition-timing);
+}
+
+.slide-up {
+  animation: slideInUp var(--transition-speed-normal) var(--transition-timing);
+}
+
+.slide-left {
+  animation: slideInLeft var(--transition-speed-normal) var(--transition-timing);
+}
+
+.slide-right {
+  animation: slideInRight var(--transition-speed-normal) var (--transition-timing);
+}
+
+.scale-in {
+  animation: scaleIn var(--transition-speed-normal) var(--transition-timing);
+}
+
+/* Common Focus Styles */
+:focus {
+  outline: none;
+}
+
+:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--primary-focus-shadow-light);
+}
+
+body.dark-mode :focus-visible {
+  box-shadow: 0 0 0 3px var(--primary-focus-shadow-dark);
+}
+
+/* Ensure consistent z-index layers */
+:root {
+  --z-dropdown: 1000;
+  --z-sticky: 1020;
+  --z-fixed: 1030;
+  --z-modal-backdrop: 1040;
+  --z-modal: 1050;
+  --z-popover: 1060;
+  --z-tooltip: 1070;
+}
+
+/* Base Styles */
+html {
+  font-size: var(--font-size-base);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-family-base);
+  line-height: var(--line-height-base);
+  color: var(--text-light);
+  background-color: var(--bg-light);
+  transition: background-color var(--transition-speed-normal),
+    color var(--transition-speed-normal);
+}
+
+/* Dark Mode */
+body.dark-mode {
+  color: var(--text-dark);
+  background-color: var(--bg-dark);
+}
+
+/* Chat Interface */
+.chat-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--spacing-4);
+}
+
+.chat-messages {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+  margin-bottom: var(--spacing-4);
+}
+
+.message {
+  display: flex;
+  margin: 1rem 0;
+  padding: 1rem;
+  border-radius: 12px;
+  animation: messageAppear 0.3s ease-out;
+}
+
+.message.user {
+  background: var(--user-message-bg);
+  margin-left: 2rem;
+}
+
+.message.assistant {
+  background: var(--assistant-message-bg);
+  margin-right: 2rem;
+}
+
+.message-avatar {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--accent-primary);
+  color: white;
+  font-size: 1.2rem;
+}
+
+.message-content {
+  flex: 1;
+  overflow-x: auto;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+/* Code and JSON formatting */
+pre {
+  background: var(--bg-secondary);
+  border-radius: 8px;
+  padding: 1rem;
+  overflow-x: auto;
+  font-family: 'Fira Code', 'Consolas', monospace;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+code {
+  font-family: 'Fira Code', 'Consolas', monospace;
+  font-size: 0.9em;
+  padding: 0.2em 0.4em;
+  border-radius: 4px;
+  background: var(--bg-secondary);
+}
+
+.json-content {
+  font-family: 'Fira Code', 'Consolas', monospace;
+}
+
+.json-key {
+  color: #e06c75;
+}
+
+.json-string {
+  color: #98c379;
+}
+
+.json-number {
+  color: #d19a66;
+}
+
+.json-boolean {
+  color: #c678dd;
+}
+
+.json-null {
+  color: #e06c75;
+}
+
+/* Streaming effect */
+.message.streaming .message-content {
+  border-right: 2px solid var (--accent-primary);
+  animation: cursorBlink 1s infinite;
+}
+
+/* Animations */
+@keyframes messageAppear {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes cursorBlink {
+
+  0%,
+  100% {
+    border-color: transparent;
+  }
+
+  50% {
+    border-color: var(--accent-primary);
+  }
+}
+
+/* Accessibility improvements */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+/* Focus states */
+button:focus,
+input:focus,
+textarea:focus {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 2px;
+}
+
+/* Responsive font sizes */
+@media (max-width: 768px) {
+  :root {
+    --font-size-base: 14px;
+  }
+
+  .message {
+    margin: 0.75rem 0;
+    padding: 0.75rem;
+  }
+}
+
+/* High contrast improvements */
+@media (prefers-contrast: high) {
+  :root {
+    --text-primary: #000000;
+    --text-secondary: #333333;
+    --accent-primary: #0000EE;
+    --accent-secondary: #551A8B;
+  }
+
+  [data-theme="dark"] {
+    --text-primary: #FFFFFF;
+    --text-secondary: #CCCCCC;
+    --accent-primary: #00FF00;
+    --accent-secondary: #FFFF00;
+  }
+}
