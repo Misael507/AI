@@ -1,0 +1,3349 @@
+:root {
+
+  --accent-color: #00bfff;
+
+  --button-color: #ff4081;
+
+  --button-hover-color: #ff80ab;
+
+  --gradient-start: #ff4081;
+  --gradient-middle: #8e44ad;
+
+  --gradient-end: #00bfff;
+
+
+  --background-color: #1a1d24;
+
+
+
+  --background-color-light: #ffffff;
+
+  --text-color-light: #212529;
+
+  --text-muted-light: #6c757d;
+
+  --heading-color-light: #1c1e21;
+
+
+  --container-bg-light: #f8f9fa;
+
+  --container-border-light: #dee2e6;
+
+
+  --response-bg-light: #ffffff;
+
+  --response-user-bg-light: #e7f5ff;
+
+  --response-border-light: #ced4da;
+
+
+  --input-bg-light: #ffffff;
+  --input-border-light: #ced4da;
+  --input-focus-border-light: var(--accent-color);
+  --input-focus-shadow-light: 0 0 0 3px rgba(0, 191, 255, 0.15);
+
+
+  --button-control-bg-light: #e9ecef;
+
+  --button-control-hover-bg-light: #dee2e6;
+
+  --button-control-active-bg-light: #ced4da;
+
+  --button-control-border-light: #ced4da;
+  --button-control-text-light: #495057;
+
+
+  --tip-section-bg-light: #f8f9fa;
+  --tip-item-bg-light: #ffffff;
+  --tip-accent-light: var(--accent-color);
+
+
+  --background-color-dark: #121212;
+
+  --text-color-dark: #e4e6eb;
+
+  --text-muted-dark: #adb5bd;
+
+  --heading-color-dark: #ffffff;
+
+
+  --container-bg-dark: #1c1e21;
+
+  --container-border-dark: #343a40;
+
+
+  --response-bg-dark: #212529;
+
+  --response-user-bg-dark: #2c3e50;
+
+  --response-border-dark: #495057;
+
+
+  --input-bg-dark: #212529;
+  --input-border-dark: #495057;
+  --input-focus-border-dark: var(--accent-color);
+  --input-focus-shadow-dark: 0 0 0 3px rgba(0, 191, 255, 0.2);
+
+  --button-control-bg-dark: #343a40;
+
+  --button-control-hover-bg-dark: #495057;
+
+  --button-control-active-bg-dark: #6c757d;
+
+  --button-control-border-dark: #495057;
+  --button-control-text-dark: #adb5bd;
+
+
+  --tip-section-bg-dark: #1c1e21;
+  --tip-item-bg-dark: #212529;
+  --tip-accent-dark: var(--accent-color);
+
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 3px 6px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.08);
+  --shadow-xl: 0 15px 30px rgba(0, 0, 0, 0.1);
+  --shadow-inner: inset 0 1px 2px rgba(0, 0, 0, 0.05);
+
+
+  --border-radius-sm: 0.25rem;
+
+  --border-radius-md: 0.375rem;
+
+  --border-radius-lg: 0.5rem;
+
+  --border-radius-xl: 0.75rem;
+
+  --border-radius-full: 9999px;
+
+
+  --transition-speed-fast: 0.15s;
+  --transition-speed-normal: 0.2s;
+
+  --transition-timing: ease-in-out;
+
+}
+
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes glowText {
+  0% {
+    text-shadow: 0 0 4px rgba(0, 191, 255, 0.4);
+  }
+
+  50% {
+    text-shadow: 0 0 12px rgba(0, 191, 255, 0.6), 0 0 18px rgba(0, 191, 255, 0.4);
+  }
+
+  100% {
+    text-shadow: 0 0 4px rgba(0, 191, 255, 0.4);
+  }
+}
+
+@keyframes heartbeat {
+  0% {
+    transform: scale(1);
+  }
+
+  15% {
+    transform: scale(1.05);
+  }
+
+
+  30% {
+    transform: scale(1);
+  }
+
+  45% {
+    transform: scale(1.05);
+  }
+
+  60% {
+    transform: scale(1);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes buttonPulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(255, 64, 129, 0.6);
+  }
+
+
+  70% {
+    box-shadow: 0 0 0 8px rgba(255, 64, 129, 0);
+  }
+
+
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 64, 129, 0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(20px);
+    opacity: 0;
+  }
+
+
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+
+body {
+  background-color: var(--background-color-light);
+  color: var(--text-color-light);
+}
+
+
+body.dark-mode {
+  background-color: var(--background-color-dark);
+  color: var(--text-color-dark);
+}
+
+
+
+
+/* Contenedor principal con espacio para el sidebar */
+.main-container {
+  display: flex;
+  width: 100%;
+  height: 100vh;
+  position: relative;
+
+  /* overflow: hidden; */
+
+}
+
+/* Botón para mostrar/ocultar sidebar */
+.toggle-sidebar-btn {
+  position: fixed;
+
+  top: 15px;
+
+  left: 15px;
+
+  width: 40px;
+  height: 40px;
+  background-color: var(--accent-color);
+
+  color: white;
+
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 1100;
+
+  box-shadow: var(--shadow-md);
+  transition: background-color var(--transition-speed-normal) var(--transition-timing),
+    transform var(--transition-speed-normal) var(--transition-timing),
+    opacity var(--transition-speed-normal) var(--transition-timing);
+  opacity: 0.9;
+}
+
+
+body.sidebar-open .toggle-sidebar-btn {
+  transform: rotate(180deg);
+}
+
+.toggle-sidebar-btn:hover {
+  opacity: 1;
+  transform: scale(1.1);
+
+  background-color: var(--button-hover-color);
+
+}
+
+body.dark-mode .toggle-sidebar-btn {
+  background-color: var(--accent-color);
+
+  color: var(--container-bg-dark);
+
+}
+
+body.dark-mode .toggle-sidebar-btn:hover {
+  background-color: var(--button-hover-color);
+}
+
+/* Sidebar de navegación */
+.sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 260px;
+
+  height: 100vh;
+  background-color: var(--container-bg-light);
+  border-right: 1px solid var(--container-border-light);
+  z-index: 1050;
+
+  transition: transform 0.3s var(--transition-timing);
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 0;
+  box-shadow: var(--shadow-lg);
+  overflow-y: auto;
+
+  transform: translateX(0);
+
+}
+
+
+.sidebar.collapsed {
+  transform: translateX(-100%);
+}
+
+body.dark-mode .sidebar {
+  background-color: var(--container-bg-dark);
+  border-right-color: var(--container-border-dark);
+}
+
+
+
+/* Logo en el sidebar */
+.sidebar-logo {
+  padding: 1rem;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sidebar-logo img {
+  max-width: 100%;
+  height: 60px;
+}
+
+/* Botones de navegación en el sidebar */
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0 1rem;
+}
+
+.sidebar-nav-button {
+  padding: 0.75rem 1rem;
+  background-color: transparent;
+  color: var(--text-color-light);
+  border: 1px solid transparent;
+  border-radius: var(--border-radius-md);
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.sidebar-nav-button:hover {
+  background-color: var(--button-control-hover-bg-light);
+  transform: translateX(5px);
+}
+
+.sidebar-nav-button.active {
+  background-color: var(--accent-color);
+  color: white;
+}
+
+.sidebar-nav-button i {
+  font-size: 1.2rem;
+  width: 24px;
+  text-align: center;
+}
+
+body.dark-mode .sidebar-nav-button {
+  color: var(--text-color-dark);
+}
+
+body.dark-mode .sidebar-nav-button:hover {
+  background-color: var(--button-control-hover-bg-dark);
+}
+
+/* Botón de tema en el sidebar */
+.theme-toggle {
+  margin-top: auto;
+  padding: 1rem;
+  display: flex;
+  justify-content: center;
+}
+
+.theme-toggle-button {
+  background-color: transparent;
+  border: 1px solid var(--container-border-light);
+  color: var(--text-muted-light);
+  border-radius: var(--border-radius-full);
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.theme-toggle-button:hover {
+  background-color: var(--button-control-hover-bg-light);
+  transform: rotate(15deg);
+}
+
+body.dark-mode .theme-toggle-button {
+  border-color: var(--container-border-dark);
+  color: var(--text-muted-dark);
+}
+
+body.dark-mode .theme-toggle-button:hover {
+  background-color: var(--button-control-hover-bg-dark);
+}
+
+/* Contenido principal con margen para el sidebar */
+.content-wrapper {
+  flex: 1;
+  padding: 1.5rem;
+  /* Increase padding */
+  margin-left: 260px;
+  /* Match sidebar width */
+  width: calc(100% - 260px);
+  /* Match sidebar width */
+  height: 100%;
+  /* Use percentage height */
+  overflow-y: auto;
+  transition: margin-left 0.3s var(--transition-timing), width 0.3s var(--transition-timing);
+  background-color: var(--body-bg-light);
+  /* Add background color */
+  position: relative;
+  /* Added to potentially resolve rendering issues */
+}
+
+body.dark-mode .content-wrapper {
+  background-color: var(--body-bg-dark);
+}
+
+/* Adjust content when sidebar is collapsed */
+.sidebar.collapsed~.content-wrapper {
+  margin-left: 0;
+  width: 100%;
+}
+
+/* Ajustes para pantallas pequeñas */
+/* --- Responsive Adjustments --- */
+
+/* Medium Screens (Tablets) */
+@media (max-width: 1024px) {
+  .sidebar {
+    width: 220px;
+    /* Slightly narrower sidebar */
+  }
+
+  .content-wrapper {
+    margin-left: 220px;
+    width: calc(100% - 220px);
+    padding: 1rem;
+    /* Adjust padding */
+  }
+
+  .sidebar.collapsed~.content-wrapper {
+    margin-left: 0;
+    width: 100%;
+  }
+}
+
+/* Small Screens (Mobile) */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 240px;
+
+    transform: translateX(-100%);
+
+    box-shadow: var(--shadow-xl);
+
+    z-index: 1050;
+
+  }
+
+
+  body.sidebar-open .sidebar {
+    transform: translateX(0);
+  }
+
+  /* Content wrapper takes full width on small screens */
+  .content-wrapper {
+    margin-left: 0;
+    width: 100%;
+    padding: 1rem;
+    /* Adjust padding */
+  }
+
+  /* Optional: Add an overlay behind the sidebar when open */
+  body.sidebar-open::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1040;
+    /* Below sidebar, above content */
+    opacity: 1;
+    transition: opacity 0.3s var(--transition-timing);
+  }
+
+  body:not(.sidebar-open)::before {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  /* Ensure toggle button is always accessible */
+  .toggle-sidebar-btn {
+    left: 10px;
+    /* Adjust position */
+    top: 10px;
+  }
+}
+
+/* --- END sidebar-nav.css --- */
+
+/* --- START upload-buttons.css --- */
+/* Contenedor de subida de archivos */
+.file-upload-container {
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+/* Ocultar input de archivo nativo */
+.file-input {
+  display: none;
+}
+
+/* Botón de subir documentos */
+.upload-button {
+  background-color: var(--accent-color);
+  color: white;
+  border: none;
+  border-radius: var(--border-radius-md);
+  padding: 0.75rem 1.25rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: var(--shadow-md);
+  width: 100%;
+}
+
+.upload-button:hover {
+  background-color: #00a3d9;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.upload-button:active {
+  transform: translateY(0);
+  box-shadow: var(--shadow-sm);
+}
+
+.upload-button i {
+  font-size: 1.1rem;
+}
+
+/* Lista de archivos */
+.file-list {
+  list-style: none;
+  padding: 0.75rem;
+  margin: 0;
+  max-height: 120px;
+  overflow-y: auto;
+  border: 1px solid var(--input-border-light);
+  border-radius: var(--border-radius-md);
+  background-color: var(--input-bg-light);
+  font-size: 0.85rem;
+  width: 100%;
+}
+
+body.dark-mode .file-list {
+  border-color: var(--input-border-dark);
+  background-color: var(--input-bg-dark);
+}
+
+.file-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.4rem 0;
+  border-bottom: 1px solid var(--input-border-light);
+}
+
+body.dark-mode .file-list li {
+  border-bottom-color: var(--input-border-dark);
+}
+
+.file-list li:last-child {
+  border-bottom: none;
+}
+
+.file-list li .file-name {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.file-list li .file-name i {
+  font-size: 1rem;
+  color: var(--accent-color);
+}
+
+.file-list li .remove-file-btn {
+  background-color: transparent;
+  border: none;
+  color: var(--text-muted-light);
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: var(--border-radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.file-list li .remove-file-btn:hover {
+  color: var(--button-color);
+  background-color: rgba(255, 58, 140, 0.1);
+}
+
+body.dark-mode .file-list li .remove-file-btn {
+  color: var(--text-muted-dark);
+}
+
+body.dark-mode .file-list li .remove-file-btn:hover {
+  color: var(--button-hover-color);
+  background-color: rgba(255, 58, 140, 0.2);
+}
+
+/* --- Responsive Adjustments --- */
+@media (max-width: 768px) {
+  .upload-button {
+    padding: 0.65rem 1rem;
+    /* Adjust padding */
+    font-size: 0.9rem;
+    /* Adjust font size */
+  }
+
+  .file-list {
+    font-size: 0.8rem;
+    /* Adjust list font size */
+    padding: 0.6rem;
+    /* Adjust list padding */
+    max-height: 100px;
+    /* Adjust max height */
+  }
+
+  .file-list li {
+    padding: 0.3rem 0;
+    /* Adjust item padding */
+  }
+
+  .file-list li .file-name {
+    gap: 0.4rem;
+    /* Adjust gap */
+  }
+
+  .file-list li .file-name i {
+    font-size: 0.9rem;
+    /* Adjust icon size */
+  }
+
+  .file-list li .remove-file-btn {
+    padding: 0.2rem;
+    /* Adjust remove button padding */
+  }
+}
+
+/* --- END upload-buttons.css --- */
+
+/* --- START sidebar-panels.css --- */
+/* Panel lateral derecho (archivos y referencias) */
+.right-sidebar {
+  position: fixed;
+  right: -350px;
+  top: 0;
+  width: 350px;
+  height: 100vh;
+  background-color: var(--container-bg-light);
+  border-left: 1px solid var(--container-border-light);
+  z-index: 1000;
+  transition: right 0.3s var(--transition-timing);
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--shadow-lg);
+  overflow-y: auto;
+  /* Allow sidebar itself to scroll if content overflows */
+}
+
+body.dark-mode .right-sidebar {
+  background-color: var(--container-bg-dark);
+  border-left-color: var(--container-border-dark);
+}
+
+.right-sidebar.active {
+  right: 0;
+}
+
+/* Encabezado del panel */
+.sidebar-panel-header {
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--container-border-light);
+}
+
+body.dark-mode .sidebar-panel-header {
+  border-bottom-color: var(--container-border-dark);
+}
+
+.sidebar-panel-title {
+  font-weight: 600;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.sidebar-panel-title i {
+  color: var(--accent-color);
+}
+
+.close-sidebar-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted-light);
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--border-radius-full);
+  transition: all 0.2s ease;
+}
+
+.close-sidebar-btn:hover {
+  background-color: var(--button-control-hover-bg-light);
+  color: var(--button-color);
+}
+
+body.dark-mode .close-sidebar-btn {
+  color: var(--text-muted-dark);
+}
+
+body.dark-mode .close-sidebar-btn:hover {
+  background-color: var(--button-control-hover-bg-dark);
+}
+
+/* Contenido del panel */
+.sidebar-panel-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1rem;
+}
+
+/* Estilos específicos para el panel de archivos */
+.files-panel-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.file-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem;
+  border-radius: var(--border-radius-md);
+  background-color: var(--input-bg-light);
+  border: 1px solid var(--input-border-light);
+  transition: all 0.2s ease;
+}
+
+body.dark-mode .file-item {
+  background-color: var(--input-bg-dark);
+  border-color: var(--input-border-dark);
+}
+
+.file-item:hover {
+  background-color: var(--button-control-hover-bg-light);
+  transform: translateY(-2px);
+}
+
+body.dark-mode .file-item:hover {
+  background-color: var(--button-control-hover-bg-dark);
+}
+
+.file-info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  overflow: hidden;
+}
+
+.file-icon {
+  color: var(--accent-color);
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.file-name {
+  font-size: 0.9rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.file-actions {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.file-action-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted-light);
+  cursor: pointer;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--border-radius-full);
+  transition: all 0.2s ease;
+}
+
+.file-action-btn:hover {
+  background-color: var(--button-control-hover-bg-light);
+  color: var(--accent-color);
+}
+
+body.dark-mode .file-action-btn {
+  color: var(--text-muted-dark);
+}
+
+body.dark-mode .file-action-btn:hover {
+  background-color: var(--button-control-hover-bg-dark);
+}
+
+.file-action-btn.delete:hover {
+  color: var(--button-color);
+}
+
+/* Estilos específicos para el panel de referencias */
+.references-panel-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Add styles for the new <ol> wrapper if needed */
+.references-list {
+  list-style: decimal inside;
+  /* Style for ordered list */
+  padding-left: 0;
+  /* Remove default padding */
+  margin: 0;
+  /* Remove default margin */
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  /* Maintain gap between items */
+}
+
+.reference-item {
+  padding: 0;
+  /* Remove padding from li if content div has it */
+  background-color: transparent;
+  /* Remove background from li */
+  border: none;
+  /* Remove border from li */
+  margin-left: 1.5em;
+  /* Indent list items */
+  position: relative;
+}
+
+/* Style the content container within the list item */
+.reference-content {
+  padding: 1rem;
+  border-radius: var(--border-radius-md);
+  background-color: var(--input-bg-light);
+  border: 1px solid var(--input-border-light);
+  overflow-wrap: break-word;
+  /* Ensure wrapping within the content div */
+  word-wrap: break-word;
+  /* Older browsers fallback */
+  word-break: break-word;
+  /* Allow breaking long words/URLs */
+}
+
+
+body.dark-mode .reference-content {
+  /* Apply dark mode to content div */
+  background-color: var(--input-bg-dark);
+  border-color: var(--input-border-dark);
+}
+
+.reference-title {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+  color: var(--accent-color);
+  overflow-wrap: break-word;
+  /* Wrap long titles */
+  word-wrap: break-word;
+  word-break: break-word;
+}
+
+.reference-title a {
+  /* Ensure links within title wrap */
+  color: inherit;
+  /* Inherit color from parent */
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
+}
+
+/* Style for the domain name */
+.reference-domain {
+  font-size: 0.8rem;
+  color: var(--text-muted-light);
+  margin-bottom: 0.5rem;
+  font-style: italic;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
+}
+
+body.dark-mode .reference-domain {
+  color: var(--text-muted-dark);
+}
+
+
+.reference-snippet {
+  font-size: 0.85rem;
+  line-height: 1.5;
+  margin-bottom: 0.5rem;
+  /* Add margin below snippet */
+  overflow-wrap: break-word;
+  /* Wrap long snippets */
+  word-wrap: break-word;
+  word-break: break-word;
+}
+
+/* Style for the smaller URL at the bottom */
+.reference-url-small {
+  font-size: 0.75rem;
+  /* Smaller font size */
+  color: var(--text-muted-light);
+  margin-top: 0.5rem;
+  overflow-wrap: break-word;
+  /* Ensure URL wraps */
+  word-wrap: break-word;
+  word-break: break-all;
+  /* More aggressive breaking for URLs */
+}
+
+.reference-url-small a {
+  color: inherit;
+  /* Inherit muted color */
+}
+
+body.dark-mode .reference-url-small {
+  color: var(--text-muted-dark);
+}
+
+/* Remove the old .reference-url style as it's replaced by .reference-url-small */
+/*
+.reference-url {
+  font-size: 0.8rem;
+  color: var(--text-muted-light);
+  margin-bottom: 0.5rem;
+  word-break: break-all;
+}
+
+body.dark-mode .reference-url {
+  color: var(--text-muted-dark);
+}
+*/
+
+/* Botones de acción en el área de entrada de texto */
+.input-actions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.75rem;
+}
+
+.input-action-btn {
+  background-color: var(--button-control-bg-light);
+  color: var(--button-control-text-light);
+  border: 1px solid var(--button-control-border-light);
+  border-radius: var(--border-radius-full);
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.input-action-btn:hover {
+  background-color: var(--button-control-hover-bg-light);
+  color: var(--accent-color);
+  transform: translateY(-2px);
+}
+
+.input-action-btn.active {
+  background-color: var(--button-control-active-bg-light);
+  color: var(--accent-color);
+  border-color: var(--accent-color);
+}
+
+body.dark-mode .input-action-btn {
+  background-color: var(--button-control-bg-dark);
+  color: var(--button-control-text-dark);
+  border-color: var(--button-control-border-dark);
+}
+
+body.dark-mode .input-action-btn:hover {
+  background-color: var(--button-control-hover-bg-dark);
+}
+
+body.dark-mode .input-action-btn.active {
+  background-color: var(--button-control-active-bg-dark);
+}
+
+/* Tooltip para los botones */
+.input-action-btn .tooltip {
+  position: absolute;
+  top: -40px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--container-bg-light);
+  color: var(--text-color-light);
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--border-radius-md);
+  font-size: 0.8rem;
+  white-space: nowrap;
+  box-shadow: var(--shadow-md);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease, visibility 0.2s ease;
+  pointer-events: none;
+  border: 1px solid var(--container-border-light);
+}
+
+body.dark-mode .input-action-btn .tooltip {
+  background-color: var(--container-bg-dark);
+  color: var(--text-color-dark);
+  border-color: var(--container-border-dark);
+}
+
+.input-action-btn:hover .tooltip {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Contador de archivos */
+.files-count {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background-color: var(--button-color);
+  color: white;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  font-size: 0.7rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Área de entrada de texto flotante */
+.floating-input-area {
+  position: fixed;
+  /* Keep fixed */
+  bottom: 1.25rem;
+  /* Adjust bottom spacing */
+  /* Centering logic for larger screens */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  /* Relative width, adjust if needed */
+  max-width: 90%;
+  /* Max width constraint, adjust if needed */
+  /* --- End Centering --- */
+  background-color: var(--container-bg-light);
+  border-radius: var(--border-radius-xl);
+  box-shadow: var(--shadow-xl);
+  padding: 0.75rem;
+  z-index: 10;
+  border: 1px solid var(--container-border-light);
+  transition: all 0.3s ease;
+  /* Simplify transition */
+  overflow: hidden;
+  /* Ensure content is contained */
+}
+
+/* Adjust floating input area when sidebar is open on larger screens */
+/* Apply only above mobile breakpoint (e.g., > 768px) */
+@media (min-width: 769px) {
+  body.sidebar-open .floating-input-area {
+    /* Adjust width or left position based on sidebar width */
+    /* Example: Assuming sidebar width is defined in sidebar-nav.css */
+    /* You might need to adjust this based on the actual sidebar width variable/value */
+    left: calc(50% + var(--sidebar-width, 260px) / 2);
+    /* Recenter considering sidebar */
+    width: calc(90% - var(--sidebar-width, 260px));
+    /* Reduce width */
+    /* Or adjust max-width */
+    /* max-width: calc(90% - var(--sidebar-width, 260px)); */
+  }
+}
+
+
+body.dark-mode .floating-input-area {
+  background-color: var(--container-bg-dark);
+  border-color: var(--container-border-dark);
+}
+
+/* Botón para mostrar/ocultar la barra de acciones */
+.toggle-actions-btn {
+  position: absolute;
+  top: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 30px;
+  height: 30px;
+  background-color: var(--container-bg-light);
+  border: 1px solid var(--container-border-light);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 11;
+  box-shadow: var(--shadow-md);
+  transition: all 0.3s ease;
+}
+
+body.dark-mode .toggle-actions-btn {
+  background-color: var(--container-bg-dark);
+  border-color: var(--container-border-dark);
+}
+
+.toggle-actions-btn:hover {
+  transform: translateX(-50%) scale(1.1);
+}
+
+.toggle-actions-btn i {
+  transition: transform 0.3s ease;
+}
+
+.toggle-actions-btn.collapsed i {
+  transform: rotate(180deg);
+}
+
+/* Barra de acciones colapsable */
+.input-actions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.75rem;
+  transition: all 0.3s ease;
+  max-height: 50px;
+  overflow: hidden;
+  opacity: 1;
+}
+
+.input-actions.collapsed {
+  max-height: 0;
+  margin-bottom: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Área de entrada de texto colapsable */
+.input-container {
+  transition: all 0.3s ease;
+  max-height: 100px;
+  opacity: 1;
+  margin-top: 0.75rem;
+}
+
+.input-container.collapsed {
+  max-height: 0;
+  margin-top: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Ajustes para pantallas pequeñas */
+/* --- Responsive Adjustments --- */
+
+/* Medium Screens (Tablets) */
+@media (max-width: 1024px) {
+  .right-sidebar {
+    width: 300px;
+    /* Slightly narrower */
+  }
+
+  .floating-input-area {
+    max-width: 90%;
+    bottom: 1rem;
+    /* Consistent bottom spacing */
+    padding: 0.6rem;
+    /* Consistent padding */
+  }
+
+  .sidebar-panel-header {
+    padding: 0.8rem;
+  }
+
+  .sidebar-panel-title {
+    font-size: 1rem;
+  }
+
+  .sidebar-panel-content {
+    padding: 0.8rem;
+  }
+
+  .file-item,
+  .reference-item {
+    padding: 0.6rem;
+  }
+
+  .file-name,
+  .reference-title {
+    font-size: 0.85rem;
+  }
+
+  .reference-snippet,
+  .reference-url {
+    font-size: 0.75rem;
+  }
+
+  .input-actions {
+    gap: 0.4rem;
+  }
+
+  .input-action-btn {
+    width: 36px;
+    height: 36px;
+  }
+}
+
+/* Small Screens (Mobile) */
+@media (max-width: 768px) {
+  .right-sidebar {
+    width: 85vw;
+    /* Slightly narrower */
+    max-width: 320px;
+    /* Adjust max width */
+    right: -90vw;
+    /* Adjust initial hidden position */
+  }
+
+  .right-sidebar.active {
+    right: 0;
+  }
+
+  .floating-input-area {
+    width: auto;
+    left: 0.6rem;
+    /* Consistent padding */
+    right: 0.6rem;
+    bottom: 0.6rem;
+    /* Consistent padding */
+    transform: none;
+    padding: 0.6rem;
+    /* Consistent padding */
+    max-width: none;
+    border-radius: var(--border-radius-md);
+    /* Consistent radius */
+  }
+
+  /* Mobile adjustment based on main sidebar removed */
+
+  .input-actions {
+    gap: 0.3rem;
+    /* Consistent gap */
+  }
+
+  .input-action-btn {
+    width: 32px;
+    /* Consistent size */
+    height: 32px;
+  }
+
+  /* Ajuste del botón toggle en móviles (This class is from sidebar-nav.css, remove if not needed here) */
+  /* .toggle-sidebar-btn { ... } */
+
+  /* Adjust panel styles for mobile */
+  .sidebar-panel-header {
+    padding: 0.7rem;
+  }
+
+  .sidebar-panel-title {
+    font-size: 0.95rem;
+  }
+
+  .close-sidebar-btn {
+    width: 26px;
+    height: 26px;
+    font-size: 0.9rem;
+  }
+
+  .sidebar-panel-content {
+    padding: 0.7rem;
+  }
+
+  .files-panel-content {
+    gap: 0.4rem;
+  }
+
+  .file-item {
+    padding: 0.6rem;
+  }
+
+  .file-icon {
+    font-size: 0.9rem;
+  }
+
+  .file-name {
+    font-size: 0.8rem;
+  }
+
+  .file-action-btn {
+    width: 24px;
+    height: 24px;
+  }
+
+  .references-panel-content {
+    gap: 0.8rem;
+  }
+
+  .reference-item {
+    padding: 0.8rem;
+  }
+
+  .reference-title {
+    font-size: 0.9rem;
+  }
+
+  .reference-snippet,
+  .reference-url {
+    font-size: 0.75rem;
+  }
+}
+
+/* --- END sidebar-panels.css --- */
+
+/* --- START references-style.css --- */
+/* Estilos para el panel de referencias */
+/* Note: Some styles might be redundant with sidebar-panels.css, keeping specific ones */
+
+/* .reference-item is now handled by the list item structure in sidebar-panels.css */
+/* Remove redundant styles if they conflict or are duplicated */
+
+/* .reference-number is removed as we use <ol> now */
+
+/* .reference-content is styled in sidebar-panels.css */
+
+/* .reference-title is styled in sidebar-panels.css */
+
+/* .reference-title a is styled in sidebar-panels.css */
+
+/* .reference-snippet is styled in sidebar-panels.css */
+
+/* .reference-url is replaced by .reference-url-small in sidebar-panels.css */
+
+/* Estilos para modo oscuro */
+/* Dark mode styles are handled within sidebar-panels.css */
+
+/* Contador de referencias */
+/* This style seems to be for a counter on the button, not in the panel itself */
+/* Keep if used elsewhere, otherwise remove */
+.references-count {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background-color: var(--accent-color);
+  color: white;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  font-size: 0.7rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Estilos para pantallas pequeñas */
+/* Responsive adjustments are handled in sidebar-panels.css */
+/* --- END references-style.css --- */
+
+
+/* --- START main-style.css specific styles (excluding imports) --- */
+/* --- Estilos generales --- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  border-width: 0;
+  border-style: solid;
+  transition: background-color var(--transition-speed-normal) var(--transition-timing),
+    color var(--transition-speed-normal) var(--transition-timing),
+    border-color var(--transition-speed-normal) var(--transition-timing),
+    box-shadow var(--transition-speed-normal) var(--transition-timing),
+    opacity var(--transition-speed-normal) var(--transition-timing),
+    transform var(--transition-speed-fast) var(--transition-timing);
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  /* Modern system font stack prioritizing iOS/macOS fonts */
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  font-size: 15px;
+  /* Base font size */
+  line-height: 1.6;
+  /* Improved line height for readability */
+  min-height: 100vh;
+  /* overflow: hidden; */
+  /* Removed to allow scrolling */
+  -webkit-font-smoothing: antialiased;
+  /* Ensure font smoothing */
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  color: var(--accent-color);
+  text-decoration: none;
+  transition: color var(--transition-speed-normal) var(--transition-timing);
+}
+
+a:hover {
+  color: #00a3d9;
+}
+
+body.dark-mode a {
+  color: var(--accent-color);
+}
+
+body.dark-mode a:hover {
+  color: #38bdf8;
+}
+
+button {
+  cursor: pointer;
+  font-family: inherit;
+  /* Inherit body font */
+}
+
+/* Scrollbar personalizada */
+::-webkit-scrollbar {
+  width: 6px;
+  /* Thinner scrollbar */
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--text-muted-light);
+  border-radius: var(--border-radius-full);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--accent-color);
+}
+
+body.dark-mode ::-webkit-scrollbar-thumb {
+  background-color: var(--text-muted-dark);
+}
+
+body.dark-mode ::-webkit-scrollbar-thumb:hover {
+  background-color: var(--accent-color);
+}
+
+/* --- Tarjeta base compacta y moderna --- */
+.card-base {
+  width: 100%;
+  height: 100%;
+  padding: 1rem 1.25rem;
+  /* Compact padding */
+  background-color: var(--container-bg-light);
+  border-radius: var(--border-radius-lg);
+  /* Slightly softer radius */
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  /* Softer shadow */
+  border: 1px solid var(--container-border-light);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  /* overflow: hidden; */
+  /* Removed to allow inner elements to control scroll */
+  transition: box-shadow 0.2s;
+}
+
+.card-base:hover {
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.1);
+  /* Slightly more pronounced hover shadow */
+}
+
+body.dark-mode .card-base {
+  background-color: var(--container-bg-dark);
+  border-color: var(--container-border-dark);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+body.dark-mode .card-base:hover {
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.25);
+}
+
+/* --- Encabezados de sección compactos y vibrantes --- */
+.section-header {
+  color: var(--heading-color-light);
+  font-family: inherit;
+  /* Inherit body font */
+  font-weight: 600;
+  /* Adjusted weight for new font */
+  font-size: 1.1rem;
+  margin-bottom: 0.8rem;
+  padding-bottom: 0.4rem;
+  /* Reduced padding */
+  border-bottom: 2px solid var(--accent-color);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  letter-spacing: -0.01em;
+}
+
+.section-header i {
+  font-size: 1.1rem;
+  /* Adjusted icon size */
+  color: var(--accent-color);
+  animation: pulse 2.5s infinite ease-in-out;
+  /* Slower pulse */
+  filter: drop-shadow(0 0 3px rgba(0, 194, 255, 0.15));
+  /* Subtle glow */
+}
+
+/* Estilo para el IA en el título */
+.section-header .ia-text {
+  color: var(--accent-color);
+  animation: glowText 3s infinite ease-in-out;
+  display: inline-block;
+}
+
+body.dark-mode .section-header .ia-text {
+  color: var(--accent-color);
+}
+
+body.dark-mode .section-header {
+  color: var(--heading-color-dark);
+}
+
+@keyframes pulse {
+
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.7;
+    transform: scale(1.05);
+  }
+}
+
+.section-subtitle {
+  font-size: 0.9rem;
+  /* Compact size */
+  color: var(--text-muted-light);
+  margin-bottom: 1rem;
+  line-height: 1.5;
+  font-weight: 400;
+  /* Regular weight */
+}
+
+body.dark-mode .section-subtitle {
+  color: var(--text-muted-dark);
+}
+
+/* --- Columnas de contenido --- */
+.chat-column,
+.equipment-column,
+.tips-column {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* --- Estilos para el Chat --- */
+#chat-messages {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 0 0.5rem 1rem 0;
+  margin-bottom: 140px;
+  /* Adjusted space for floating input */
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  /* Reduced gap */
+  min-height: 400px;
+  height: 60vh;
+  max-height: 80vh;
+}
+
+.message {
+  width: 100%;
+  animation: fadeInUp 0.4s ease-out forwards;
+  display: flex;
+  flex-direction: column;
+}
+
+.sender {
+  font-weight: 600;
+  margin-bottom: 0.2rem;
+  color: var(--accent-color);
+  font-family: inherit;
+  /* Inherit body font */
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0 0.5rem;
+  opacity: 0.8;
+}
+
+.message.user-turn .sender {
+  justify-content: flex-end;
+}
+
+.response {
+  background-color: var(--response-bg-light);
+  border-radius: var(--border-radius-md);
+  padding: 0.7rem 1rem;
+  /* Compact padding */
+  border: 1px solid var(--response-border-light);
+  box-shadow: var(--shadow-sm);
+  line-height: 1.5;
+  font-size: 0.9rem;
+  max-width: 85%;
+  align-self: flex-start;
+}
+
+.response.user {
+  background-color: var(--response-user-bg-light);
+  border-color: var(--response-border-light);
+  align-self: flex-end;
+}
+
+body.dark-mode .response {
+  background-color: var(--response-bg-dark);
+  border-color: var(--response-border-dark);
+}
+
+body.dark-mode .response.user {
+  background-color: var(--response-user-bg-dark);
+  border-color: var(--response-border-dark);
+}
+
+/* --- Área de Input Chat --- */
+.input-area {
+  margin-top: auto;
+  padding-top: 0.8rem;
+  /* Reduced padding */
+}
+
+#loading,
+#equipmentLoading {
+  display: none;
+  margin-bottom: 0.6rem;
+  /* Reduced margin */
+  text-align: center;
+  font-size: 0.85rem;
+  /* Smaller font */
+  color: var(--text-muted-light);
+}
+
+#loading i,
+#equipmentLoading i {
+  margin-right: 0.4em;
+  animation: spin 1.5s linear infinite;
+}
+
+body.dark-mode #loading,
+body.dark-mode #equipmentLoading {
+  color: var(--text-muted-dark);
+}
+
+/* spin animation is now in theme-colors.css */
+
+.error-message {
+  display: none;
+  opacity: 0;
+  padding: 0.6rem 0.9rem;
+  /* Compact padding */
+  margin-bottom: 0.8rem;
+  /* Reduced margin */
+  background-color: rgba(255, 58, 140, 0.1);
+  border: 1px solid rgba(255, 58, 140, 0.2);
+  border-left: 3px solid var(--button-color);
+  /* Thinner border */
+  border-radius: var(--border-radius-sm);
+  /* Smaller radius */
+  color: var(--text-color-light);
+  font-size: 0.85rem;
+  /* Smaller font */
+  transition: opacity 0.3s ease;
+}
+
+body.dark-mode .error-message {
+  background-color: rgba(255, 58, 140, 0.2);
+  border-color: rgba(255, 58, 140, 0.3);
+  color: var(--text-color-dark);
+}
+
+.input-container,
+.equipment-input-container {
+  display: flex;
+  width: 100%;
+  border: 1px solid var(--input-border-light);
+  border-radius: var(--border-radius-md);
+  /* Smaller radius */
+  overflow: hidden;
+  align-items: stretch;
+  background-color: var(--input-bg-light);
+  box-shadow: var(--shadow-inner);
+  /* Inner shadow for depth */
+  position: relative;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.input-container:focus-within,
+.equipment-input-container:focus-within {
+  border-color: var(--input-focus-border-light);
+  box-shadow: var(--input-focus-shadow-light);
+}
+
+body.dark-mode .input-container,
+body.dark-mode .equipment-input-container {
+  border-color: var(--input-border-dark);
+  background-color: var(--input-bg-dark);
+}
+
+body.dark-mode .input-container:focus-within,
+body.dark-mode .equipment-input-container:focus-within {
+  border-color: var(--input-focus-border-dark);
+  box-shadow: var(--input-focus-shadow-dark);
+}
+
+textarea {
+  flex-grow: 1;
+  padding: 0.7rem 0.9rem;
+  /* Compact padding */
+  border: none;
+  background-color: transparent;
+  color: var(--text-color-light);
+  font-family: inherit;
+  /* Inherit body font */
+  font-size: 0.9rem;
+  resize: none;
+  min-height: 45px;
+  max-height: 160px;
+  /* Reduced max height */
+  outline: none;
+}
+
+textarea::placeholder {
+  color: var(--text-muted-light);
+  opacity: 0.8;
+}
+
+body.dark-mode textarea {
+  color: var(--text-color-dark);
+}
+
+body.dark-mode textarea::placeholder {
+  color: var(--text-muted-dark);
+}
+
+#sendButton,
+#sendEquipmentQuestionButton {
+  padding: 0.6rem 0.9rem;
+  /* Compact padding */
+  background-color: var(--button-color);
+  color: white;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  /* Adjusted icon size */
+  transition: background-color 0.2s ease, transform 0.2s ease;
+  border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0;
+  /* Match container radius */
+}
+
+#sendButton:hover,
+#sendEquipmentQuestionButton:hover {
+  background-color: var(--button-hover-color);
+  transform: scale(1.05);
+}
+
+#sendButton:disabled,
+#sendEquipmentQuestionButton:disabled {
+  background-color: var(--text-muted-light);
+  cursor: not-allowed;
+  transform: none;
+  opacity: 0.5;
+  /* More visible disabled state */
+}
+
+body.dark-mode #sendButton:disabled,
+body.dark-mode #sendEquipmentQuestionButton:disabled {
+  background-color: var(--text-muted-dark);
+  opacity: 0.4;
+}
+
+/* --- Controles del Chat --- */
+.chat-controls-wrapper,
+.equipment-controls-wrapper {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.6rem;
+  /* Reduced margin */
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.control-button {
+  background-color: var(--button-control-bg-light);
+  color: var(--button-control-text-light);
+  border: 1px solid var(--button-control-border-light);
+  border-radius: var(--border-radius-sm);
+  padding: 0.4rem;
+  font-size: 0.8rem;
+  /* Smaller font */
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 30px;
+  /* Smaller size */
+  height: 30px;
+  /* Smaller size */
+  transition: all 0.2s ease;
+}
+
+.control-button:hover {
+  background-color: var(--button-control-hover-bg-light);
+  color: var(--accent-color);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}
+
+.control-button.active {
+  background-color: var(--accent-color);
+  color: white;
+  border-color: var(--accent-color);
+  box-shadow: 0 2px 8px rgba(0, 194, 255, 0.2);
+}
+
+.control-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+body.dark-mode .control-button {
+  background-color: var(--button-control-bg-dark);
+  color: var(--button-control-text-dark);
+  border-color: var(--button-control-border-dark);
+}
+
+body.dark-mode .control-button:hover {
+  background-color: var(--button-control-hover-bg-dark);
+  color: var(--accent-color);
+}
+
+body.dark-mode .control-button.active {
+  background-color: var(--accent-color);
+  color: white;
+  border-color: var(--accent-color);
+}
+
+/* --- Estilos para Mantenimiento Específico --- */
+.equipment-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.8rem;
+  /* Reduced gap */
+  margin-bottom: 1.2rem;
+  /* Reduced margin */
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  /* Reduced gap */
+}
+
+.form-group label {
+  font-size: 0.85rem;
+  /* Smaller font */
+  font-weight: 500;
+  color: var(--text-muted-light);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+body.dark-mode .form-group label {
+  color: var(--text-muted-dark);
+}
+
+.form-group input {
+  padding: 0.6rem 0.8rem;
+  /* Compact padding */
+  border: 1px solid var(--input-border-light);
+  border-radius: var(--border-radius-sm);
+  background-color: var(--input-bg-light);
+  color: var(--text-color-light);
+  font-family: inherit;
+  /* Inherit body font */
+  font-size: 0.85rem;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-group input:focus {
+  border-color: var(--input-focus-border-light);
+  box-shadow: var(--input-focus-shadow-light);
+}
+
+body.dark-mode .form-group input {
+  border-color: var(--input-border-dark);
+  background-color: var(--input-bg-dark);
+  color: var(--text-color-dark);
+}
+
+body.dark-mode .form-group input:focus {
+  border-color: var(--input-focus-border-dark);
+  box-shadow: var(--input-focus-shadow-dark);
+}
+
+#maintenance-type-selector {
+  margin-bottom: 1.2rem;
+  /* Reduced margin */
+}
+
+#maintenance-type-selector p {
+  font-size: 0.85rem;
+  /* Smaller font */
+  font-weight: 500;
+  color: var(--text-muted-light);
+  margin-bottom: 0.6rem;
+  /* Reduced margin */
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+body.dark-mode #maintenance-type-selector p {
+  color: var(--text-muted-dark);
+}
+
+.maintenance-buttons {
+  display: flex;
+  gap: 0.5rem;
+  /* Reduced gap */
+  flex-wrap: wrap;
+}
+
+.maintenance-button {
+  padding: 0.6rem 1rem;
+  /* Compact padding */
+  background-color: var(--button-control-bg-light);
+  color: var(--text-color-light);
+  border: 1px solid var(--button-control-border-light);
+  border-radius: var(--border-radius-sm);
+  font-weight: 500;
+  font-size: 0.85rem;
+  /* Smaller font */
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: all 0.2s ease;
+  flex: 1;
+  justify-content: center;
+  cursor: pointer;
+  min-width: 90px;
+  /* Adjusted min width */
+}
+
+.maintenance-button:hover {
+  background-color: var(--button-control-hover-bg-light);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}
+
+.maintenance-button.active {
+  background-color: var(--accent-color);
+  color: white;
+  border-color: var(--accent-color);
+  box-shadow: 0 2px 8px rgba(0, 194, 255, 0.2);
+}
+
+body.dark-mode .maintenance-button {
+  background-color: var(--button-control-bg-dark);
+  color: var(--text-color-dark);
+  border-color: var(--button-control-border-dark);
+}
+
+body.dark-mode .maintenance-button:hover {
+  background-color: var(--button-control-hover-bg-dark);
+}
+
+body.dark-mode .maintenance-button.active {
+  background-color: var(--accent-color);
+  color: white;
+  border-color: var(--accent-color);
+}
+
+#equipment-question-area {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  /* Reduced gap */
+}
+
+#equipment-response {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 1rem;
+  /* Compact padding */
+  background-color: var(--response-bg-light);
+  border-radius: var(--border-radius-md);
+  /* Consistent radius */
+  border: 1px solid var(--response-border-light);
+  margin-bottom: 0.8rem;
+  /* Reduced margin */
+  display: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+body.dark-mode #equipment-response {
+  background-color: var(--response-bg-dark);
+  border-color: var(--response-border-dark);
+}
+
+/* --- Estilos para Tips de Mantenimiento --- */
+.tips-container {
+  /* Added rule */
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  /* Allow this container to fill vertical space in card-base */
+  overflow: hidden;
+  /* Prevent its own overflow, let children handle scroll */
+}
+
+#maintenance-tips-content {
+  flex-grow: 1;
+  overflow-y: auto;
+  /* overflow-x: hidden; /* Optional: uncomment if horizontal overflow is also an issue */
+  padding-right: 0.4rem;
+  /* Reduced padding */
+}
+
+#maintenance-tips-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  margin: 1.5rem 0;
+  /* Reduced margin */
+  color: var(--text-muted-light);
+}
+
+body.dark-mode #maintenance-tips-loading {
+  color: var(--text-muted-dark);
+}
+
+#maintenance-tips-loading i {
+  animation: spin 1.5s linear infinite;
+}
+
+.tip-container {
+  background-color: var(--response-bg-light);
+  border-radius: var(--border-radius-md);
+  padding: 1rem;
+  /* Compact padding */
+  border: 1px solid var(--response-border-light);
+  box-shadow: var(--shadow-sm);
+  /* Subtle shadow */
+  line-height: 1.55;
+  margin-bottom: 0.8rem;
+  /* Reduced margin */
+}
+
+body.dark-mode .tip-container {
+  background-color: var(--response-bg-dark);
+  border-color: var(--response-border-dark);
+}
+
+#regenerate-tip-button {
+  margin-top: 0.8rem;
+  /* Reduced margin */
+  align-self: center;
+  padding: 0.6rem 1.2rem;
+  /* Compact padding */
+  background-color: var(--button-color);
+  color: white;
+  border: none;
+  border-radius: var(--border-radius-full);
+  font-weight: 600;
+  font-size: 0.9rem;
+  /* Smaller font */
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+#regenerate-tip-button:hover {
+  background-color: var(--button-hover-color);
+  transform: translateY(-2px);
+  /* Subtle lift */
+  box-shadow: 0 6px 16px -6px rgba(255, 58, 140, 0.4);
+  /* Adjusted shadow */
+}
+
+#regenerate-tip-button:disabled {
+  background-color: var(--text-muted-light);
+  cursor: not-allowed;
+  transform: none;
+  opacity: 0.5;
+}
+
+body.dark-mode #regenerate-tip-button:disabled {
+  background-color: var(--text-muted-dark);
+  opacity: 0.4;
+}
+
+/* --- Animaciones --- */
+/* fadeInUp is now in theme-colors.css */
+
+
+/* --- Responsive Adjustments --- */
+
+/* Medium Screens (Tablets) */
+@media (max-width: 1024px) {
+  body {
+    font-size: 14.5px;
+    /* Slightly smaller base */
+  }
+
+  .card-base {
+    padding: 0.9rem 1.1rem;
+  }
+
+  .section-header {
+    font-size: 1.05rem;
+    margin-bottom: 0.7rem;
+  }
+
+  .section-subtitle {
+    font-size: 0.88rem;
+    margin-bottom: 0.9rem;
+  }
+
+  textarea {
+    font-size: 0.9rem;
+    min-height: 45px;
+  }
+
+  .response {
+    font-size: 0.88rem;
+    padding: 0.7rem 0.9rem;
+  }
+
+  .equipment-form {
+    gap: 0.7rem;
+  }
+
+  .form-group input {
+    padding: 0.6rem 0.8rem;
+    font-size: 0.88rem;
+  }
+
+  .maintenance-button {
+    padding: 0.55rem 0.9rem;
+    font-size: 0.85rem;
+  }
+
+  .floating-input-area {
+    padding: 0.6rem;
+    /* Compact padding */
+    /* background-color: var(--bg-color-light); */
+    /* Removed, should inherit from body or container */
+    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.08);
+    /* Softer shadow */
+    z-index: 100;
+  }
+
+  body.dark-mode .floating-input-area {
+    /* background-color: var(--bg-color-dark); */
+    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.2);
+  }
+}
+
+/* Small Screens (Mobile) - Refining existing block */
+@media (max-width: 768px) {
+  body {
+    font-size: 14px;
+    overflow: auto;
+    /* Allow body scroll */
+  }
+
+  .card-base {
+    padding: 0.8rem 1rem;
+    /* Further compact */
+    border-radius: var(--border-radius-md);
+    /* Smaller radius */
+  }
+
+  .section-header {
+    font-size: 1rem;
+    /* Further reduce header size */
+    margin-bottom: 0.6rem;
+    padding-bottom: 0.3rem;
+  }
+
+  .section-subtitle {
+    font-size: 0.8rem;
+    margin-bottom: 0.8rem;
+  }
+
+  /* Chat specific adjustments */
+  #chat-messages {
+    gap: 0.7rem;
+    /* Further reduce gap */
+    margin-bottom: 110px;
+    /* Adjusted margin for mobile input */
+    padding-bottom: 0.4rem;
+    min-height: 250px;
+    height: 45vh;
+    max-height: 70vh;
+  }
+
+  .message.user-turn .sender {
+    margin-bottom: 0.15rem;
+  }
+
+  .response {
+    font-size: 0.82rem;
+    /* Smaller font */
+    padding: 0.6rem 0.8rem;
+    max-width: 92%;
+    /* Slightly wider */
+  }
+
+  /* Input Area Adjustments */
+  .floating-input-area {
+    padding: 0.6rem;
+  }
+
+  .input-container {
+    flex-direction: column;
+    border-radius: var(--border-radius-sm);
+  }
+
+  textarea {
+    font-size: 0.85rem;
+    min-height: 40px;
+    max-height: 120px;
+    /* Reduced max height */
+    border-bottom: 1px solid var(--input-border-light);
+    border-radius: var(--border-radius-sm) var(--border-radius-sm) 0 0;
+  }
+
+  body.dark-mode textarea {
+    border-bottom-color: var(--input-border-dark);
+  }
+
+  #sendButton,
+  #sendEquipmentQuestionButton {
+    padding: 0.6rem 0.9rem;
+    font-size: 1rem;
+    /* Smaller icon */
+    border-radius: 0 0 var(--border-radius-sm) var(--border-radius-sm);
+  }
+
+  #sendButton:hover,
+  #sendEquipmentQuestionButton:hover {
+    transform: none;
+  }
+
+  .input-actions {
+    gap: 0.3rem;
+    /* Tighter gap */
+  }
+
+  .control-button {
+    min-width: 28px;
+    /* Smaller controls */
+    height: 28px;
+    padding: 0.3rem;
+    font-size: 0.75rem;
+  }
+
+  .input-action-btn {
+    /* Assuming this is similar to control-button */
+    padding: 0.3rem;
+    font-size: 0.9rem;
+  }
+
+  /* Maintenance Form Adjustments */
+  .equipment-form {
+    grid-template-columns: 1fr;
+    gap: 0.6rem;
+  }
+
+  .maintenance-buttons {
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .maintenance-button {
+    padding: 0.6rem 0.9rem;
+    font-size: 0.85rem;
+  }
+
+  /* Tips Adjustments */
+  .tip-container {
+    padding: 0.8rem;
+    font-size: 0.85rem;
+  }
+
+  #regenerate-tip-button {
+    padding: 0.6rem 1.1rem;
+    font-size: 0.9rem;
+  }
+
+  /* Hide sidebars by default, rely on toggle buttons */
+  .right-sidebar {
+    width: 90%;
+    /* Slightly narrower */
+    max-width: 300px;
+    /* Max width */
+    position: fixed;
+    right: -100%;
+    top: 0;
+    height: 100vh;
+    transition: right 0.3s ease;
+    z-index: 1000;
+    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+  }
+
+  body.dark-mode .right-sidebar {
+    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.3);
+  }
+
+  .right-sidebar.active {
+    /* Ensure active class is used to show */
+    right: 0;
+  }
+
+  /* Adjust main content padding */
+  .content-wrapper {
+    padding: 0.6rem;
+    /* Compact padding */
+  }
+}
+
+/* Redundant media query block removed */
+
+/* --- Estilos para Markdown Renderizado (Marked.js) --- */
+
+/* Ensure basic Markdown elements render */
+.response strong,
+.response b {
+  font-weight: bold !important;
+}
+
+.response em,
+.response i {
+  font-style: italic !important;
+}
+
+.response h1,
+.response h2,
+.response h3,
+.response h4,
+.response h5,
+.response h6 {
+  margin-top: 1em !important;
+  margin-bottom: 0.5em !important;
+  font-weight: 600 !important;
+}
+
+.response h1 {
+  font-size: 1.5em !important;
+}
+
+.response h2 {
+  font-size: 1.3em !important;
+}
+
+.response h3 {
+  font-size: 1.15em !important;
+}
+
+.response ul,
+.response ol {
+  margin-left: 1.5em !important;
+  margin-top: 0.5em !important;
+  margin-bottom: 0.5em !important;
+  padding-left: 1.5em !important;
+}
+
+.response li {
+  margin-bottom: 0.3em !important;
+}
+
+.response p {
+  margin-bottom: 0.8em !important;
+}
+
+/* Wrapper for responsive tables */
+.response .table-wrapper {
+  overflow-x: auto !important;
+  /* Enable horizontal scrolling for the table */
+  margin: 1em 0 !important;
+  border: 1px solid var(--input-border-light) !important;
+  /* Add border to wrapper */
+  border-radius: var(--border-radius-sm) !important;
+  /* Optional: round corners */
+}
+
+body.dark-mode .response .table-wrapper {
+  border-color: var(--input-border-dark) !important;
+}
+
+.response table {
+  border-collapse: collapse !important;
+  width: 100% !important;
+  /* Make table take full width of wrapper */
+  min-width: 400px !important;
+  /* Optional: Minimum width before scrolling starts */
+  border: none !important;
+  /* Remove border from table itself, wrapper has it */
+  /* margin: 1em 0; */
+  /* Removed margin, wrapper has it */
+}
+
+/* Remove redundant dark mode rule for table border */
+
+.response th,
+.response td {
+  border: 1px solid var(--input-border-light) !important;
+  padding: 0.6em 0.8em !important;
+  /* Slightly adjusted padding */
+  text-align: left !important;
+  vertical-align: top !important;
+  /* Align content to top */
+  white-space: normal !important;
+  /* Allow text wrapping within cells */
+}
+
+body.dark-mode .response th,
+body.dark-mode .response td {
+  border-color: var(--input-border-dark) !important;
+}
+
+.response th {
+  background-color: var(--response-bg-light) !important;
+  /* Use a slightly different bg for header */
+  font-weight: 600 !important;
+  position: sticky !important;
+  /* Make header sticky during horizontal scroll */
+  top: 0 !important;
+  /* Stick to the top of the wrapper */
+  z-index: 1 !important;
+  /* Ensure header stays above content */
+}
+
+body.dark-mode .response th {
+  background-color: var(--response-bg-dark) !important;
+}
+
+/* Add alternating row colors for better readability */
+.response tr:nth-child(even) td {
+  background-color: rgba(0, 0, 0, 0.02) !important;
+}
+
+body.dark-mode .response tr:nth-child(even) td {
+  background-color: rgba(255, 255, 255, 0.03) !important;
+}
+
+.response pre {
+  background-color: var(--code-bg-light);
+  border: 1px solid var(--input-border-light);
+  border-radius: var(--border-radius-sm);
+  padding: 0.8em;
+  overflow-x: auto;
+  font-family: 'Roboto Mono', monospace;
+  /* Fuente monoespaciada */
+  font-size: 0.85em;
+  line-height: 1.4;
+  margin: 1em 0;
+}
+
+body.dark-mode .response pre {
+  background-color: var(--code-bg-dark);
+  border-color: var(--input-border-dark);
+  color: #f0f0f0;
+  /* Color claro para texto de código en modo oscuro */
+}
+
+.response code {
+  font-family: 'Roboto Mono', monospace;
+  background-color: var(--code-inline-bg-light);
+  padding: 0.1em 0.3em;
+  border-radius: var(--border-radius-xs);
+  font-size: 0.9em;
+}
+
+body.dark-mode .response code {
+  background-color: var(--code-inline-bg-dark);
+}
+
+.response blockquote {
+  border-left: 3px solid var(--accent-color);
+  margin: 1em 0;
+  padding: 0.5em 1em;
+  color: var(--text-muted-light);
+  background-color: var(--response-bg-light);
+}
+
+body.dark-mode .response blockquote {
+  color: var(--text-muted-dark);
+  background-color: var(--response-bg-dark);
+  border-color: var(--accent-color);
+  /* Mantener color de acento */
+}
+
+/* --- END main-style.css specific styles --- */
+
+/* --- START maintenance-style.css --- */
+/* Estilos específicos para mantenimiento.html */
+/* @import url('theme-colors.css'); <-- No es necesario, main-style.css ya lo importa */
+
+/* Contenedor principal de mantenimiento (2 columnas) */
+.maintenance-container {
+  display: flex;
+  width: 100%;
+  gap: 1rem;
+  /* Consistent gap */
+  /* height: calc(100vh - 100px); */
+  /* Let flexbox handle height within card-base */
+  flex-grow: 1;
+  /* Allow columns to fill available space */
+  overflow: hidden;
+  /* Prevent container itself from overflowing */
+}
+
+.input-column,
+.response-column {
+  flex: 1;
+  /* Each column takes half the space */
+  border-radius: var(--border-radius-md);
+  /* Consistent radius */
+  /* Background and shadow are handled by card-base now */
+  /* background-color: var(--container-bg-light); */
+  /* box-shadow: var(--shadow-md); */
+  overflow: hidden;
+  /* Hide overflow within columns */
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  border: 1px solid var(--container-border-light);
+  /* Add subtle border */
+}
+
+body.dark-mode .input-column,
+body.dark-mode .response-column {
+  border-color: var(--container-border-dark);
+}
+
+
+.column-content {
+  padding: 1rem;
+  /* Consistent padding */
+  overflow-y: auto;
+  /* Allow content within columns to scroll */
+  flex: 1;
+  background-color: var(--container-bg-light);
+  /* Ensure background for content */
+}
+
+body.dark-mode .column-content {
+  background-color: var(--container-bg-dark);
+}
+
+
+/* Formulario de equipo (Estilos base en main-style.css) */
+.equipment-form-grid {
+  display: grid;
+  /* grid-template-columns: 1fr; */
+  /* Handled by main-style */
+  gap: 0.8rem;
+  /* Consistent gap */
+  margin-bottom: 1.2rem;
+  /* Consistent margin */
+}
+
+.equipment-input-group {
+  /* Styles for label, input are mostly in main-style.css */
+  position: relative;
+}
+
+/* Ensure label icon uses theme colors */
+.equipment-input-group label i {
+  color: var(--accent-color);
+  font-size: 1rem;
+  /* Slightly smaller icon */
+  width: 1.5em;
+  /* Ensure consistent spacing */
+  text-align: center;
+}
+
+/* Adjust input padding to accommodate icon if needed, but rely on main-style */
+.equipment-input-group input {
+  /* padding-left: 2.5rem; */
+  /* Example if icon was inside */
+  /* Base styles are in main-style.css */
+  background-color: var(--input-bg-light);
+  /* Ensure correct background */
+}
+
+body.dark-mode .equipment-input-group input {
+  background-color: var(--input-bg-dark);
+  /* Ensure correct dark background */
+  border-color: var(--input-border-dark);
+  /* Ensure correct dark border */
+}
+
+.equipment-input-group input:focus {
+  border-color: var(--input-focus-border-light);
+  /* Use theme focus color */
+  box-shadow: var(--input-focus-shadow-light);
+  /* Use theme focus shadow */
+}
+
+body.dark-mode .equipment-input-group input:focus {
+  border-color: var(--input-focus-border-dark);
+  box-shadow: var(--input-focus-shadow-dark);
+}
+
+
+/* Remove the ::before pseudo-element as icon is now in label */
+/* .equipment-input-group::before { ... } */
+
+/* Tipo de mantenimiento */
+.maintenance-type-container {
+  margin-bottom: 1.2rem;
+  /* Consistent margin */
+}
+
+.maintenance-type-container h3 {
+  /* font-size: 1.1rem; */
+  /* Use section-header style or adjust */
+  font-size: 0.95rem;
+  /* Slightly smaller heading */
+  font-weight: 600;
+  margin-top: 0;
+  margin-bottom: 0.8rem;
+  /* Consistent margin */
+  display: flex;
+  align-items: center;
+  color: var(--heading-color-light);
+  /* Use theme heading color */
+  gap: 0.5rem;
+}
+
+body.dark-mode .maintenance-type-container h3 {
+  color: var(--heading-color-dark);
+}
+
+.maintenance-type-container h3 i {
+  color: var(--accent-color);
+  /* Use theme accent */
+}
+
+/* .maintenance-buttons styles are in main-style.css */
+/* .maintenance-button styles are in main-style.css */
+
+/* Controles de IA (Estilos base en main-style.css) */
+.equipment-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  /* Consistent gap */
+  margin-bottom: 1rem;
+  /* Consistent margin */
+  justify-content: flex-start;
+  /* Align to start */
+}
+
+/* .control-button styles are in main-style.css */
+
+
+/* Área de entrada de texto específica (si diferente de chat) */
+.input-area {
+  margin-top: auto;
+  /* Push to bottom */
+  padding-top: 0.8rem;
+  display: flex;
+  align-items: flex-end;
+  /* Align items to bottom */
+  gap: 0.5rem;
+  /* Consistent gap */
+}
+
+/* Use general textarea styles from main-style.css */
+.equipment-question-input {
+  flex-grow: 1;
+  /* Inherits styles from textarea in main-style.css */
+}
+
+/* Use general send button styles from main-style.css */
+/* .send-button { ... } */
+
+
+/* Respuesta */
+/* .response-loading styles are in main-style.css */
+/* .error-message styles are in main-style.css */
+
+/* Container for the actual response content (ya no es necesario) */
+/* #equipmentResponseDisplay inherits .equipment-response styles */
+
+/* Estilos para el área de respuesta (ya no es necesario) */
+.equipment-response {
+  padding: 0;
+  /* Remove padding, handled by column-content */
+  flex-grow: 1;
+  /* Allow response area to grow */
+  display: flex;
+  /* Use flex for empty state centering */
+  flex-direction: column;
+}
+
+.empty-response {
+  text-align: center;
+  padding: 2rem 1rem;
+  /* Adjust padding */
+  color: var(--text-muted-light);
+  /* Use theme muted color */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 1;
+  /* Center vertically */
+  opacity: 0.7;
+}
+
+body.dark-mode .empty-response {
+  color: var(--text-muted-dark);
+}
+
+.empty-response i {
+  font-size: 2.5rem;
+  /* Slightly smaller icon */
+  margin-bottom: 1rem;
+  opacity: 0.5;
+  color: var(--accent-color);
+  /* Use theme accent */
+}
+
+.empty-response p {
+  max-width: 350px;
+  line-height: 1.6;
+  font-size: 0.9rem;
+}
+
+/* Estilos para la respuesta formateada (ya no es necesario) */
+/* These styles apply to the HTML generated from Markdown */
+#equipmentResponseDisplay h3 {
+  color: var(--accent-color);
+  margin-top: 0;
+  margin-bottom: 0.8rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-bottom: 1px solid var(--container-border-light);
+  padding-bottom: 0.4rem;
+}
+
+#equipmentResponseDisplay h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+  color: var(--heading-color-light);
+}
+
+#equipmentResponseDisplay ul,
+#equipmentResponseDisplay ol {
+  padding-left: 1.5rem;
+  /* Standard indentation */
+  margin-bottom: 1rem;
+}
+
+#equipmentResponseDisplay li {
+  margin-bottom: 0.4rem;
+  /* Compact list item spacing */
+}
+
+#equipmentResponseDisplay p {
+  line-height: 1.6;
+  margin-bottom: 0.8rem;
+}
+
+#equipmentResponseDisplay strong {
+  font-weight: 600;
+}
+
+#equipmentResponseDisplay em {
+  font-style: italic;
+}
+
+#equipmentResponseDisplay code {
+  background-color: var(--button-control-bg-light);
+  padding: 0.1em 0.3em;
+  border-radius: var(--border-radius-sm);
+  font-family: 'Roboto Mono', monospace;
+  /* Monospace font for code */
+  font-size: 0.85em;
+}
+
+
+body.dark-mode #equipmentResponseDisplay h3 {
+  border-bottom-color: var(--container-border-dark);
+}
+
+body.dark-mode #equipmentResponseDisplay h4 {
+  color: var(--heading-color-dark);
+}
+
+body.dark-mode #equipmentResponseDisplay code {
+  background-color: var(--button-control-bg-dark);
+}
+
+
+/* Botón de colapsar sidebar (Ya no es necesario aquí, manejado globalmente) */
+/* .collapse-sidebar-btn { ... } */
+
+/* Toggle sidebar button (Ya no es necesario aquí, manejado globalmente) */
+/* .toggle-sidebar-btn:hover { ... } */
+
+/* Ajustes responsivos */
+@media (max-width: 768px) {
+  .maintenance-container {
+    flex-direction: column;
+    height: auto;
+    /* Allow height to adjust */
+    overflow: visible;
+    /* Allow content to determine height */
+  }
+
+  .input-column,
+  .response-column {
+    width: 100%;
+    margin-bottom: 1rem;
+    /* Consistent spacing */
+    height: auto;
+    /* Allow height to adjust */
+    overflow: visible;
+    /* Allow content to determine height */
+  }
+
+  .input-column:last-child,
+  .response-column:last-child {
+    margin-bottom: 0;
+  }
+
+  .column-content {
+    overflow-y: visible;
+    /* Disable internal scroll on mobile */
+  }
+
+  .equipment-form-grid {
+    grid-template-columns: 1fr;
+    /* Ensure single column */
+  }
+}
+
+/* --- END maintenance-style.css --- */
+
+/* --- START splash-style.css --- */
+/* Estilos específicos para splash.html extraídos del HTML original */
+/* @import url('theme-colors.css'); <-- Already included */
+
+.splash-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.splash-container .header {
+  /* Specificity for splash header */
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 2rem 0;
+}
+
+.splash-container .circle-icon {
+  /* Specificity */
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  /* Use text color variable which is white in dark mode */
+  border: 2px solid var(--text-color-dark);
+  margin-left: 1rem;
+}
+
+.splash-container .header-text {
+  /* Specificity */
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  /* Use text color variable */
+  color: var(--text-color-dark);
+  font-style: italic;
+}
+
+.splash-container .header-text span {
+  /* Specificity */
+  color: var(--accent-color);
+  animation: glowText 3s infinite ease-in-out;
+  display: inline-block;
+}
+
+.splash-container .main-content {
+  /* Specificity */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-grow: 1;
+  padding: 1rem 0;
+  height: calc(100% - 80px);
+  max-height: 700px;
+}
+
+.splash-container .text-content {
+  /* Specificity */
+  max-width: 600px;
+}
+
+.splash-container h1 {
+  /* Specificity */
+  font-size: 4.5rem;
+  font-weight: 900;
+  line-height: 1.1;
+  margin-bottom: 1.5rem;
+  opacity: 0;
+  animation: fadeInUp 0.8s ease-out 0.2s forwards;
+}
+
+.splash-container h1 span {
+  /* Specificity */
+  color: var(--accent-color);
+  animation: glowText 3s infinite ease-in-out;
+  display: inline-block;
+}
+
+.splash-container .subtitle {
+  /* Specificity */
+  font-size: 1.1rem;
+  line-height: 1.5;
+  margin-bottom: 3rem;
+  opacity: 0;
+  animation: fadeInUp 0.8s ease-out 0.4s forwards;
+}
+
+.splash-container .start-button {
+  /* Specificity */
+  background-color: var(--button-color);
+  color: white;
+  border: none;
+  padding: 1rem 3rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  border-radius: var(--border-radius-full);
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+  opacity: 0;
+  animation:
+    fadeInUp 0.8s ease-out 0.6s forwards,
+    buttonPulse 2s infinite 1.5s;
+  position: relative;
+  overflow: hidden;
+}
+
+.splash-container .start-button::before {
+  /* Specificity */
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  /* Use a subtle overlay color variable if defined, or keep semi-transparent white */
+  background: rgba(255, 255, 255, 0.08);
+  /* Slightly more subtle */
+  transform: rotate(45deg);
+  transition: transform 0.6s;
+  z-index: -1;
+}
+
+.splash-container .start-button:hover {
+  /* Specificity */
+  background-color: var(--button-hover-color);
+  transform: translateY(-3px);
+}
+
+.splash-container .start-button:hover::before {
+  /* Specificity */
+  transform: translateX(100%) rotate(45deg);
+}
+
+.splash-container .image-content {
+  /* Specificity */
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.splash-container .logo-container {
+  /* Specificity */
+  position: relative;
+  z-index: 2;
+  width: 300px;
+  height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.splash-container .app-icon {
+  /* Specificity */
+  position: relative;
+  z-index: 3;
+  width: 250px;
+  height: 250px;
+  object-fit: contain;
+  border-radius: 20%;
+  animation: heartbeat 2s infinite ease-in-out;
+}
+
+.splash-container .glow-effect {
+  /* Specificity */
+  position: absolute;
+  width: 400px;
+  height: 400px;
+  /* Use theme colors for gradients */
+  background:
+    radial-gradient(circle at 30% 70%, var(--button-color) 0%, transparent 35%),
+    radial-gradient(circle at 70% 30%, var(--accent-color) 0%, transparent 40%),
+    radial-gradient(circle at 20% 20%, color-mix(in srgb, var(--button-color) 50%, var(--accent-color) 50%) 0%, transparent 30%);
+  opacity: 0.6;
+  /* Adjust opacity */
+  filter: blur(40px);
+  /* Increase blur */
+  top: 50%;
+  left: 60%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.9;
+}
+
+/* Modal para selección de secciones */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0);
+  z-index: 100;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  opacity: 0;
+  visibility: hidden;
+  transition: background-color 0.4s ease, opacity 0.4s ease, visibility 0.4s ease;
+}
+
+.modal.active {
+  /* Use a variable for overlay or keep semi-transparent black */
+  background-color: rgba(0, 0, 0, 0.75);
+  opacity: 1;
+  visibility: visible;
+  display: flex;
+}
+
+.modal-content {
+  background-color: var(--background-color);
+  border-radius: var(--border-radius-lg);
+  padding: 1.5rem;
+  /* Slightly reduced padding */
+  width: 90%;
+  max-width: 550px;
+  /* Slightly smaller max-width */
+  box-shadow: var(--shadow-xl);
+  border: 1px solid var(--container-border-dark);
+  /* Use variable */
+  transform: translateY(30px) scale(0.95);
+  opacity: 0;
+  transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.5s ease;
+}
+
+.modal.active .modal-content {
+  transform: translateY(0) scale(1);
+  opacity: 1;
+}
+
+.modal-title {
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.section-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.section-button {
+  padding: 1rem 1.5rem;
+  /* Adjusted padding */
+  border-radius: var(--border-radius-md);
+  border: 1px solid var(--container-border-dark);
+  /* Use variable */
+  /* Use theme colors for gradient */
+  background: linear-gradient(135deg, color-mix(in srgb, var(--button-color) 15%, transparent), color-mix(in srgb, var(--accent-color) 15%, transparent));
+  color: var(--text-color-dark);
+  /* Use variable */
+  font-size: 1rem;
+  /* Slightly smaller */
+  font-weight: 500;
+  /* Adjusted weight */
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+    background 0.3s ease,
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
+  opacity: 0;
+  transform: translateX(-20px);
+}
+
+.modal.active .section-button {
+  animation: slideInRight 0.5s forwards;
+}
+
+.modal.active .section-button:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.modal.active .section-button:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.modal.active .section-button:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+.section-button:hover {
+  transform: translateY(-3px) scale(1.01);
+  /* More subtle hover */
+  /* Use theme colors for gradient */
+  background: linear-gradient(135deg, color-mix(in srgb, var(--button-color) 25%, transparent), color-mix(in srgb, var(--accent-color) 25%, transparent));
+  box-shadow: 0 6px 15px -5px color-mix(in srgb, var(--button-color) 40%, black);
+  /* Adjusted shadow */
+  border-color: color-mix(in srgb, var(--container-border-dark) 80%, white);
+  /* Slightly lighter border */
+}
+
+.section-button:active {
+  transform: translateY(-2px) scale(0.98);
+  transition: transform 0.1s;
+}
+
+.section-button i {
+  font-size: 1.5rem;
+  width: 30px;
+  text-align: center;
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.section-button:hover i {
+  transform: scale(1.2) rotate(5deg);
+  color: var(--accent-color);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .splash-container {
+    padding: 1rem;
+    overflow: hidden;
+  }
+
+  .splash-container .main-content {
+    /* Specificity */
+    flex-direction: column;
+    text-align: center;
+    height: auto;
+    max-height: none;
+    padding: 0;
+  }
+
+  .splash-container h1 {
+    /* Specificity */
+    font-size: 2.5rem;
+  }
+
+  .splash-container .subtitle {
+    /* Specificity */
+    font-size: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .splash-container .image-content {
+    /* Specificity */
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .splash-container .app-icon {
+    /* Specificity */
+    width: 200px;
+    height: 200px;
+  }
+
+  .splash-container .glow-effect {
+    /* Specificity */
+    width: 300px;
+    height: 300px;
+  }
+
+  .splash-container .text-content {
+    /* Specificity */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .splash-container .start-button {
+    /* Specificity */
+    padding: 0.8rem 2rem;
+    font-size: 1rem;
+  }
+}

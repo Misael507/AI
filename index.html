@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BIAmedical - Asistente Biomédico IA</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&family=Roboto+Mono:wght@400&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+  <div id="main-sidebar" class="sidebar">
+    <div class="sidebar-logo">
+      <img src="logo.svg" alt="BIAmedical Logo">
+    </div>
+    <div class="sidebar-nav">
+
+      <a href="#" class="sidebar-nav-button" data-target-section="asistente-section">
+        <i class="fas fa-robot"></i> Asistente
+      </a>
+      <a href="#" class="sidebar-nav-button" data-target-section="mantenimiento-section">
+        <i class="fas fa-tools"></i> Mantenimiento
+      </a>
+      <a href="#" class="sidebar-nav-button" data-target-section="tips-section">
+        <i class="fas fa-lightbulb"></i> Consejos
+      </a>
+      <a href="#" class="sidebar-nav-button" data-target-section="splash-section">
+        <i class="fas fa-home"></i> Inicio
+      </a>
+    </div>
+    <div class="theme-toggle">
+      <button id="dark-mode-toggle" class="theme-toggle-button" aria-label="Cambiar tema">
+        <i class="fas fa-moon"></i>
+      </button>
+    </div>
+  </div>
+
+  <button id="toggle-sidebar-btn" class="toggle-sidebar-btn" title="Mostrar/ocultar menú">
+    <i class="fas fa-chevron-left"></i>
+  </button>
+
+  <div class="content-wrapper">
+
+    <section id="splash-section" class="page-section">
+      <div class="splash-container">
+        <main class="main-content">
+          <div class="text-content">
+            <h1>Bienvenido a<br>B<span>IA</span>medical</h1>
+            <p class="subtitle">Ingeniería Biomédica en Panamá, Mantenimiento Predictivo, Preventivo y Correctivo, Tips
+              y Más.</p>
+
+            <button id="start-button" class="start-button">EMPEZAR</button>
+          </div>
+          <div class="image-content">
+            <div class="glow-effect"></div>
+            <div class="logo-container">
+              <img src="logo.svg" class="app-icon" alt="BIAmedical Logo">
+            </div>
+          </div>
+        </main>
+      </div>
+
+      <div id="section-modal" class="modal">
+        <div class="modal-content">
+          <h2 class="modal-title">Escoge una sección</h2>
+          <div class="section-buttons">
+
+            <button class="section-button" data-target-section="asistente-section">
+              <i class="fas fa-robot"></i> Asistente
+            </button>
+            <button class="section-button" data-target-section="mantenimiento-section">
+              <i class="fas fa-tools"></i> Mantenimiento Específico
+            </button>
+            <button class="section-button" data-target-section="tips-section">
+              <i class="fas fa-lightbulb"></i> Tips de Mantenimiento
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="asistente-section" class="page-section" style="display: none;">
+      <div class="chat-column">
+        <div class="card-base">
+          <h1 id="chat-header" class="section-header"><i class="fas fa-stethoscope"></i><span
+              style="letter-spacing: -0.05em;">B<span class="ia-text">IA</span>medical</span> Assistant</h1>
+          <div id="chat-messages">
+
+          </div>
+
+          <div id="files-sidebar" class="right-sidebar">
+            <div class="sidebar-panel-header">
+              <div class="sidebar-panel-title"><i class="fas fa-file-alt"></i> Archivos Subidos</div>
+              <button class="close-sidebar-btn" id="close-files-sidebar"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="sidebar-panel-content files-panel-content" id="files-panel-content">
+              <div class="empty-state">No hay archivos subidos</div>
+            </div>
+          </div>
+          <div id="references-sidebar" class="right-sidebar">
+            <div class="sidebar-panel-header">
+              <div class="sidebar-panel-title"><i class="fas fa-book"></i> Referencias</div>
+              <button class="close-sidebar-btn" id="close-references-sidebar"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="sidebar-panel-content references-panel-content" id="references-panel-content">
+              <div class="empty-state">No hay referencias disponibles</div>
+            </div>
+          </div>
+
+          <div class="floating-input-area">
+            <button class="toggle-actions-btn" id="toggle-actions-btn" title="Mostrar/ocultar opciones">
+              <i class="fas fa-chevron-up"></i>
+            </button>
+            <div id="loading"><i class="fas fa-spinner"></i> Procesando...</div>
+            <div id="error-message" class="error-message"></div>
+            <div class="input-actions" id="input-actions">
+              <button class="input-action-btn" id="upload-files-btn" aria-label="Subir documentos"
+                title="Subir documentos">
+                <i class="fas fa-upload"></i>
+                <span class="tooltip">Subir documentos</span>
+              </button>
+              <button class="input-action-btn" id="show-files-btn" aria-label="Ver archivos subidos">
+                <i class="fas fa-file-alt"></i>
+                <span class="files-count" id="files-count" style="display: none;">0</span>
+                <span class="tooltip">Ver archivos subidos</span>
+              </button>
+              <button class="input-action-btn" id="show-references-btn" aria-label="Ver referencias">
+                <i class="fas fa-book"></i>
+                <span class="tooltip">Ver referencias</span>
+              </button>
+              <button class="control-button" data-tone="neutral" id="tone-neutral" title="Tono Neutro"><i
+                  class="fas fa-comment-dots"></i></button>
+              <button class="control-button" data-tone="formal" id="tone-formal" title="Tono Formal"><i
+                  class="fas fa-user-tie"></i></button>
+              <button class="control-button" data-tone="conciso" id="tone-conciso" title="Tono Conciso"><i
+                  class="fas fa-compress-arrows-alt"></i></button>
+              <button class="control-button" data-length="corta" id="length-corta" title="Respuesta Corta"><i
+                  class="fas fa-align-left"></i></button>
+              <button class="control-button" data-length="media" id="length-media" title="Respuesta Media"><i
+                  class="fas fa-align-justify"></i></button>
+              <button class="control-button" data-length="larga" id="length-larga" title="Respuesta Larga"><i
+                  class="fas fa-align-right"></i></button>
+              <button class="control-button" id="toggle-web-search-button" title="Simular búsqueda web"><i
+                  class="fas fa-globe"></i></button>
+              <button class="control-button" id="regenerate-button" title="Regenerar última respuesta" disabled><i
+                  class="fas fa-sync-alt"></i></button>
+              <button class="control-button" id="clear-chat-button" title="Nuevo chat"><i
+                  class="fas fa-eraser"></i></button>
+            </div>
+            <div class="input-container">
+              <textarea id="questionInput" rows="1" placeholder="Haz una pregunta o sube un documento..."></textarea>
+              <button id="sendButton" aria-label="Enviar pregunta"><i class="fas fa-paper-plane"></i></button>
+            </div>
+            <input type="file" id="fileInput" class="file-input"
+              accept=".txt,.pdf,.docx,.doc,.csv,.json,.xml,image/jpeg,image/png,image/webp" multiple />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="mantenimiento-section" class="page-section" style="display: none;">
+      <div class="card-base">
+        <h1 id="equipment-header" class="section-header"><i class="fas fa-tools" style="color: #00b3fe;"></i><span
+            style="letter-spacing: -0.05em;">B<span class="ia-text">IA</span>medical</span> Mantenimiento</h1>
+        <div class="maintenance-container">
+
+          <div class="input-column">
+            <div class="column-content">
+              <div class="equipment-form-grid">
+                <div class="equipment-input-group">
+                  <label for="equipmentName"><i class="fas fa-tag"></i> Nombre del Equipo</label>
+                  <input type="text" id="equipmentName" placeholder="Ej: Monitor de Signos Vitales">
+                </div>
+                <div class="equipment-input-group">
+                  <label for="equipmentBrand"><i class="fas fa-copyright"></i> Marca</label>
+                  <input type="text" id="equipmentBrand" placeholder="Ej: Philips">
+                </div>
+                <div class="equipment-input-group">
+                  <label for="equipmentModel"><i class="fas fa-barcode"></i> Modelo</label>
+                  <input type="text" id="equipmentModel" placeholder="Ej: IntelliVue MX700">
+                </div>
+              </div>
+              <div class="maintenance-type-container">
+                <h3><i class="fas fa-tasks"></i> Tipo de Mantenimiento</h3>
+                <div class="maintenance-buttons">
+                  <button class="maintenance-button" data-type="predictivo"><i class="fas fa-bolt"></i>
+                    Predictivo</button>
+                  <button class="maintenance-button" data-type="preventivo"><i class="fas fa-calendar-check"></i>
+                    Preventivo</button>
+                  <button class="maintenance-button" data-type="correctivo"><i class="fas fa-wrench"></i>
+                    Correctivo</button>
+                </div>
+              </div>
+              <div class="equipment-controls">
+                <button class="control-button" id="eq-upload-files-btn" aria-label="Subir documentos"
+                  title="Subir documentos"><i class="fas fa-upload"></i></button>
+                <button class="control-button" id="eq-show-files-btn" aria-label="Ver archivos subidos"><i
+                    class="fas fa-file-alt"></i><span class="files-count" id="eq-files-count"
+                    style="display: none;">0</span></button>
+                <button class="control-button" id="eq-show-references-btn" aria-label="Ver referencias"><i
+                    class="fas fa-book"></i></button>
+                <button class="control-button" data-tone="neutral" id="eq-tone-neutral" title="Tono Neutro"><i
+                    class="fas fa-comment-dots"></i></button>
+                <button class="control-button" data-tone="formal" id="eq-tone-formal" title="Tono Formal"><i
+                    class="fas fa-user-tie"></i></button>
+                <button class="control-button" data-tone="conciso" id="eq-tone-conciso" title="Tono Conciso"><i
+                    class="fas fa-compress-arrows-alt"></i></button>
+                <button class="control-button" data-length="corta" id="eq-length-corta" title="Respuesta Corta"><i
+                    class="fas fa-align-left"></i></button>
+                <button class="control-button" data-length="media" id="eq-length-media" title="Respuesta Media"><i
+                    class="fas fa-align-justify"></i></button>
+                <button class="control-button" data-length="larga" id="eq-length-larga" title="Respuesta Larga"><i
+                    class="fas fa-align-right"></i></button>
+                <button class="control-button" id="eq-toggle-web-search-button" title="Buscar en la web"><i
+                    class="fas fa-globe"></i></button>
+                <button class="control-button" id="eq-regenerate-button" title="Regenerar respuesta" disabled><i
+                    class="fas fa-sync-alt"></i></button>
+                <button class="control-button" id="eq-print-button" title="Imprimir información"><i
+                    class="fas fa-print"></i></button>
+              </div>
+              <div class="input-area">
+                <textarea id="equipmentQuestionInput" class="equipment-question-input"
+                  placeholder="Escribe tu pregunta de mantenimiento aquí..." rows="2"
+                  aria-label="Pregunta de mantenimiento"></textarea>
+                <button id="sendEquipmentQuestionButton" class="send-button" disabled
+                  aria-label="Obtener información"><i class="fas fa-paper-plane"></i></button>
+              </div>
+              <input type="file" id="eq-fileInput" class="file-input"
+                accept=".txt,.pdf,.docx,.doc,.csv,.json,.xml,image/jpeg,image/png,image/webp" multiple
+                style="display: none;" />
+            </div>
+          </div>
+
+          <div class="response-column">
+            <div class="column-content">
+              <div id="equipmentLoading" class="response-loading" style="display: none;"><i
+                  class="fas fa-spinner fa-spin"></i> Generando información...</div>
+              <div id="equipmentError" class="error-message" style="display: none;"></div>
+              <div id="equipmentResponseDisplay" class="equipment-response">
+                <div class="empty-response">
+                  <i class="fas fa-clipboard"></i>
+                  <p>Complete los detalles del equipo, seleccione un tipo de mantenimiento y haga clic en el botón de
+                    enviar para generar recomendaciones.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="eq-files-sidebar" class="right-sidebar">
+        <div class="sidebar-panel-header">
+          <div class="sidebar-panel-title"><i class="fas fa-file-alt"></i> Archivos Subidos (Mantenimiento)</div>
+          <button class="close-sidebar-btn" id="close-eq-files-sidebar"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="sidebar-panel-content files-panel-content" id="eq-files-panel-content">
+          <div class="empty-state">No hay archivos subidos</div>
+        </div>
+      </div>
+      <div id="eq-references-sidebar" class="right-sidebar">
+        <div class="sidebar-panel-header">
+          <div class="sidebar-panel-title"><i class="fas fa-book"></i> Referencias (Mantenimiento)</div>
+          <button class="close-sidebar-btn" id="close-eq-references-sidebar"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="sidebar-panel-content references-panel-content" id="eq-references-panel-content">
+          <div class="empty-state">No hay referencias disponibles</div>
+        </div>
+      </div>
+    </section>
+
+
+    <section id="tips-section" class="page-section" style="display: none;">
+      <div class="tips-column">
+        <div id="maintenance-tips-section" class="card-base">
+          <h1 id="tips-header" class="section-header"><i class="fas fa-lightbulb"></i><span
+              style="letter-spacing: -0.05em;">B<span class="ia-text">IA</span>medical</span> Consejos</h1>
+          <div class="tips-container">
+            <div id="maintenance-tips-loading" class="response-loading" style="display: none;"><i
+                class="fas fa-spinner fa-spin"></i> Generando nuevo tip...</div>
+            <div id="maintenance-tips-error" class="error-message" style="display: none;"></div>
+            <div id="maintenance-tips-content" class="tip-content">
+
+            </div>
+            <div style="display: flex; justify-content: center; margin-top: 24px;">
+              <button id="regenerate-tip-button" class="action-button" title="Generar nuevo tip">
+                <i class="fas fa-sync-alt"></i> Nuevo Tip
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.min.js"></script>
+  <script>if(typeof pdfjsLib!=='undefined'){pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.worker.min.js';}</script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.5.0/mammoth.browser.min.js"></script>
+  <script src="lib/markdown-it.min.js"></script>
+  <script>
+
+    function showModal() {
+      const modal = document.getElementById('section-modal');
+      modal.style.display = 'flex';
+      void modal.offsetWidth;
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+    function hideModal() {
+      const modal = document.getElementById('section-modal');
+      modal.classList.remove('active');
+      setTimeout(() => {
+        if (!modal.classList.contains('active')) {
+          modal.style.display = 'none';
+          document.body.style.overflow = '';
+        }
+      }, 400);
+    }
+    const startButton = document.getElementById('start-button');
+    const sectionModal = document.getElementById('section-modal');
+    if (startButton) startButton.addEventListener('click', showModal);
+    if (sectionModal) {
+      sectionModal.addEventListener('click', function (event) {
+        if (event.target === this) hideModal();
+
+        const targetButton = event.target.closest('.section-button[data-target-section]');
+        if (targetButton) {
+          const sectionId = targetButton.dataset.targetSection;
+          if (window.showSection) {
+            window.showSection(sectionId);
+            hideModal();
+          }
+        }
+      });
+    }
+
+    const sectionButtons = document.querySelectorAll('.section-button');
+    sectionButtons.forEach(button => {
+      button.addEventListener('mousemove', function (e) {
+        const rect = this.getBoundingClientRect();
+        const x = e.clientX - rect.left; const y = e.clientY - rect.top;
+        const centerX = rect.width / 2; const centerY = rect.height / 2;
+        const moveX = (x - centerX) / centerX * 5; const moveY = (y - centerY) / centerY * 5;
+        this.style.transform = `translateY(-5px) scale(1.02) rotateX(${-moveY}deg) rotateY(${moveX}deg)`;
+      });
+      button.addEventListener('mouseleave', function () { this.style.transform = ''; });
+    });
+  </script>
+
+  <script src="script.js"></script>
+</body>
+
+</html>
