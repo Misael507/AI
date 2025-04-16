@@ -2,12 +2,11 @@ const GOOGLE_API_KEY = 'AIzaSyB0089qQN6JEg_RJsS_hi0MjEZgnxCrh5o';
 const GOOGLE_CSE_ID = '933054f4e5ea543ab';
 const TAVILY_API_KEY = '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';
 
-window.AppConfig = {
+window.AppConfig = Object.freeze({
   GOOGLE_API_KEY,
   GOOGLE_CSE_ID,
   TAVILY_API_KEY
-};
-
+});
 
 function checkApiKey() {
   return window.AppConfig?.GOOGLE_API_KEY && window.AppConfig.GOOGLE_API_KEY !== "TU_API_KEY_DE_GOOGLE_GEMINI";
@@ -18,15 +17,11 @@ function applyDarkMode(isDark) {
   const body = document.body;
   const darkModeToggle = document.getElementById('dark-mode-toggle');
 
-  if (isDark) {
-    body.classList.add('dark-mode');
-    if (darkModeToggle) darkModeToggle.innerHTML = '<i class="fas fa-sun"></i>';
-  } else {
-    body.classList.remove('dark-mode');
-    if (darkModeToggle) darkModeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+  body.classList[isDark ? 'add' : 'remove']('dark-mode');
+  if (darkModeToggle) {
+    darkModeToggle.innerHTML = `<i class="fas fa-${isDark ? 'sun' : 'moon'}"></i>`;
   }
 }
-
 
 function toggleDarkMode() {
   const isDarkMode = localStorage.getItem('darkMode') === 'true';
@@ -44,22 +39,20 @@ const md = window.markdownit({
   typographer: true
 });
 
-
 function formatMarkdownToHtml(text) {
   if (!text) return '';
 
-
   if (typeof md === 'object' && typeof md.render === 'function') {
     try {
-      let htmlContent = md.render(text);
-
+      const htmlContent = md.render(text);
 
       const tempDiv = document.createElement('div');
       tempDiv.innerHTML = htmlContent;
+
+      // Wrap tables for better mobile experience
       const tables = tempDiv.querySelectorAll('table');
       tables.forEach(table => {
-
-        if (!table.parentElement || !table.parentElement.classList.contains('table-wrapper')) {
+        if (!table.parentElement?.classList.contains('table-wrapper')) {
           const wrapper = document.createElement('div');
           wrapper.className = 'table-wrapper';
           table.parentNode.insertBefore(wrapper, table);
@@ -69,14 +62,11 @@ function formatMarkdownToHtml(text) {
       return tempDiv.innerHTML;
     } catch (e) {
       console.error("Error rendering markdown with markdown-it:", e);
-
       return text.replace(/\n/g, '<br>');
     }
   } else {
-
     console.warn("markdown-it library not found. Using basic text formatting.");
-    const escapedText = text.replace(/</g, "<").replace(/>/g, ">");
-    return escapedText.replace(/\n/g, '<br>');
+    return text.replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\n/g, '<br>');
   }
 }
 
@@ -84,13 +74,14 @@ function formatMarkdownToHtml(text) {
 
 function autoResizeTextarea(textarea) {
   if (!textarea) return;
+
+  // Reset height before calculating the scrollHeight
   textarea.style.height = 'auto';
 
-  setTimeout(() => {
-    if (textarea) {
-      textarea.style.height = (textarea.scrollHeight) + 'px';
-    }
-  }, 0);
+  // Use requestAnimationFrame for better performance than setTimeout
+  requestAnimationFrame(() => {
+    textarea.style.height = `${textarea.scrollHeight}px`;
+  });
 }
 
 
@@ -99,21 +90,21 @@ function showGeneralError(message, targetElement) {
 
   targetElement.textContent = message;
   targetElement.style.display = 'block';
+
+  // Use double requestAnimationFrame to ensure the display change has been applied
   requestAnimationFrame(() => {
     requestAnimationFrame(() => {
       targetElement.style.opacity = '1';
     });
   });
 
-
+  // Auto-hide errors except for API key issues
   if (!message || !message.toLowerCase().includes("api key")) {
     setTimeout(() => {
-      if (targetElement) {
-        targetElement.style.opacity = '0';
-        setTimeout(() => {
-          if (targetElement) targetElement.style.display = 'none';
-        }, 300);
-      }
+      targetElement.style.opacity = '0';
+      setTimeout(() => {
+        if (targetElement) targetElement.style.display = 'none';
+      }, 300);
     }, 5000);
   }
 }
@@ -122,8 +113,6 @@ function showGeneralError(message, targetElement) {
 function initializeCommonComponents() {
   console.log("Inicializando componentes comunes...");
 
-
-
   // Verificar API Key
   if (!checkApiKey()) {
     console.warn("API Key de Google NO VÁLIDA o no configurada. Funcionalidad limitada.");
@@ -131,8 +120,6 @@ function initializeCommonComponents() {
   } else {
     console.log("API Key de Google OK.");
   }
-
-
 }
 
 
@@ -142,7 +129,6 @@ function initializeThemeToggle() {
   const darkModeToggle = document.getElementById('dark-mode-toggle');
   const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
 
-
   function applyInitialTheme() {
     const savedTheme = localStorage.getItem('theme');
 
@@ -151,15 +137,14 @@ function initializeThemeToggle() {
     } else if (savedTheme === 'light') {
       applyDarkMode(false);
     } else {
-
       applyDarkMode(prefersDarkScheme.matches);
     }
   }
 
-
+  // Apply theme immediately
   applyInitialTheme();
 
-
+  // Set up toggle button
   if (darkModeToggle) {
     darkModeToggle.addEventListener('click', () => {
       const isCurrentlyDark = document.body.classList.contains('dark-mode');
@@ -169,7 +154,7 @@ function initializeThemeToggle() {
     });
   }
 
-
+  // Listen for system preference changes
   prefersDarkScheme.addEventListener('change', (e) => {
     if (!localStorage.getItem('theme')) {
       applyDarkMode(e.matches);
@@ -181,12 +166,18 @@ function initializeThemeToggle() {
 
 
 window.SearchServices = (function () {
-
+  /**
+   * Search using Tavily API
+   * @param {string} query - Search query
+   * @param {number} maxResults - Maximum number of results to return
+   * @returns {Promise<Array>} - Search results
+   */
   async function searchWithTavily(query, maxResults = 20) {
     if (!window.AppConfig?.TAVILY_API_KEY) {
       console.error("Tavily API Key not configured.");
       return [];
     }
+
     try {
       console.log("Buscando con Tavily:", query);
       const apiUrl = "https://api.tavily.com/search";
@@ -197,62 +188,65 @@ window.SearchServices = (function () {
           api_key: AppConfig.TAVILY_API_KEY,
           query: query,
           search_depth: "advanced",
-
           include_raw_content: true,
           max_results: maxResults
         })
       };
+
       const response = await fetch(apiUrl, requestOptions);
       if (!response.ok) {
         throw new Error(`Error de Tavily: ${response.status} ${response.statusText}`);
       }
+
       const data = await response.json();
-      if (data.results && data.results.length > 0) {
-        return data.results.map(result => ({
+      return data.results?.length > 0
+        ? data.results.map(result => ({
           title: result.title,
           url: result.url,
           content: result.content
-        }));
-      } else {
-        return [];
-      }
+        }))
+        : [];
     } catch (error) {
       console.error("Error en búsqueda con Tavily:", error);
       return [];
     }
   }
 
-
+  /**
+   * Search using Google Custom Search Engine
+   * @param {string} query - Search query
+   * @param {number} maxResults - Maximum number of results to return
+   * @returns {Promise<Array>} - Search results
+   */
   async function searchWithGoogleCSE(query, maxResults = 20) {
     if (!window.AppConfig?.GOOGLE_API_KEY || !window.AppConfig?.GOOGLE_CSE_ID) {
       console.error("Google API Key or CSE ID not configured.");
       return [];
     }
+
     try {
       console.log("Buscando con Google CSE:", query);
       const numResults = Math.min(maxResults, 20);
       const apiUrl = `https://www.googleapis.com/customsearch/v1?key=${AppConfig.GOOGLE_API_KEY}&cx=${AppConfig.GOOGLE_CSE_ID}&q=${encodeURIComponent(query)}&num=${numResults}`;
+
       const response = await fetch(apiUrl);
       if (!response.ok) {
         throw new Error(`Error de Google CSE: ${response.status} ${response.statusText}`);
       }
+
       const data = await response.json();
-      if (data.items && data.items.length > 0) {
-        return data.items.map(item => ({
+      return data.items?.length > 0
+        ? data.items.map(item => ({
           title: item.title,
           url: item.link,
           content: item.snippet
-        }));
-      } else {
-        return [];
-      }
+        }))
+        : [];
     } catch (error) {
       console.error("Error en búsqueda con Google CSE:", error);
       return [];
     }
   }
-
-
 
   return {
     searchWithTavily,
@@ -264,17 +258,23 @@ window.SearchServices = (function () {
 
 
 window.FileServices = (function () {
-
+  /**
+   * Convert UTF-8 string to Base64
+   * @param {string} str - String to convert
+   * @returns {Promise<string>} - Base64 encoded string
+   */
   function utf8ToBase64(str) {
     try {
       return new Promise((resolve, reject) => {
         const blob = new Blob([str], { type: 'text/plain' });
         const reader = new FileReader();
+
         reader.onload = () => {
           const dataUrl = reader.result;
           const base64 = dataUrl.split(',')[1];
           resolve(base64);
         };
+
         reader.onerror = () => reject(new Error('Error al codificar el texto a base64'));
         reader.readAsDataURL(blob);
       });
@@ -284,31 +284,32 @@ window.FileServices = (function () {
     }
   }
 
-
+  /**
+   * Read file content and convert to base64
+   * @param {File} file - File object to read
+   * @returns {Promise<Object>} - Object with file data
+   */
   async function readFileContent(file) {
     return new Promise((resolve, reject) => {
       if (!file || !(file instanceof Blob)) {
         reject(new Error(`Invalid file object provided for ${file?.name || 'unknown file'}`));
         return;
       }
+
       const reader = new FileReader();
+
       reader.onload = (event) => {
         try {
           const dataUrl = event.target.result;
-          let base64String = '';
-          let mimeTypePart = file.type; // Use original file type
+          const mimeTypePart = file.type; // Use original file type
 
-          if (typeof dataUrl === 'string' && dataUrl.includes('base64,')) {
-            const parts = dataUrl.split('base64,');
-            base64String = parts[1];
-
-          } else {
-
-            console.warn(`Unexpected data URL format for file ${file.name}. Trying ArrayBuffer fallback.`);
-
+          if (typeof dataUrl !== 'string' || !dataUrl.includes('base64,')) {
+            console.warn(`Unexpected data URL format for file ${file.name}`);
             reject(new Error("Invalid data URL format"));
             return;
           }
+
+          const base64String = dataUrl.split('base64,')[1];
 
           if (!base64String) {
             throw new Error("No base64 data found");
@@ -319,16 +320,17 @@ window.FileServices = (function () {
             data: base64String,
             name: file.name
           });
-
         } catch (error) {
           console.error("Error processing file data URL:", error);
           reject(new Error(`Failed to process file ${file.name}: ${error.message}`));
         }
       };
+
       reader.onerror = (error) => {
         console.error("FileReader error:", error);
         reject(new Error(`Failed to read file ${file.name}: ${error.message}`));
       };
+
       try {
         reader.readAsDataURL(file);
       } catch (error) {
@@ -347,11 +349,14 @@ window.FileServices = (function () {
 
 
 window.ApiServices = (function () {
-
-
-
+  /**
+   * Process citations from Gemini API grounding
+   * @param {Array} citations - Citations from Gemini API
+   * @returns {Array} - Processed references with unique URLs
+   */
   function processGroundingCitations(citations) {
-    if (!citations) return [];
+    if (!citations?.length) return [];
+
     const webReferences = citations.map(citation => ({
       title: citation.title || "Fuente Web",
       url: citation.uri,
@@ -359,28 +364,123 @@ window.ApiServices = (function () {
       source: "web"
     }));
 
+    // Filter for unique URLs
     const uniqueWebReferences = [];
     const seenUrls = new Set();
+
     for (const ref of webReferences) {
       if (ref.url && !seenUrls.has(ref.url)) {
         uniqueWebReferences.push(ref);
         seenUrls.add(ref.url);
       }
     }
+
     return uniqueWebReferences;
   }
 
 
+  /**
+   * Process a file to extract its text content
+   * @param {File} file - The file to process
+   * @returns {Promise<{text: string, reference: Object}>} - Extracted text and reference object
+   */
+  async function processFile(file) {
+    let textContent = "";
+    let reference = { title: file.name, source: "file" };
+
+    try {
+      // Determine file type
+      const isText = file.type === "text/plain" || file.name.endsWith(".txt");
+      const isPdf = file.type === "application/pdf" || file.name.endsWith(".pdf");
+      const isWord = file.type.includes('word') || file.name.endsWith('.docx') || file.name.endsWith('.doc');
+
+      // Process based on file type
+      if (isText) {
+        textContent = await file.text();
+        reference.snippet = `[Archivo de texto]`;
+      } else if (isPdf && window.pdfjsLib) {
+        try {
+          const arrayBuffer = await file.arrayBuffer();
+          const pdf = await window.pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+          const maxPages = 20; // Limit pages for performance
+
+          let pdfText = "";
+          for (let i = 1; i <= Math.min(pdf.numPages, maxPages); i++) {
+            const page = await pdf.getPage(i);
+            const content = await page.getTextContent();
+            pdfText += content.items.map(item => item.str).join(" ") + "\n";
+          }
+
+          textContent = pdfText || "[PDF] No se pudo extraer texto.";
+          if (pdf.numPages > maxPages) {
+            textContent += "\n...[contenido truncado]";
+          }
+          reference.snippet = `[Archivo PDF: ${pdf.numPages} páginas]`;
+        } catch (pdfError) {
+          console.error("Error pdf.js:", pdfError);
+          textContent = "[PDF] Error extracción.";
+          reference.source = "error";
+          reference.snippet = `[Error al procesar PDF: ${pdfError.message}]`;
+        }
+      } else if (isWord && window.mammoth) {
+        try {
+          const arrayBuffer = await file.arrayBuffer();
+          const result = await window.mammoth.extractRawText({ arrayBuffer });
+          textContent = result.value || "[Word] No se pudo extraer texto.";
+          reference.snippet = `[Archivo Word]`;
+        } catch (mammothError) {
+          console.error("Error mammoth.js:", mammothError);
+          textContent = "[Word] Error extracción.";
+          reference.source = "error";
+          reference.snippet = `[Error al procesar Word: ${mammothError.message}]`;
+        }
+      } else {
+        reference.snippet = `[Tipo de archivo no soportado]`;
+      }
+
+      // Truncate very large text
+      if (textContent.trim()) {
+        const maxTextLength = 1000000;
+        if (textContent.length > maxTextLength) {
+          textContent = textContent.substring(0, maxTextLength) + "\n...[contenido de texto truncado]";
+        }
+        if (!reference.snippet || reference.source === "error") {
+          reference.snippet = `[Archivo procesado como texto]`;
+          reference.source = "file";
+        }
+      }
+
+      return { text: textContent, reference };
+    } catch (error) {
+      console.error(`Error procesando archivo ${file.name}:`, error);
+      reference.source = "error";
+      reference.snippet = `[Error al procesar archivo: ${error.message}]`;
+      return { text: "", reference };
+    }
+  }
+
+  /**
+   * Call the Gemini API with prompt and optional files
+   * @param {Object} prompt - The prompt object with systemPrompt and userMessage
+   * @param {Array} files - Array of files to process
+   * @param {boolean} useSearch - Whether to use Google Search Grounding
+   * @param {string|null} searchResultsContext - Manual search context if available
+   * @returns {Promise<Object>} - API response with text, references, and safety ratings
+   */
   async function callGeminiAPI(prompt, files = [], useSearch = true, searchResultsContext = null) {
     if (!window.AppConfig?.GOOGLE_API_KEY) {
       throw new Error("Clave API de Google no configurada.");
     }
+
     try {
       console.log("Llamando a la API de Gemini...");
-      const hasFiles = files && files.length > 0;
+      const hasFiles = files?.length > 0;
       const modelName = hasFiles ? 'gemini-2.0-flash-thinking-exp-01-21' : 'gemini-2.0-flash';
-      console.log(`Using model: ${modelName}, Google Grounding: ${useSearch && !searchResultsContext}, Manual Search Context: ${!!searchResultsContext}`);
+      const useGrounding = useSearch && !searchResultsContext;
 
+      console.log(`Using model: ${modelName}, Google Grounding: ${useGrounding}, Manual Search Context: ${!!searchResultsContext}`);
+
+      // Process files if any
       let fileProcessingReferences = [];
       let filesTextContext = "";
       const fileDataParts = [];
@@ -390,89 +490,76 @@ window.ApiServices = (function () {
         const maxFiles = 10;
         const limitedFiles = files.slice(0, maxFiles);
 
-        for (const file of limitedFiles) {
-          try {
-            // Prepare for multimodal if model supports it
-            if (modelName === 'gemini-1.5-pro-preview-03-25') { // Check against the correct model
+        // Process files in parallel for better performance
+        const fileResults = await Promise.all(
+          limitedFiles.map(async (file) => {
+            // Handle multimodal files for specific models
+            if (modelName === 'gemini-1.5-pro-preview-03-25') {
               try {
-                const fileInfoForMultimodal = await FileServices.readFileContent(file);
-                if (fileInfoForMultimodal?.mimeType && fileInfoForMultimodal?.data) {
-                  fileDataParts.push({ inlineData: { mimeType: fileInfoForMultimodal.mimeType, data: fileInfoForMultimodal.data } });
-                  fileProcessingReferences.push({ title: file.name, snippet: `[Archivo: ${file.name}]`, source: "file" });
+                const fileInfo = await FileServices.readFileContent(file);
+                if (fileInfo?.mimeType && fileInfo?.data) {
+                  return {
+                    multimodalData: { inlineData: { mimeType: fileInfo.mimeType, data: fileInfo.data } },
+                    reference: { title: file.name, snippet: `[Archivo: ${file.name}]`, source: "file" }
+                  };
                 }
               } catch (readError) {
                 console.error(`Error leyendo ${file.name} para multimodal:`, readError);
-                fileProcessingReferences.push({ title: file.name, snippet: `[Error al leer archivo: ${readError.message}]`, source: "error" });
+                return {
+                  reference: { title: file.name, snippet: `[Error al leer archivo: ${readError.message}]`, source: "error" }
+                };
               }
             }
 
+            // Process text content from file
+            return processFile(file);
+          })
+        );
 
-            let textContent = "";
-            const isText = file.type === "text/plain" || file.name.endsWith(".txt");
-            const isPdf = file.type === "application/pdf" || file.name.endsWith(".pdf");
-            const isWord = file.type.includes('word') || file.name.endsWith('.docx') || file.name.endsWith('.doc');
-
-            if (isText) {
-              textContent = await file.text();
-            } else if (isPdf && window.pdfjsLib) {
-
-              try {
-                const arrayBuffer = await file.arrayBuffer();
-                const pdf = await window.pdfjsLib.getDocument({ data: arrayBuffer }).promise;
-                let pdfText = "";
-                for (let i = 1; i <= Math.min(pdf.numPages, 20); i++) { // Limit pages
-                  const page = await pdf.getPage(i);
-                  const content = await page.getTextContent();
-                  pdfText += content.items.map(item => item.str).join(" ") + "\n";
-                }
-                textContent = pdfText || "[PDF] No se pudo extraer texto.";
-                if (pdf.numPages > 20) textContent += "\n...[contenido truncado]";
-              } catch (pdfError) { console.error("Error pdf.js:", pdfError); textContent = "[PDF] Error extracción."; }
-            } else if (isWord && window.mammoth) {
-
-              try {
-                const arrayBuffer = await file.arrayBuffer();
-                const result = await window.mammoth.extractRawText({ arrayBuffer });
-                textContent = result.value || "[Word] No se pudo extraer texto.";
-              } catch (mammothError) { console.error("Error mammoth.js:", mammothError); textContent = "[Word] Error extracción."; }
-            }
-
-            if (textContent.trim()) {
-              const maxTextLength = 1000000;
-              if (textContent.length > maxTextLength) {
-                textContent = textContent.substring(0, maxTextLength) + "\n...[contenido de texto truncado]";
-              }
-              filesTextContext += `\n\n[Contexto de archivo "${file.name}"]\n${textContent}\n`;
-
-              if (!fileProcessingReferences.some(ref => ref.title === file.name)) {
-                fileProcessingReferences.push({ title: file.name, snippet: `[Archivo procesado como texto]`, source: "file" });
-              }
-            }
-          } catch (fileError) {
-            console.error(`Error procesando archivo ${file.name}:`, fileError);
-            fileProcessingReferences.push({ title: file.name, snippet: `[Error al procesar archivo]`, source: "error" });
+        // Collect results
+        for (const result of fileResults) {
+          if (result.multimodalData) {
+            fileDataParts.push(result.multimodalData);
+          }
+          if (result.text) {
+            filesTextContext += `\n\n[Contexto de archivo "${result.reference.title}"]\n${result.text}\n`;
+          }
+          if (result.reference) {
+            fileProcessingReferences.push(result.reference);
           }
         }
-        if (files.length > maxFiles) console.warn(`Se limitó el procesamiento a ${maxFiles} archivos.`);
+
+        if (files.length > maxFiles) {
+          console.warn(`Se limitó el procesamiento a ${maxFiles} archivos.`);
+        }
       }
 
-
+      // Validate and prepare prompt
       const systemPrompt = typeof prompt.systemPrompt === 'string' ? prompt.systemPrompt : '';
       const userMessage = typeof prompt.userMessage === 'string' ? prompt.userMessage : '';
-      if (!systemPrompt || !userMessage) throw new Error("Prompt inválido.");
 
+      if (!systemPrompt || !userMessage) {
+        throw new Error("Prompt inválido.");
+      }
 
+      // Build final prompt text
       let finalPromptText = systemPrompt;
       if (filesTextContext) {
         finalPromptText += `\n\n${filesTextContext}`;
       }
       finalPromptText += `\n\n${userMessage}`;
 
-
+      // Prepare API request
       const contents = [{ role: "user", parts: [{ text: finalPromptText }, ...fileDataParts] }];
       const requestBody = {
         contents,
-        generationConfig: { temperature: 0.7, topK: 32, topP: 0.8, maxOutputTokens: 8192, candidateCount: 1 },
+        generationConfig: {
+          temperature: 0.7,
+          topK: 32,
+          topP: 0.8,
+          maxOutputTokens: 8192,
+          candidateCount: 1
+        },
         safetySettings: [
           { category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_MEDIUM_AND_ABOVE" },
           { category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_MEDIUM_AND_ABOVE" },
@@ -481,52 +568,66 @@ window.ApiServices = (function () {
         ]
       };
 
-
-      if (useSearch && !searchResultsContext) {
-        console.log("Habilitando Google Search Grounding (no manual context provided)...");
-        requestBody.tools = [{ "googleSearchRetrieval": {} }];
+      // Add search tools if needed
+      if (useGrounding) {
+        console.log("Habilitando Google Search Grounding...");
+        requestBody.tools = [{ "googleSearch": {} }];
       } else if (searchResultsContext) {
-        console.log("Manual search context provided, skipping Google Search Grounding tool.");
+        console.log("Using manual search context, skipping Google Search Grounding.");
       }
 
-
+      // Make API request
       console.log("Enviando request a Gemini API...");
       const response = await fetch(
         `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${AppConfig.GOOGLE_API_KEY}`,
-        { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(requestBody) }
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(requestBody)
+        }
       );
 
-
+      // Handle API errors
       if (!response.ok) {
         const errorData = await response.json();
         console.error("Error detallado de la API de Gemini:", errorData);
         throw new Error(`Error de la API (${response.status}): ${errorData.error?.message || 'Desconocido'}`);
       }
+
+      // Process response
       const data = await response.json();
       console.log("Respuesta de Gemini recibida.");
 
-
+      // Validate response
       const candidate = data.candidates?.[0];
-      if (!candidate?.content?.parts?.[0]?.text && !candidate?.citationMetadata?.citations?.length > 0) {
+      const hasText = !!candidate?.content?.parts?.[0]?.text;
+      const hasCitations = candidate?.citationMetadata?.citations?.length > 0;
+
+      if (!hasText && !hasCitations) {
         console.error("Respuesta inválida de la API:", data);
         const blockReason = data.promptFeedback?.blockReason;
-        throw new Error(blockReason ? `Solicitud bloqueada: ${blockReason}` : "Formato de respuesta inválido");
+        throw new Error(blockReason ?
+          `Solicitud bloqueada: ${blockReason}` :
+          "Formato de respuesta inválido");
       }
 
-      let responseText = candidate.content.parts[0].text || "";
+      // Extract response text and references
+      let responseText = candidate.content.parts[0]?.text || "";
       let groundedReferences = [];
 
-      if (candidate.citationMetadata?.citations?.length > 0) {
+      if (hasCitations) {
         console.log("Procesando referencias de grounding...");
         groundedReferences = processGroundingCitations(candidate.citationMetadata.citations);
+
         if (!responseText) {
           responseText = "Se encontraron fuentes relevantes, pero no se pudo generar un resumen directo. Consulta las referencias.";
         }
       }
 
-
+      // Combine all references
       const finalReferences = [...fileProcessingReferences, ...groundedReferences];
 
+      // Return formatted response
       return {
         text: responseText,
         references: finalReferences,
@@ -540,11 +641,19 @@ window.ApiServices = (function () {
   }
 
 
+  /**
+   * Update references panel with formatted references
+   * @param {Array} references - Array of reference objects
+   * @param {HTMLElement} panelElement - DOM element to update
+   */
   function updateReferencesPanel(references, panelElement) {
     if (!panelElement) return;
-    panelElement.innerHTML = ''; // Clear panel
 
-    if (!references || references.length === 0) {
+    // Clear panel
+    panelElement.innerHTML = '';
+
+    // Show empty state if no references
+    if (!references?.length) {
       panelElement.innerHTML = '<div class="empty-state">No hay referencias disponibles</div>';
       return;
     }
@@ -552,51 +661,72 @@ window.ApiServices = (function () {
     const orderedList = document.createElement('ol');
     orderedList.className = 'references-list';
 
+    // Helper function to extract domain name safely
+    const extractDomain = (url) => {
+      if (!url) return 'Fuente web';
+      try {
+        return new URL(url).hostname.replace(/^www\./, '');
+      } catch (e) {
+        return url;
+      }
+    };
+
+    // Process each reference
     references.forEach((reference) => {
       const listItem = document.createElement('li');
-      listItem.className = 'reference-item'; // Use li as the item container
+      listItem.className = 'reference-item';
 
-      let iconClass = 'fa-file-alt'; // Default
+      // Set defaults
+      let iconClass = 'fa-file-alt';
       let domainName = '';
-      let sourcePrefix = ''; // To indicate search source
+      let sourcePrefix = '';
 
       // Determine icon and prefix based on source
-      if (reference.source === 'file') {
-        iconClass = 'fa-file-alt'; // Or more specific based on type if needed
-      } else if (reference.source === 'error') {
-        iconClass = 'fa-exclamation-triangle';
-      } else if (reference.source === 'google-cse') {
-        iconClass = 'fab fa-google'; // Google icon
-        sourcePrefix = '[Google] ';
-        try { domainName = reference.url ? new URL(reference.url).hostname.replace(/^www\./, '') : 'Fuente web'; } catch (e) { domainName = reference.url || 'Fuente web'; }
-      } else if (reference.source === 'tavily') {
-        iconClass = 'fa-search'; // Tavily/Search icon
-        sourcePrefix = '[Tavily] ';
-        try { domainName = reference.url ? new URL(reference.url).hostname.replace(/^www\./, '') : 'Fuente web'; } catch (e) { domainName = reference.url || 'Fuente web'; }
-      } else if (reference.source === 'web') { // Gemini grounding source
-        iconClass = 'fa-globe';
-        sourcePrefix = '[Gemini Web] ';
-        try { domainName = reference.url ? new URL(reference.url).hostname.replace(/^www\./, '') : 'Fuente web'; } catch (e) { domainName = reference.url || 'Fuente web'; }
+      switch (reference.source) {
+        case 'file':
+          iconClass = 'fa-file-alt';
+          break;
+        case 'error':
+          iconClass = 'fa-exclamation-triangle';
+          break;
+        case 'google-cse':
+          iconClass = 'fab fa-google';
+          sourcePrefix = '[Google] ';
+          domainName = extractDomain(reference.url);
+          break;
+        case 'tavily':
+          iconClass = 'fa-search';
+          sourcePrefix = '[Tavily] ';
+          domainName = extractDomain(reference.url);
+          break;
+        case 'web':
+          iconClass = 'fa-globe';
+          sourcePrefix = '[Gemini Web] ';
+          domainName = extractDomain(reference.url);
+          break;
       }
 
+      // Create reference HTML
+      const title = reference.title || (reference.url ? 'Fuente Web' : 'Referencia');
+      const titleElement = reference.url
+        ? `<a href="${reference.url}" target="_blank" rel="noopener noreferrer">${sourcePrefix}${title}</a>`
+        : `<span>${sourcePrefix}${title}</span>`;
 
-      // Use innerHTML on a content div inside the li for easier styling/structure
       listItem.innerHTML = `
         <div class="reference-content">
           <div class="reference-title">
-            <i class="fas ${iconClass}"></i> <!-- Use determined icon -->
-            ${reference.url ?
-          `<a href="${reference.url}" target="_blank" rel="noopener noreferrer">${sourcePrefix}${reference.title || 'Fuente Web'}</a>` :
-          `<span>${sourcePrefix}${reference.title || 'Referencia'}</span>`
-        }
+            <i class="fas ${iconClass}"></i>
+            ${titleElement}
           </div>
           ${domainName ? `<div class="reference-domain">${domainName}</div>` : ''}
           <div class="reference-snippet">${reference.snippet || ''}</div>
           ${reference.url ? `<div class="reference-url-small"><a href="${reference.url}" target="_blank" rel="noopener noreferrer">${reference.url}</a></div>` : ''}
         </div>
       `;
+
       orderedList.appendChild(listItem);
     });
+
     panelElement.appendChild(orderedList);
   }
 
@@ -763,28 +893,86 @@ function initializeAssistantPage() {
 
 
 
+/**
+ * Handle file upload for the assistant
+ * @param {Event} event - File input change event
+ */
 function handleAssistantFileUpload(event) {
   const files = event.target.files;
-  if (files.length > 0) {
-    console.log(`${files.length} archivos seleccionados para Asistente`);
-    for (let i = 0; i < files.length; i++) {
-      const file = files[i];
-      // Prevent duplicates
-      if (!uploadedFilesData.some(f => f.name === file.name && f.size === file.size)) {
-        uploadedFilesData.push({
-          id: Date.now() + i,
-          name: file.name,
-          size: file.size,
-          type: file.type,
-          fileObject: file
-        });
-      }
+  if (!files?.length) return;
+
+  console.log(`${files.length} archivos seleccionados para Asistente`);
+
+  // Maximum number of files to allow
+  const MAX_FILES = 20;
+  const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB
+  const ALLOWED_TYPES = [
+    'text/plain', 'application/pdf', 'application/msword',
+    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    'image/jpeg', 'image/png', 'image/gif'
+  ];
+
+  // Check if adding these files would exceed the limit
+  if (uploadedFilesData.length + files.length > MAX_FILES) {
+    showGeneralError(`No se pueden subir más de ${MAX_FILES} archivos. Por favor, elimine algunos archivos primero.`, errorMessageDisplay);
+    return;
+  }
+
+  // Process each file
+  let filesAdded = 0;
+  let filesRejected = 0;
+
+  for (let i = 0; i < files.length; i++) {
+    const file = files[i];
+
+    // Check file size
+    if (file.size > MAX_FILE_SIZE) {
+      filesRejected++;
+      console.warn(`Archivo ${file.name} rechazado: excede el tamaño máximo de 50MB`);
+      continue;
     }
+
+    // Check if file type is allowed (loose check)
+    const isAllowedType = ALLOWED_TYPES.some(type => file.type.includes(type)) ||
+      /\.(txt|pdf|doc|docx|jpg|jpeg|png|gif)$/i.test(file.name);
+
+    if (!isAllowedType) {
+      filesRejected++;
+      console.warn(`Archivo ${file.name} rechazado: tipo de archivo no soportado`);
+      continue;
+    }
+
+    // Prevent duplicates by name and size
+    if (!uploadedFilesData.some(f => f.name === file.name && f.size === file.size)) {
+      uploadedFilesData.push({
+        id: Date.now() + i,
+        name: file.name,
+        size: file.size,
+        type: file.type,
+        fileObject: file,
+        addedAt: new Date().toISOString()
+      });
+      filesAdded++;
+    }
+  }
+
+  // Show feedback if files were rejected
+  if (filesRejected > 0) {
+    showGeneralError(
+      `${filesRejected} ${filesRejected === 1 ? 'archivo rechazado' : 'archivos rechazados'} por tamaño o formato no soportado.`,
+      errorMessageDisplay
+    );
+  }
+
+  // Update UI
+  if (filesAdded > 0) {
     updateAssistantFilesCount();
     updateAssistantFilesPanel();
     if (filesSidebar) filesSidebar.classList.add('active'); // Show sidebar
-    fileInput.value = ''; // Clear input
   }
+
+  // Clear input to allow selecting the same file again
+  if (fileInput) fileInput.value = '';
 }
 
 function updateAssistantFilesCount() {
@@ -795,29 +983,62 @@ function updateAssistantFilesCount() {
   }
 }
 
+/**
+ * Get appropriate icon class based on file type
+ * @param {string} fileType - MIME type of the file
+ * @param {string} fileName - Name of the file
+ * @returns {string} - FontAwesome icon class
+ */
+function getFileIconClass(fileType, fileName) {
+  if (fileType.includes('pdf') || fileName.endsWith('.pdf')) return 'fa-file-pdf';
+  if (fileType.includes('word') || fileName.endsWith('.doc') || fileName.endsWith('.docx')) return 'fa-file-word';
+  if (fileType.includes('text') || fileName.endsWith('.txt')) return 'fa-file-alt';
+  if (fileType.includes('image') || /\.(jpg|jpeg|png|gif|bmp|svg)$/i.test(fileName)) return 'fa-file-image';
+  if (fileType.includes('excel') || fileName.endsWith('.xls') || fileName.endsWith('.xlsx')) return 'fa-file-excel';
+  if (fileType.includes('powerpoint') || fileName.endsWith('.ppt') || fileName.endsWith('.pptx')) return 'fa-file-powerpoint';
+  if (fileType.includes('zip') || fileName.endsWith('.zip') || fileName.endsWith('.rar')) return 'fa-file-archive';
+  if (fileType.includes('audio') || /\.(mp3|wav|ogg|flac)$/i.test(fileName)) return 'fa-file-audio';
+  if (fileType.includes('video') || /\.(mp4|avi|mov|wmv)$/i.test(fileName)) return 'fa-file-video';
+  if (fileType.includes('code') || /\.(js|html|css|py|java|cpp|c|php)$/i.test(fileName)) return 'fa-file-code';
+  return 'fa-file'; // Default icon
+}
+
+/**
+ * Update the files panel with current uploaded files
+ */
 function updateAssistantFilesPanel() {
   if (!filesPanelContent) return;
-  filesPanelContent.innerHTML = ''; // Clear panel
 
+  // Clear panel
+  filesPanelContent.innerHTML = '';
+
+  // Show empty state if no files
   if (uploadedFilesData.length === 0) {
     filesPanelContent.innerHTML = '<div class="empty-state">No hay archivos subidos</div>';
     return;
   }
 
+  // Create document fragment for better performance
+  const fragment = document.createDocumentFragment();
+
+  // Add each file to the panel
   uploadedFilesData.forEach(fileData => {
     const fileItem = document.createElement('div');
     fileItem.className = 'file-item';
-    let iconClass = 'fa-file'; // Default icon
-    if (fileData.type.includes('pdf')) iconClass = 'fa-file-pdf';
-    else if (fileData.type.includes('word')) iconClass = 'fa-file-word';
-    else if (fileData.type.includes('text')) iconClass = 'fa-file-alt';
-    else if (fileData.type.includes('image')) iconClass = 'fa-file-image'; // Add image icon
-    // Add other icons as needed
+
+    // Get appropriate icon
+    const iconClass = getFileIconClass(fileData.type, fileData.name);
+
+    // Format file size
+    const fileSize = fileData.size < 1024 * 1024
+      ? `${Math.round(fileData.size / 1024)} KB`
+      : `${(fileData.size / (1024 * 1024)).toFixed(1)} MB`;
 
     fileItem.innerHTML = `
       <div class="file-info">
         <i class="fas ${iconClass} file-icon"></i>
         <span class="file-name" title="${fileData.name}">${fileData.name}</span>
+        <span class="file-size">${fileSize}</span>
       </div>
       <div class="file-actions">
         <button class="file-action-btn delete" data-file-id="${fileData.id}" title="Eliminar archivo">
@@ -825,158 +1046,256 @@ function updateAssistantFilesPanel() {
         </button>
       </div>
     `;
+
     // Add delete listener
-    fileItem.querySelector('.delete').addEventListener('click', (e) => {
-      const idToRemove = parseInt(e.currentTarget.dataset.fileId);
-      uploadedFilesData = uploadedFilesData.filter(f => f.id !== idToRemove);
-      updateAssistantFilesCount();
-      updateAssistantFilesPanel();
-    });
-    filesPanelContent.appendChild(fileItem);
+    const deleteBtn = fileItem.querySelector('.delete');
+    if (deleteBtn) {
+      deleteBtn.addEventListener('click', (e) => {
+        const idToRemove = parseInt(e.currentTarget.dataset.fileId);
+        uploadedFilesData = uploadedFilesData.filter(f => f.id !== idToRemove);
+        updateAssistantFilesCount();
+        updateAssistantFilesPanel();
+      });
+    }
+
+    fragment.appendChild(fileItem);
   });
+
+  // Add all files to the panel at once (more efficient)
+  filesPanelContent.appendChild(fragment);
 }
 
-// Display message in chat (uses common formatMarkdownToHtml)
-// Added isHTML flag
+/**
+ * Display a message in the chat window
+ * @param {string} _ - Unused parameter (kept for compatibility)
+ * @param {string} text - Message text content
+ * @param {boolean} isUserMessage - Whether this is a user message
+ * @param {boolean} isHTML - Whether to treat text as HTML
+ */
 function displayMessage(_, text, isUserMessage = false, isHTML = false) {
   if (!chatMessages) return;
+
+  // Create message container
   const messageDiv = document.createElement('div');
   messageDiv.classList.add('message', isUserMessage ? 'user-turn' : 'assistant-turn');
 
+  // Create sender label
   const senderSpan = document.createElement('span');
   senderSpan.classList.add('sender');
-  senderSpan.innerHTML = isUserMessage ? `<i class="fas fa-user"></i> Usuario` : `<i class="fas fa-robot"></i> Asistente`;
+  senderSpan.innerHTML = isUserMessage
+    ? `<i class="fas fa-user"></i> Usuario`
+    : `<i class="fas fa-robot"></i> Asistente`;
 
+  // Create response content
   const responseSpan = document.createElement('div');
   responseSpan.classList.add('response');
+
   if (isUserMessage) {
     responseSpan.classList.add('user');
-    responseSpan.textContent = text; // Use textContent for user messages
+    responseSpan.textContent = text; // Use textContent for user messages (safer)
   } else {
-    if (isHTML) {
-      responseSpan.innerHTML = text; // Directly set HTML if flagged
-    } else {
-      responseSpan.innerHTML = formatMarkdownToHtml(text); // Use synchronous formatter
-    }
+    // For assistant messages, either use direct HTML or format markdown
+    responseSpan.innerHTML = isHTML ? text : formatMarkdownToHtml(text);
   }
 
+  // Assemble and append message
   messageDiv.appendChild(senderSpan);
   messageDiv.appendChild(responseSpan);
   chatMessages.appendChild(messageDiv);
+
   // Scroll smoothly to the bottom
   chatMessages.scrollTo({ top: chatMessages.scrollHeight, behavior: 'smooth' });
 }
 
-// Send message logic
+/**
+ * Process web search results and collect references
+ * @param {string} query - Search query
+ * @param {number} maxResults - Maximum results to fetch
+ * @returns {Promise<{searchContext: string, references: Array}>} - Search context and references
+ */
+async function performWebSearch(query, maxResults = 5) {
+  let searchContext = "";
+  let collectedReferences = [];
+  const seenUrls = new Set();
+
+  try {
+    console.log("Fetching web search results...");
+
+    // Fetch results from multiple sources concurrently
+    const [googleResults, tavilyResults] = await Promise.all([
+      SearchServices.searchWithGoogleCSE(query, maxResults)
+        .catch(e => {
+          console.error("Google CSE Search failed:", e);
+          return [];
+        }),
+      SearchServices.searchWithTavily(query, maxResults)
+        .catch(e => {
+          console.error("Tavily Search failed:", e);
+          return [];
+        })
+    ]);
+
+    // Process and combine results
+    const contextParts = [];
+
+    // Helper function to process results from any source
+    const processResults = (results, sourceName, sourceType) => {
+      if (!results?.length) return;
+
+      results.forEach((res, index) => {
+        if (res.url && !seenUrls.has(res.url)) {
+          contextParts.push(`[${sourceName} ${index + 1}] ${res.title}: ${res.content || 'N/A'}`);
+          collectedReferences.push({
+            title: res.title,
+            url: res.url,
+            snippet: res.content,
+            source: sourceType
+          });
+          seenUrls.add(res.url);
+        }
+      });
+    };
+
+    // Process results from each source
+    processResults(googleResults, 'Google', 'google-cse');
+    processResults(tavilyResults, 'Tavily', 'tavily');
+
+    // Build search context if results were found
+    if (contextParts.length > 0) {
+      searchContext = "Contexto de Búsqueda Web:\n" + contextParts.join('\n');
+      console.log(`Prepared search context with ${contextParts.length} results`);
+    } else {
+      console.log("No relevant web search results found");
+    }
+
+  } catch (error) {
+    console.error("Error during web search:", error);
+  }
+
+  return { searchContext, references: collectedReferences };
+}
+
+/**
+ * Process and deduplicate references from multiple sources
+ * @param {Array} apiReferences - References from API response
+ * @param {Array} webReferences - References from web search
+ * @returns {Array} - Unique, deduplicated references
+ */
+function processReferences(apiReferences = [], webReferences = []) {
+  const uniqueReferences = [];
+  const seenUrls = new Set();
+  const seenTitleSnippetPairs = new Set();
+
+  // Combine all references
+  const allReferences = [...apiReferences, ...webReferences];
+
+  // Process each reference
+  allReferences.forEach(ref => {
+    // For references with URLs
+    if (ref.url) {
+      if (!seenUrls.has(ref.url)) {
+        uniqueReferences.push(ref);
+        seenUrls.add(ref.url);
+      }
+      return;
+    }
+
+    // For references without URLs (like file references)
+    if (ref.source === 'file' || ref.source === 'error') {
+      uniqueReferences.push(ref);
+      return;
+    }
+
+    // For other references without URLs, check title+snippet combination
+    const titleSnippetKey = `${ref.title}|${ref.snippet}`;
+    if (!seenTitleSnippetPairs.has(titleSnippetKey)) {
+      uniqueReferences.push(ref);
+      seenTitleSnippetPairs.add(titleSnippetKey);
+    }
+  });
+
+  return uniqueReferences;
+}
+
+/**
+ * Send a message to the assistant and process the response
+ */
 async function sendMessage() {
+  // Validate input
   if (!questionInput || !questionInput.value.trim()) return;
+
   const userMessage = questionInput.value.trim();
   lastQuestionText = userMessage; // Store for potential regeneration
-  console.log("Enviando mensaje:", userMessage);
+
+  console.log("Sending message:", userMessage);
+
+  // Update UI for user message
   displayMessage('Usuario', userMessage, true);
   questionInput.value = '';
   autoResizeTextarea(questionInput);
+
+  // Show loading state
   if (loadingIndicator) loadingIndicator.style.display = 'block';
-  if (errorMessageDisplay) errorMessageDisplay.style.display = 'none'; // Hide previous errors
-  if (regenerateButton) regenerateButton.disabled = true; // Disable regenerate during request
+  if (errorMessageDisplay) errorMessageDisplay.style.display = 'none';
+  if (regenerateButton) regenerateButton.disabled = true;
 
   try {
-    let searchContext = ""; // Initialize as empty string
-    let collectedWebReferences = [];
-    const seenUrls = new Set();
+    // Perform web search if enabled
+    let searchContext = "";
+    let webReferences = [];
 
     if (useWebSearch) {
-      console.log("Web search enabled, fetching Google CSE and Tavily results...");
-      try {
-        // Fetch both concurrently
-        const [googleResults, tavilyResults] = await Promise.all([
-          SearchServices.searchWithGoogleCSE(userMessage, 5).catch(e => { console.error("Google CSE Search failed:", e); return []; }), // Limit to 5, handle errors
-          SearchServices.searchWithTavily(userMessage, 5).catch(e => { console.error("Tavily Search failed:", e); return []; })      // Limit to 5, handle errors
-        ]);
-
-        let contextParts = [];
-
-        // Process Google CSE results first
-        if (googleResults && googleResults.length > 0) {
-          googleResults.forEach((res, index) => {
-            if (res.url && !seenUrls.has(res.url)) {
-              contextParts.push(`[Google ${index + 1}] ${res.title}: ${res.content || 'N/A'}`);
-              collectedWebReferences.push({ title: res.title, url: res.url, snippet: res.content, source: 'google-cse' });
-              seenUrls.add(res.url);
-            }
-          });
-        }
-
-        // Process Tavily results next, adding only new ones
-        if (tavilyResults && tavilyResults.length > 0) {
-          tavilyResults.forEach((res, index) => {
-            if (res.url && !seenUrls.has(res.url)) {
-              contextParts.push(`[Tavily ${index + 1}] ${res.title}: ${res.content || 'N/A'}`);
-              collectedWebReferences.push({ title: res.title, url: res.url, snippet: res.content, source: 'tavily' });
-              seenUrls.add(res.url);
-            }
-          });
-        }
-
-        if (contextParts.length > 0) {
-          searchContext = "Contexto de Búsqueda Web:\n" + contextParts.join('\n');
-          console.log("Contexto de búsqueda web combinado preparado.");
-        } else {
-          console.log("No se encontraron resultados de búsqueda web relevantes de Google CSE o Tavily.");
-        }
-
-      } catch (searchError) {
-        console.error("Error durante la búsqueda web:", searchError);
-        // Proceed without search context
-      }
+      const searchResults = await performWebSearch(userMessage, 5);
+      searchContext = searchResults.searchContext;
+      webReferences = searchResults.references;
     }
 
-    const prompt = buildAssistantPrompt(userMessage, searchContext || null); // Pass context or null
+    // Prepare prompt and files
+    const prompt = buildAssistantPrompt(userMessage, searchContext || null);
     const filesToProcess = uploadedFilesData.map(f => f.fileObject);
-    // Pass searchContext to disable grounding if context exists
-    const response = await ApiServices.callGeminiAPI(prompt, filesToProcess, useWebSearch, searchContext || null);
 
+    // Call API
+    const response = await ApiServices.callGeminiAPI(
+      prompt,
+      filesToProcess,
+      useWebSearch,
+      searchContext || null
+    );
+
+    // Display response
     displayMessage('Asistente', response.text);
 
-    // Combine references: file processing refs + web refs + grounding refs (if any)
-    const allReferences = [...(response.references || []), ...collectedWebReferences];
-    const uniqueReferences = [];
-    const finalSeenUrls = new Set();
+    // Process and display references
+    const uniqueReferences = processReferences(response.references, webReferences);
 
-    allReferences.forEach(ref => {
-      // Prioritize non-web references or references with URLs
-      if (ref.source === 'file' || ref.source === 'error' || (ref.url && !finalSeenUrls.has(ref.url))) {
-        uniqueReferences.push(ref);
-        if (ref.url) {
-          finalSeenUrls.add(ref.url);
-        }
-      } else if (!ref.url && !uniqueReferences.some(uRef => uRef.title === ref.title && uRef.snippet === ref.snippet)) {
-        // Add references without URL only if title/snippet combo is unique
-        uniqueReferences.push(ref);
-      }
-    });
-
-
-    // Update and show references panel
     if (uniqueReferences.length > 0) {
       ApiServices.updateReferencesPanel(uniqueReferences, referencesPanelContent);
-      if (showReferencesBtn && referencesSidebar && !referencesSidebar.classList.contains('active')) {
+
+      // Show references panel if not already visible
+      if (showReferencesBtn &&
+        referencesSidebar &&
+        !referencesSidebar.classList.contains('active')) {
         showReferencesBtn.click();
       }
     } else {
-      ApiServices.updateReferencesPanel([], referencesPanelContent); // Clear panel if no refs found
+      ApiServices.updateReferencesPanel([], referencesPanelContent);
     }
 
-    if (regenerateButton) regenerateButton.disabled = false; // Re-enable regenerate
+    // Re-enable regenerate button
+    if (regenerateButton) regenerateButton.disabled = false;
 
   } catch (error) {
-    console.error('Error al obtener respuesta:', error);
-    showGeneralError(`Error al obtener respuesta: ${error.message}`, errorMessageDisplay); // Use common error display
-    // Display fallback response
+    console.error('Error getting response:', error);
+
+    // Show error and fallback response
+    showGeneralError(`Error al obtener respuesta: ${error.message}`, errorMessageDisplay);
     const fallbackResponse = generateFallbackResponse(userMessage);
     displayMessage('Asistente', fallbackResponse);
-    if (regenerateButton) regenerateButton.disabled = true; // Keep disabled on error
+
+    // Keep regenerate button disabled on error
+    if (regenerateButton) regenerateButton.disabled = true;
   } finally {
+    // Hide loading indicator
     if (loadingIndicator) loadingIndicator.style.display = 'none';
   }
 }
@@ -1055,25 +1374,59 @@ function setupAssistantAIControls() {
   // Regenerate Button
   if (regenerateButton) {
     regenerateButton.addEventListener('click', async () => {
+      // Validate state
       if (regenerateButton.disabled || !lastQuestionText) return;
+
       console.log("Regenerando respuesta para:", lastQuestionText);
-      // Re-send the last message (don't display user message again)
+
+      // Update UI state
       if (loadingIndicator) loadingIndicator.style.display = 'block';
       if (errorMessageDisplay) errorMessageDisplay.style.display = 'none';
       regenerateButton.disabled = true;
+
       try {
-        const prompt = buildAssistantPrompt(lastQuestionText);
+        // Perform web search if enabled
+        let searchContext = "";
+        let webReferences = [];
+
+        if (useWebSearch) {
+          const searchResults = await performWebSearch(lastQuestionText, 5);
+          searchContext = searchResults.searchContext;
+          webReferences = searchResults.references;
+        }
+
+        // Prepare prompt and files
+        const prompt = buildAssistantPrompt(lastQuestionText, searchContext || null);
         const filesToProcess = uploadedFilesData.map(f => f.fileObject);
-        const response = await ApiServices.callGeminiAPI(prompt, filesToProcess, useWebSearch);
+
+        // Call API
+        const response = await ApiServices.callGeminiAPI(
+          prompt,
+          filesToProcess,
+          useWebSearch,
+          searchContext || null
+        );
+
+        // Display response
         displayMessage('Asistente', response.text);
-        if (response.references && response.references.length > 0) {
-          ApiServices.updateReferencesPanel(response.references, referencesPanelContent);
-          if (showReferencesBtn && referencesSidebar && !referencesSidebar.classList.contains('active')) {
+
+        // Process and display references
+        const uniqueReferences = processReferences(response.references, webReferences);
+
+        if (uniqueReferences.length > 0) {
+          ApiServices.updateReferencesPanel(uniqueReferences, referencesPanelContent);
+
+          // Show references panel if not already visible
+          if (showReferencesBtn &&
+            referencesSidebar &&
+            !referencesSidebar.classList.contains('active')) {
             showReferencesBtn.click();
           }
         } else {
           ApiServices.updateReferencesPanel([], referencesPanelContent);
         }
+
+        // Re-enable regenerate button
         regenerateButton.disabled = false;
       } catch (error) {
         console.error('Error al regenerar respuesta:', error);
@@ -1083,7 +1436,9 @@ function setupAssistantAIControls() {
         if (loadingIndicator) loadingIndicator.style.display = 'none';
       }
     });
-    regenerateButton.disabled = true; // Start disabled
+
+    // Start with regenerate button disabled
+    regenerateButton.disabled = true;
   }
 }
 
@@ -1198,41 +1553,83 @@ function buildTipPrompt() {
   return { systemPrompt, userMessage };
 }
 
-// Function to fetch and display a new tip using the API
+/**
+ * Parse tip content from API response
+ * @param {string} text - Raw text from API
+ * @returns {Object} - Parsed title and content
+ */
+function parseTipContent(text) {
+  const lines = text.split('\n');
+  let title = 'Tip de Mantenimiento'; // Default title
+  let content = text; // Default content
+
+  // Check if first line is a markdown title
+  const titlePatterns = [
+    /^\*\*(.+)\*\*$/, // **Title**
+    /^# (.+)$/,       // # Title
+    /^## (.+)$/       // ## Title
+  ];
+
+  if (lines.length > 0) {
+    for (const pattern of titlePatterns) {
+      const match = lines[0].match(pattern);
+      if (match) {
+        title = match[1].trim();
+        content = lines.slice(1).join('\n').trim();
+        break;
+      }
+    }
+  }
+
+  return { title, content };
+}
+
+/**
+ * Fetch and display a new maintenance tip
+ */
 async function fetchAndDisplayNewTip() {
+  // Update UI state
   if (maintenanceTipsLoading) maintenanceTipsLoading.style.display = 'block';
   if (maintenanceTipsError) maintenanceTipsError.style.display = 'none';
-  if (maintenanceTipsContent) maintenanceTipsContent.innerHTML = ''; // Clear previous tip
-  if (regenerateTipButton) regenerateTipButton.disabled = true; // Disable button during fetch
+  if (maintenanceTipsContent) maintenanceTipsContent.innerHTML = '';
+  if (regenerateTipButton) regenerateTipButton.disabled = true;
 
   try {
+    // Generate prompt and call API
     const prompt = buildTipPrompt();
-    // Use the faster flash model for tips, no files, no web search needed
-    const response = await ApiServices.callGeminiAPI(prompt, [], false); // Use false for useSearch
+    const response = await ApiServices.callGeminiAPI(prompt, [], false);
 
-    // Basic parsing assuming the format "**Title**\nContent..."
-    const lines = response.text.split('\n');
-    let title = `Tip de Mantenimiento`; // Default title
-    let content = response.text; // Default content
-
-    if (lines.length > 0 && lines[0].startsWith('**') && lines[0].endsWith('**')) {
-      title = lines[0].substring(2, lines[0].length - 2).trim(); // Extract title
-      content = lines.slice(1).join('\n').trim(); // Get the rest as content
+    if (!response?.text) {
+      throw new Error('Respuesta vacía del API');
     }
 
-    displayMaintenanceTip({ title: title, content: content });
+    // Parse and display the tip
+    const tipData = parseTipContent(response.text);
+    displayMaintenanceTip(tipData);
 
   } catch (error) {
     console.error('Error fetching maintenance tip:', error);
+
+    // Show error message
     if (maintenanceTipsError) {
-      showGeneralError(`Error al generar el tip: ${error.message}`, maintenanceTipsError); // Use common error display
+      showGeneralError(`Error al generar el tip: ${error.message}`, maintenanceTipsError);
     }
+
+    // Show fallback content
     if (maintenanceTipsContent) {
-      maintenanceTipsContent.innerHTML = '<p>No se pudo generar un nuevo tip en este momento.</p>';
+      maintenanceTipsContent.innerHTML = `
+        <div class="tip-container error">
+          <h3>Tip no disponible</h3>
+          <div class="tip-body">
+            <p>No se pudo generar un nuevo tip en este momento. Por favor, intenta de nuevo más tarde.</p>
+          </div>
+        </div>
+      `;
     }
   } finally {
+    // Reset UI state
     if (maintenanceTipsLoading) maintenanceTipsLoading.style.display = 'none';
-    if (regenerateTipButton) regenerateTipButton.disabled = false; // Re-enable button
+    if (regenerateTipButton) regenerateTipButton.disabled = false;
   }
 }
 
@@ -1466,24 +1863,86 @@ function updateEquipmentUIState() {
   sendEquipmentQuestionButton.disabled = !(name && brand && model && selectedMaintenanceType);
 }
 
+/**
+ * Handle file upload for the maintenance section
+ * @param {Event} event - File input change event
+ */
 function handleMaintenanceFileUpload(event) {
   const files = event.target.files;
-  if (files.length > 0) {
-    console.log(`${files.length} archivos seleccionados para Mantenimiento`);
-    for (let i = 0; i < files.length; i++) {
-      const file = files[i];
-      // Prevent duplicates
-      if (!eqUploadedFilesData.some(f => f.name === file.name && f.size === file.size)) {
-        eqUploadedFilesData.push({
-          id: Date.now() + i, name: file.name, size: file.size, type: file.type, fileObject: file
-        });
-      }
+  if (!files?.length) return;
+
+  console.log(`${files.length} archivos seleccionados para Mantenimiento`);
+
+  // Maximum number of files to allow
+  const MAX_FILES = 20;
+  const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB
+  const ALLOWED_TYPES = [
+    'text/plain', 'application/pdf', 'application/msword',
+    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    'image/jpeg', 'image/png', 'image/gif'
+  ];
+
+  // Check if adding these files would exceed the limit
+  if (eqUploadedFilesData.length + files.length > MAX_FILES) {
+    showGeneralError(`No se pueden subir más de ${MAX_FILES} archivos. Por favor, elimine algunos archivos primero.`, equipmentError);
+    return;
+  }
+
+  // Process each file
+  let filesAdded = 0;
+  let filesRejected = 0;
+
+  for (let i = 0; i < files.length; i++) {
+    const file = files[i];
+
+    // Check file size
+    if (file.size > MAX_FILE_SIZE) {
+      filesRejected++;
+      console.warn(`Archivo ${file.name} rechazado: excede el tamaño máximo de 50MB`);
+      continue;
     }
+
+    // Check if file type is allowed (loose check)
+    const isAllowedType = ALLOWED_TYPES.some(type => file.type.includes(type)) ||
+      /\.(txt|pdf|doc|docx|jpg|jpeg|png|gif)$/i.test(file.name);
+
+    if (!isAllowedType) {
+      filesRejected++;
+      console.warn(`Archivo ${file.name} rechazado: tipo de archivo no soportado`);
+      continue;
+    }
+
+    // Prevent duplicates by name and size
+    if (!eqUploadedFilesData.some(f => f.name === file.name && f.size === file.size)) {
+      eqUploadedFilesData.push({
+        id: Date.now() + i,
+        name: file.name,
+        size: file.size,
+        type: file.type,
+        fileObject: file,
+        addedAt: new Date().toISOString()
+      });
+      filesAdded++;
+    }
+  }
+
+  // Show feedback if files were rejected
+  if (filesRejected > 0) {
+    showGeneralError(
+      `${filesRejected} ${filesRejected === 1 ? 'archivo rechazado' : 'archivos rechazados'} por tamaño o formato no soportado.`,
+      equipmentError
+    );
+  }
+
+  // Update UI
+  if (filesAdded > 0) {
     updateEqFilesCount();
     updateEqFilesPanel();
     if (eqFilesSidebar) eqFilesSidebar.classList.add('active');
-    eqFileInput.value = ''; // Clear input
   }
+
+  // Clear input to allow selecting the same file again
+  if (eqFileInput) eqFileInput.value = '';
 }
 
 function updateEqFilesCount() {
@@ -1494,27 +1953,42 @@ function updateEqFilesCount() {
   }
 }
 
+/**
+ * Update the equipment files panel with current uploaded files
+ */
 function updateEqFilesPanel() {
   if (!eqFilesPanelContent) return;
-  eqFilesPanelContent.innerHTML = ''; // Clear panel
+
+  // Clear panel
+  eqFilesPanelContent.innerHTML = '';
+
+  // Show empty state if no files
   if (eqUploadedFilesData.length === 0) {
     eqFilesPanelContent.innerHTML = '<div class="empty-state">No hay archivos subidos</div>';
     return;
   }
+
+  // Create document fragment for better performance
+  const fragment = document.createDocumentFragment();
+
+  // Add each file to the panel
   eqUploadedFilesData.forEach(fileData => {
     const fileItem = document.createElement('div');
     fileItem.className = 'file-item';
-    let iconClass = 'fa-file';
-    if (fileData.type.includes('pdf')) iconClass = 'fa-file-pdf';
-    else if (fileData.type.includes('word')) iconClass = 'fa-file-word';
-    else if (fileData.type.includes('text')) iconClass = 'fa-file-alt';
-    else if (fileData.type.includes('image')) iconClass = 'fa-file-image';
-    // Add other icons as needed
+
+    // Get appropriate icon
+    const iconClass = getFileIconClass(fileData.type, fileData.name);
+
+    // Format file size
+    const fileSize = fileData.size < 1024 * 1024
+      ? `${Math.round(fileData.size / 1024)} KB`
+      : `${(fileData.size / (1024 * 1024)).toFixed(1)} MB`;
 
     fileItem.innerHTML = `
       <div class="file-info">
         <i class="fas ${iconClass} file-icon"></i>
         <span class="file-name" title="${fileData.name}">${fileData.name}</span>
+        <span class="file-size">${fileSize}</span>
       </div>
       <div class="file-actions">
         <button class="file-action-btn delete" data-file-id="${fileData.id}" title="Eliminar archivo">
@@ -1522,128 +1996,132 @@ function updateEqFilesPanel() {
         </button>
       </div>
     `;
-    fileItem.querySelector('.delete').addEventListener('click', (e) => {
-      const idToRemove = parseInt(e.currentTarget.dataset.fileId);
-      eqUploadedFilesData = eqUploadedFilesData.filter(f => f.id !== idToRemove);
-      updateEqFilesCount();
-      updateEqFilesPanel();
-    });
-    eqFilesPanelContent.appendChild(fileItem);
+
+    // Add delete listener
+    const deleteBtn = fileItem.querySelector('.delete');
+    if (deleteBtn) {
+      deleteBtn.addEventListener('click', (e) => {
+        const idToRemove = parseInt(e.currentTarget.dataset.fileId);
+        eqUploadedFilesData = eqUploadedFilesData.filter(f => f.id !== idToRemove);
+        updateEqFilesCount();
+        updateEqFilesPanel();
+      });
+    }
+
+    fragment.appendChild(fileItem);
   });
+
+  // Add all files to the panel at once (more efficient)
+  eqFilesPanelContent.appendChild(fragment);
 }
 
+/**
+ * Handle the request to get maintenance information
+ */
 async function handleSendMaintenanceRequest() {
+  // Get form values
   const name = equipmentNameInput?.value?.trim();
   const brand = equipmentBrandInput?.value?.trim();
   const model = equipmentModelInput?.value?.trim();
-  const question = equipmentQuestionInput?.value?.trim() || `Genera el protocolo de mantenimiento ${selectedMaintenanceType}.`;
+  const question = equipmentQuestionInput?.value?.trim() ||
+    `Genera el protocolo de mantenimiento ${selectedMaintenanceType}.`;
 
+  // Validate required fields
   if (!name || !brand || !model || !selectedMaintenanceType) {
     showEqError('Por favor, complete todos los campos del equipo y seleccione un tipo de mantenimiento.');
     return;
   }
+
   console.log("Obteniendo información de mantenimiento específica...");
-  lastEqPromptDetails = { name, brand, model, type: selectedMaintenanceType, question }; // Store for regenerate
+
+  // Store details for potential regeneration
+  lastEqPromptDetails = {
+    name,
+    brand,
+    model,
+    type: selectedMaintenanceType,
+    question
+  };
+
+  // Fetch and display maintenance information
   await fetchAndDisplayMaintenanceInfo(lastEqPromptDetails);
 }
 
+/**
+ * Fetch and display maintenance information for a specific equipment
+ * @param {Object} details - Equipment details including name, brand, model, type and question
+ */
 async function fetchAndDisplayMaintenanceInfo(details) {
+  // Update UI state
   if (equipmentLoading) equipmentLoading.style.display = 'block';
   if (equipmentError) equipmentError.style.display = 'none';
-  if (equipmentResponseDisplay) equipmentResponseDisplay.innerHTML = ''; // Clear previous response
-  if (eqRegenerateButton) eqRegenerateButton.disabled = true; // Disable regenerate during request
+  if (equipmentResponseDisplay) equipmentResponseDisplay.innerHTML = '';
+  if (eqRegenerateButton) eqRegenerateButton.disabled = true;
 
   try {
-    let searchContext = "";
-    let collectedWebReferences = [];
-    const seenUrls = new Set();
+    // Prepare search query based on equipment details
     const searchQuery = `${details.brand} ${details.name} ${details.model} mantenimiento ${details.type}`;
 
+    // Perform web search if enabled
+    let searchContext = "";
+    let webReferences = [];
+
     if (eqUseWebSearch) {
-      console.log("Web search enabled for maintenance, fetching Google CSE and Tavily results...");
-      try {
-        const [googleResults, tavilyResults] = await Promise.all([
-          SearchServices.searchWithGoogleCSE(searchQuery, 5).catch(e => { console.error("Google CSE Search failed (maint):", e); return []; }),
-          SearchServices.searchWithTavily(searchQuery, 5).catch(e => { console.error("Tavily Search failed (maint):", e); return []; })
-        ]);
-
-        let contextParts = [];
-
-        // Process Google CSE results first
-        if (googleResults && googleResults.length > 0) {
-          googleResults.forEach((res, index) => {
-            if (res.url && !seenUrls.has(res.url)) {
-              contextParts.push(`[Google ${index + 1}] ${res.title}: ${res.content || 'N/A'}`);
-              collectedWebReferences.push({ title: res.title, url: res.url, snippet: res.content, source: 'google-cse' });
-              seenUrls.add(res.url);
-            }
-          });
-        }
-
-        // Process Tavily results next
-        if (tavilyResults && tavilyResults.length > 0) {
-          tavilyResults.forEach((res, index) => {
-            if (res.url && !seenUrls.has(res.url)) {
-              contextParts.push(`[Tavily ${index + 1}] ${res.title}: ${res.content || 'N/A'}`);
-              collectedWebReferences.push({ title: res.title, url: res.url, snippet: res.content, source: 'tavily' });
-              seenUrls.add(res.url);
-            }
-          });
-        }
-
-        if (contextParts.length > 0) {
-          searchContext = "Contexto de Búsqueda Web:\n" + contextParts.join('\n');
-          console.log("Contexto de búsqueda web (mantenimiento) combinado preparado.");
-        } else {
-          console.log("No se encontraron resultados de búsqueda web relevantes para mantenimiento.");
-        }
-      } catch (searchError) {
-        console.error("Error durante la búsqueda web (mantenimiento):", searchError);
-      }
+      console.log("Web search enabled for maintenance...");
+      const searchResults = await performWebSearch(searchQuery, 5);
+      searchContext = searchResults.searchContext;
+      webReferences = searchResults.references;
     }
 
-    const prompt = buildEqPrompt(details, searchContext || null); // Pass context or null
+    // Prepare prompt and files
+    const prompt = buildEqPrompt(details, searchContext || null);
     const filesToProcess = eqUploadedFilesData.map(f => f.fileObject);
-    const response = await ApiServices.callGeminiAPI(prompt, filesToProcess, eqUseWebSearch, searchContext || null); // Pass context
 
+    // Call API
+    const response = await ApiServices.callGeminiAPI(
+      prompt,
+      filesToProcess,
+      eqUseWebSearch,
+      searchContext || null
+    );
+
+    // Display response
     if (equipmentResponseDisplay) {
-      equipmentResponseDisplay.innerHTML = formatMarkdownToHtml(response.text); // Use common formatter
-      equipmentResponseDisplay.style.display = 'block'; // Ensure display is block
-      requestAnimationFrame(() => equipmentResponseDisplay.style.opacity = '1'); // Fade in
+      equipmentResponseDisplay.innerHTML = formatMarkdownToHtml(response.text);
+      equipmentResponseDisplay.style.display = 'block';
+
+      // Use requestAnimationFrame for smooth fade-in
+      requestAnimationFrame(() => {
+        equipmentResponseDisplay.style.opacity = '1';
+      });
     }
 
-    // Combine references
-    const allReferences = [...(response.references || []), ...collectedWebReferences];
-    const uniqueReferences = [];
-    const finalSeenUrls = new Set();
+    // Process and display references
+    const uniqueReferences = processReferences(response.references, webReferences);
 
-    allReferences.forEach(ref => {
-      if (ref.source === 'file' || ref.source === 'error' || (ref.url && !finalSeenUrls.has(ref.url))) {
-        uniqueReferences.push(ref);
-        if (ref.url) {
-          finalSeenUrls.add(ref.url);
-        }
-      } else if (!ref.url && !uniqueReferences.some(uRef => uRef.title === ref.title && uRef.snippet === ref.snippet)) {
-        uniqueReferences.push(ref);
-      }
-    });
-
-    // Update references using the standard panel function
-    const referencesPanel = document.getElementById('eq-references-panel-content'); // Get the correct panel
+    // Update references panel
+    const referencesPanel = document.getElementById('eq-references-panel-content');
     if (referencesPanel) {
       ApiServices.updateReferencesPanel(uniqueReferences, referencesPanel);
-      if (uniqueReferences.length > 0 && eqShowReferencesBtn && eqReferencesSidebar && !eqReferencesSidebar.classList.contains('active')) {
+
+      // Show references panel if not already visible and has references
+      if (uniqueReferences.length > 0 &&
+        eqShowReferencesBtn &&
+        eqReferencesSidebar &&
+        !eqReferencesSidebar.classList.contains('active')) {
         eqShowReferencesBtn.click();
       }
     }
 
-    if (eqRegenerateButton) eqRegenerateButton.disabled = false; // Re-enable regenerate
+    // Re-enable regenerate button
+    if (eqRegenerateButton) eqRegenerateButton.disabled = false;
 
   } catch (error) {
     console.error('Error fetching maintenance info:', error);
     showEqError(`Error al obtener la información: ${error.message}`);
     if (eqRegenerateButton) eqRegenerateButton.disabled = true;
   } finally {
+    // Hide loading indicator
     if (equipmentLoading) equipmentLoading.style.display = 'none';
   }
 }
@@ -1721,8 +2199,109 @@ function setupMaintenanceAIControls() {
     });
     eqRegenerateButton.disabled = true; // Start disabled
   }
+
+  // Clear Button
+  const eqClearButton = document.getElementById('eq-clear-button');
+  if (eqClearButton) {
+    eqClearButton.addEventListener('click', clearMaintenanceForm);
+  }
 }
 
+/**
+ * Clear the maintenance form and reset all fields and states
+ */
+function clearMaintenanceForm() {
+  console.log("Limpiando formulario de mantenimiento");
+
+  // Clear input fields
+  if (equipmentNameInput) equipmentNameInput.value = '';
+  if (equipmentBrandInput) equipmentBrandInput.value = '';
+  if (equipmentModelInput) equipmentModelInput.value = '';
+  if (equipmentQuestionInput) {
+    equipmentQuestionInput.value = '';
+    autoResizeTextarea(equipmentQuestionInput);
+  }
+
+  // Reset maintenance type selection
+  if (maintenanceButtons) {
+    maintenanceButtons.forEach(btn => btn.classList.remove('active'));
+    selectedMaintenanceType = null;
+  }
+
+  // Clear response display
+  if (equipmentResponseDisplay) {
+    equipmentResponseDisplay.innerHTML = `
+      <div class="empty-response">
+        <i class="fas fa-clipboard"></i>
+        <p>Complete los detalles del equipo, seleccione un tipo de mantenimiento y haga clic en el botón de enviar para generar recomendaciones.</p>
+      </div>
+    `;
+    equipmentResponseDisplay.style.opacity = '1';
+  }
+
+  // Clear error message
+  if (equipmentError) equipmentError.style.display = 'none';
+
+  // Reset controls
+  eqCurrentTone = 'neutral';
+  eqCurrentLength = 'media';
+  eqUseWebSearch = false;
+
+  // Reset UI buttons
+  if (eqToneButtons) eqToneButtons.forEach(btn => btn.classList.remove('active'));
+  if (eqLengthButtons) eqLengthButtons.forEach(btn => btn.classList.remove('active'));
+  if (eqWebSearchButton) eqWebSearchButton.classList.remove('active');
+  if (eqRegenerateButton) eqRegenerateButton.disabled = true;
+
+  // Clear files
+  eqUploadedFilesData = [];
+  updateEqFilesCount();
+  updateEqFilesPanel();
+
+  // Hide sidebars
+  if (eqFilesSidebar) eqFilesSidebar.classList.remove('active');
+  if (eqReferencesSidebar) eqReferencesSidebar.classList.remove('active');
+
+  // Clear references
+  ApiServices.updateReferencesPanel([], document.getElementById('eq-references-panel-content'));
+
+  // Reset last prompt details
+  lastEqPromptDetails = null;
+
+  // Update UI state
+  updateEquipmentUIState();
+}
+
+/**
+ * Update the UI state of the equipment maintenance form
+ * Enables/disables buttons based on form state
+ */
+function updateEquipmentUIState() {
+  // Check if required fields are filled
+  const name = equipmentNameInput?.value?.trim();
+  const brand = equipmentBrandInput?.value?.trim();
+  const model = equipmentModelInput?.value?.trim();
+  const hasMaintenanceType = !!selectedMaintenanceType;
+
+  // Enable/disable send button based on required fields
+  const formIsValid = name && brand && model && hasMaintenanceType;
+  if (sendEquipmentQuestionButton) {
+    sendEquipmentQuestionButton.disabled = !formIsValid;
+  }
+
+  // Update UI hints
+  if (maintenanceButtons) {
+    const maintenanceTypeHint = document.getElementById('maintenance-type-hint');
+    if (maintenanceTypeHint) {
+      maintenanceTypeHint.style.display = hasMaintenanceType ? 'none' : 'block';
+    }
+  }
+}
+
+/**
+ * Show an error message in the equipment section
+ * @param {string} message - Error message to display
+ */
 function showEqError(message) {
   if (equipmentError) {
     equipmentError.textContent = message;
@@ -1732,65 +2311,135 @@ function showEqError(message) {
   }
 }
 
+/**
+ * Handle printing of maintenance information
+ */
 function handlePrintMaintenanceInfo() {
+  // Get equipment details
   const equipName = equipmentNameInput?.value || 'No especificado';
   const equipBrand = equipmentBrandInput?.value || 'No especificada';
   const equipModel = equipmentModelInput?.value || 'No especificado';
-  const maintenanceType = selectedMaintenanceType ? selectedMaintenanceType.charAt(0).toUpperCase() + selectedMaintenanceType.slice(1) : 'No especificado';
+  const maintenanceType = selectedMaintenanceType
+    ? selectedMaintenanceType.charAt(0).toUpperCase() + selectedMaintenanceType.slice(1)
+    : 'No especificado';
   const responseContent = equipmentResponseDisplay?.innerHTML || '<p>No hay información para imprimir.</p>';
 
+  // Open a new window for printing
   const printWindow = window.open('', '_blank');
   if (!printWindow) {
     alert('Por favor, permite las ventanas emergentes para imprimir.');
     return;
   }
 
-  const htmlContent = `
-      <!DOCTYPE html>
-      <html>
-      <head>
-        <title>BIAmedical - Mantenimiento</title>
-        <style>
-          body { font-family: sans-serif; line-height: 1.5; padding: 20px; }
-          .header, .equipment-details, .maintenance-info, .footer { margin-bottom: 15px; }
-          .header { border-bottom: 1px solid #ccc; padding-bottom: 10px; }
-          h1, h2 { color: #007bff; }
-          strong { font-weight: bold; }
-          table { border-collapse: collapse; width: 100%; margin-bottom: 1em; }
-          th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-          th { background-color: #f2f2f2; }
-          pre { background-color: #f5f5f5; padding: 10px; border-radius: 4px; overflow-x: auto; }
-          code { font-family: monospace; background-color: #eee; padding: 2px 4px; border-radius: 3px; }
-          blockquote { border-left: 3px solid #ccc; padding-left: 10px; margin-left: 0; color: #555; }
-        </style>
-      </head>
-      <body>
-        <div class="header">
-          <h1>BIAmedical - Mantenimiento</h1>
-          <p>Fecha: ${new Date().toLocaleDateString()}</p>
-        </div>
-        <div class="equipment-details">
-          <h2>Detalles del Equipo</h2>
-          <p><strong>Nombre:</strong> ${equipName}</p>
-          <p><strong>Marca:</strong> ${equipBrand}</p>
-          <p><strong>Modelo:</strong> ${equipModel}</p>
-          <p><strong>Tipo Mantenimiento:</strong> ${maintenanceType}</p>
-        </div>
-        <div class="maintenance-info">
-          <h2>Información Generada</h2>
-          ${responseContent}
-        </div>
-        <div class="footer">
-          <p style="font-size: 0.8em; color: #666;">Generado por BIAmedical Assistant - ${new Date().toLocaleString()}</p>
-        </div>
-      </body>
-      </html>
+  // Create print content with styles
+  const currentDate = new Date();
+  const dateString = currentDate.toLocaleDateString();
+  const timeString = currentDate.toLocaleString();
+
+  // Create HTML content using DOM methods instead of document.write
+  printWindow.document.open();
+
+  // Create DOCTYPE
+  const docType = document.implementation.createDocumentType('html', '', '');
+  printWindow.document.appendChild(docType);
+
+  // Create HTML structure
+  const htmlElement = printWindow.document.createElement('html');
+
+  // Create head
+  const head = printWindow.document.createElement('head');
+  const title = printWindow.document.createElement('title');
+  title.textContent = 'BIAmedical - Mantenimiento';
+
+  const style = printWindow.document.createElement('style');
+  style.textContent = `
+    body { font-family: sans-serif; line-height: 1.5; padding: 20px; }
+    .header, .equipment-details, .maintenance-info, .footer { margin-bottom: 15px; }
+    .header { border-bottom: 1px solid #ccc; padding-bottom: 10px; }
+    h1, h2 { color: #007bff; }
+    strong { font-weight: bold; }
+    table { border-collapse: collapse; width: 100%; margin-bottom: 1em; }
+    th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+    th { background-color: #f2f2f2; }
+    pre { background-color: #f5f5f5; padding: 10px; border-radius: 4px; overflow-x: auto; }
+    code { font-family: monospace; background-color: #eee; padding: 2px 4px; border-radius: 3px; }
+    blockquote { border-left: 3px solid #ccc; padding-left: 10px; margin-left: 0; color: #555; }
   `;
 
-  printWindow.document.open();
-  printWindow.document.write(htmlContent);
+  head.appendChild(title);
+  head.appendChild(style);
+  htmlElement.appendChild(head);
+
+  // Create body
+  const body = printWindow.document.createElement('body');
+
+  // Header section
+  const header = printWindow.document.createElement('div');
+  header.className = 'header';
+  const h1 = printWindow.document.createElement('h1');
+  h1.textContent = 'BIAmedical - Mantenimiento';
+  const dateP = printWindow.document.createElement('p');
+  dateP.textContent = `Fecha: ${dateString}`;
+  header.appendChild(h1);
+  header.appendChild(dateP);
+
+  // Equipment details section
+  const equipmentDetails = printWindow.document.createElement('div');
+  equipmentDetails.className = 'equipment-details';
+  const h2Details = printWindow.document.createElement('h2');
+  h2Details.textContent = 'Detalles del Equipo';
+  equipmentDetails.appendChild(h2Details);
+
+  // Add equipment info
+  const details = [
+    { label: 'Nombre', value: equipName },
+    { label: 'Marca', value: equipBrand },
+    { label: 'Modelo', value: equipModel },
+    { label: 'Tipo Mantenimiento', value: maintenanceType }
+  ];
+
+  details.forEach(detail => {
+    const p = printWindow.document.createElement('p');
+    const strong = printWindow.document.createElement('strong');
+    strong.textContent = `${detail.label}:`;
+    p.appendChild(strong);
+    p.appendChild(printWindow.document.createTextNode(` ${detail.value}`));
+    equipmentDetails.appendChild(p);
+  });
+
+  // Maintenance info section
+  const maintenanceInfo = printWindow.document.createElement('div');
+  maintenanceInfo.className = 'maintenance-info';
+  const h2Info = printWindow.document.createElement('h2');
+  h2Info.textContent = 'Información Generada';
+  maintenanceInfo.appendChild(h2Info);
+
+  // Add response content (using innerHTML for the formatted content)
+  const contentDiv = printWindow.document.createElement('div');
+  contentDiv.innerHTML = responseContent;
+  maintenanceInfo.appendChild(contentDiv);
+
+  // Footer section
+  const footer = printWindow.document.createElement('div');
+  footer.className = 'footer';
+  const footerP = printWindow.document.createElement('p');
+  footerP.style.fontSize = '0.8em';
+  footerP.style.color = '#666';
+  footerP.textContent = `Generado por BIAmedical Assistant - ${timeString}`;
+  footer.appendChild(footerP);
+
+  // Assemble body
+  body.appendChild(header);
+  body.appendChild(equipmentDetails);
+  body.appendChild(maintenanceInfo);
+  body.appendChild(footer);
+  htmlElement.appendChild(body);
+
+  // Add to document
+  printWindow.document.appendChild(htmlElement);
   printWindow.document.close();
 
+  // Print after content is loaded
   printWindow.onload = function () {
     printWindow.focus();
     setTimeout(() => {
@@ -1806,19 +2455,26 @@ let currentSection = 'splash-section';
 const pageSections = document.querySelectorAll('.page-section');
 const navLinks = document.querySelectorAll('.sidebar-nav-button[data-target-section]');
 
+/**
+ * Show a specific section and hide others
+ * @param {string} sectionId - ID of the section to show
+ * @param {boolean} skipHistory - Whether to skip adding to browser history
+ */
 function showSection(sectionId, skipHistory = false) {
   console.log(`Showing section: ${sectionId}`);
+
+  // Find and show the requested section, hide others
   let sectionFound = false;
   pageSections.forEach(section => {
-    if (section.id === sectionId) {
-      section.style.display = 'block';
+    const isTargetSection = section.id === sectionId;
+    section.style.display = isTargetSection ? 'block' : 'none';
+    if (isTargetSection) {
       sectionFound = true;
       currentSection = sectionId;
-    } else {
-      section.style.display = 'none';
     }
   });
 
+  // Fallback to splash if section not found
   if (!sectionFound) {
     console.warn(`Section with ID ${sectionId} not found. Showing splash.`);
     showSection('splash-section', true); // Show splash as fallback, skip history
@@ -1830,35 +2486,32 @@ function showSection(sectionId, skipHistory = false) {
     link.classList.toggle('active', link.dataset.targetSection === sectionId);
   });
 
+  // Update browser history if needed
   if (!skipHistory) {
     history.replaceState({ section: sectionId }, '', `#${sectionId}`);
   }
 
+  // Initialize section-specific functionality
+  const sectionInitializers = {
+    'asistente-section': initializeAssistantPage,
+    'mantenimiento-section': initializeMaintenancePage,
+    'tips-section': initializeTipsPage
+  };
 
-
-  switch (sectionId) {
-    case 'asistente-section':
-      initializeAssistantPage();
-      break;
-    case 'mantenimiento-section':
-      initializeMaintenancePage();
-      break;
-    case 'tips-section':
-      initializeTipsPage();
-      break;
-    case 'splash-section':
-
-      break;
+  if (sectionInitializers[sectionId]) {
+    sectionInitializers[sectionId]();
   }
 
-
+  // Handle sidebar on small screens
   const mainSidebar = document.getElementById('main-sidebar');
   const body = document.body;
   const SMALL_SCREEN_BREAKPOINT = 768;
-  if (window.innerWidth <= SMALL_SCREEN_BREAKPOINT && mainSidebar && !mainSidebar.classList.contains('collapsed')) {
+
+  if (window.innerWidth <= SMALL_SCREEN_BREAKPOINT &&
+    mainSidebar &&
+    !mainSidebar.classList.contains('collapsed')) {
     mainSidebar.classList.add('collapsed');
     body.classList.remove('sidebar-open');
-    if (typeof initializeSidebar === 'function') { }
   }
 }
 
